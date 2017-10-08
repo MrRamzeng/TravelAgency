@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- #
 from django.contrib import admin
 
-from . models import Manager, Tourist, Country, City, Tour, Region, Tourbooking, Recource, Type
+from . models import Manager, Tourist, Country, City, Tour, Region, Tourbooking, Recource, Type, Hotel
 
 #Здесь происходит регистрация моделей
 
@@ -14,3 +14,4 @@ admin.site.register(Region)
 admin.site.register(Tourbooking)
 admin.site.register(Recource)
 admin.site.register(Type)
+admin.site.register(Hotel)

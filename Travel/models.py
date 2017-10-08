@@ -60,14 +60,6 @@ class Tour(models.Model):
 	def __unicode__(self):
 		return unicode(self.city) + " " + unicode(self.date) + ', ' + unicode(self.days) + " дней, " + unicode(self.price) + "руб."
 
-class Tourbooking(models.Model):
-	tour = models.ForeignKey(Tour, null = True, on_delete = models.SET_NULL, verbose_name = "Выбранный тур")
-	tourist = models.ForeignKey(Tourist, null = True, on_delete = models.SET_NULL, verbose_name = "Турист")
-	manager = models.ForeignKey(Manager, null = True, on_delete = models.SET_NULL, verbose_name = 'Менеджер')
-	approved = models.BooleanField(default=False)
-	def __unicode__(self):
-		return unicode(self.tourist) + ' ' + unicode(self.tour) + ' ' + unicode(self.approved)
-
 class Type(models.Model):
 	name = models.CharField("Тип", max_length = 50)
 	def __unicode__(self):
@@ -82,3 +74,20 @@ class Recource(models.Model):
 	tour = models.ForeignKey(Tour, null = True, on_delete = models.SET_NULL, verbose_name = "Тур")
 	def __unicode__(self):
 		return unicode(self.tourist) + ' ' + unicode(self.date_time)
+
+class Hotel(models.Model):
+	name = models.CharField('Название', max_length = 20, blank = True, null = True)
+	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
+	address = models.TextField('Адрес')
+	comfort = models.IntegerField('Звезд', max_length = 1)
+	def __unicode__(self):
+		return 'Гостиница ' + unicode (self.name) + ', ' + unicode(self.city) + ' ' + unicode(self.address) + ' Звезд: ' + unicode(self.comfort)
+
+class Tourbooking(models.Model):
+	tour = models.ForeignKey(Tour, null = True, on_delete = models.SET_NULL, verbose_name = "Выбранный тур")
+	tourist = models.ForeignKey(Tourist, null = True, on_delete = models.SET_NULL, verbose_name = "Турист")
+	manager = models.ForeignKey(Manager, null = True, on_delete = models.SET_NULL, verbose_name = 'Менеджер')
+	approved = models.BooleanField(default=False, verbose_name = 'Подтверждение')
+	hotel = models.ForeignKey(Hotel, null = True, on_delete = models.SET_NULL, verbose_name = 'Отель')
+	def __unicode__(self):
+		return unicode(self.tourist) + ' ' + unicode(self.tour) + ' ' + unicode(self.approved)
