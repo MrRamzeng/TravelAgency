@@ -65,12 +65,22 @@
 							<a href="#">Автобусные туры</a>
 						</li>
 					</ul>
-					{% if request.user.is_authenticated %}
-						<ul class="nav navbar-nav">
-							<li>
-								<a href="/admin/">Администратор</a>
-							</li>
-						</ul>
+					{% if user.is_authenticated %}
+						{% if user.is_staff %}
+							<ul class="nav navbar-nav">
+								<li>
+									<a href="/admin/">Администратор</a>
+								</li>
+							</ul>
+						{% else %}
+							{% if user.is_superuser%}
+								<ul class="nav navbar-nav">
+									<li>
+										<a href="/admin/">Администратор</a>
+									</li>
+								</ul>
+							{% endif %}
+						{% endif %}
 						<ul class="nav navbar-nav navbar-right">
 							<li>
 								<a href="{% url 'logout' %}">
@@ -88,21 +98,6 @@
 								 </a>
 								<ul class="dropdown-menu">
 									<table align = "center">
-										{% if next %}
-											{% if user.is_authenticated %}
-												<th>
-													<p align = "center">
-														У Вас недостаточно прав для просмотра
-													</p>
-												</th>
-											{% else %}
-												<th>
-													<p align = "center">
-														Войдите, чтобы посмотреть эту страницу.
-													</p>
-												</th>
-											{% endif %}
-										{% endif %}
 										<form method = "post" action = "{% url 'login' %}">
 											{% csrf_token %}
 											<tr>
@@ -149,4 +144,4 @@
 		{% endblock %}
 	</div>
 </body>
-</html>					
+</html>
