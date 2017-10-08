@@ -34,13 +34,13 @@
 				<div class="collapse navbar-collapse" id="navbar-main">
 		<!-- Содержимое основной части -->
 					<ul class="nav navbar-nav">
-						<li class="{% if main_page %} active {% endif %}">
-							<a href="/Travel/">
+						<li class="{% if Travel %} active {% endif %}">
+							<a href="/Travel">
 								Главная
 								<span class="sr-only">(current)</span>
 							</a>
 						</li>
-						<li class="dropdown">
+						<li class="dropdown {% if regions %} active {% endif %}">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 								Туры по россии
 								<span class="caret"></span>
@@ -65,19 +65,7 @@
 							<a href="#">Автобусные туры</a>
 						</li>
 					</ul>
-<!--					<ul class="nav navbar-nav">
-						<li>
-							<a href="/admin/">Администратор</a>
-						</li>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href = "{% url 'login' %}" align="center">
-								<span class="glyphicon glyphicon-log-in"></span>
-								Войти
-							</a>
-						</li>
-					</ul> -->{% if request.user.is_authenticated %}
+					{% if request.user.is_authenticated %}
 						<ul class="nav navbar-nav">
 							<li>
 								<a href="/admin/">Администратор</a>
@@ -161,6 +149,4 @@
 		{% endblock %}
 	</div>
 </body>
-</html>
-
-					
+</html>					

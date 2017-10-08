@@ -15,17 +15,16 @@ from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
     
-    return render(request, "Travel/index.html")
+    return render(request, "Travel/index.html", { "Travel": True })
 
 def regions(request):
     region = Region.objects.all()
-    return render(request, "Travel/regions.html", {'region': region})
+    return render(request, "Travel/regions.html", {'region': region, 'regions': True})
 
 def region_city(request, region_id = None):
     region = Region.objects.get(id = region_id)
     cities = region.city_set.all()
     return render(request, "Travel/region_city.html", {'cities': cities})
-
 
 def signup(request):
     if request.method == 'POST':
@@ -39,4 +38,4 @@ def signup(request):
             return redirect('/Travel')
     else:
         form = UserCreationForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form, 'signup': True, 'login': True})
