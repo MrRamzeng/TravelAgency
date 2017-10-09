@@ -8,9 +8,10 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 from django.dispatch import receiver
+# Здесь происходит создание моделей для сайта.
 
 class Manager(models.Model): # Модель менеджера
-	user = models.OneToOneField(User, on_delete = models.CASCADE) # id
+	user = models.OneToOneField(User, on_delete = models.CASCADE) # Индивидуальный идентификатор пользователя 
 	surname = models.CharField("Фамилия", max_length = 20) # Фамилия 
 	name = models.CharField("Имя", max_length = 20) # Имя 
 	patronymic = models.CharField("Отчество", max_length = 20) # Отчество
@@ -22,7 +23,7 @@ class Manager(models.Model): # Модель менеджера
 		return full_name
 
 class Tourist(models.Model): # Модель пользователя сайта (туриста)
-	user = models.OneToOneField(User, on_delete = models.CASCADE) # id
+	user = models.OneToOneField(User, on_delete = models.CASCADE) # Индивидуальный идентификатор пользователя
 	surname = models.CharField("Фамилия", max_length = 20) # Фамилия 
 	name = models.CharField("Имя", max_length = 20) # Имя 
 	patronymic = models.CharField("Отчество", max_length = 20) # Отчество
@@ -51,7 +52,6 @@ class City(models.Model):
 		return unicode(self.name) + ", " + unicode(self.region)
 
 class Tour(models.Model):
-	name = models.CharField('Название тура', max_length = 50)
 	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
 	date = models.DateField("Дата заезда")
 	days = models.IntegerField('Количество дней')
@@ -79,7 +79,7 @@ class Hotel(models.Model):
 	name = models.CharField('Название', max_length = 20, blank = True, null = True)
 	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
 	address = models.TextField('Адрес')
-	comfort = models.IntegerField('Звезд')
+	comfort = models.IntegerField('Звезд', max_length = 1)
 	def __unicode__(self):
 		return 'Гостиница ' + unicode (self.name) + ', ' + unicode(self.city) + ' ' + unicode(self.address) + ' Звезд: ' + unicode(self.comfort)
 

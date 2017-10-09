@@ -16,9 +16,7 @@
 	{% endif %}
 	{% for city in cities %}
 		{% for tour in city.tour_set.all %}
-		  	<a>
-				<h3>{{ tour.name }} {{ city.name }}</h3>
-			</a>
+		  	<a><h3>{{ tour.text }} {{tour.price}}руб., {{ city.name }}</h3></a>
 			<br/>
 		{% endfor %}
 		
