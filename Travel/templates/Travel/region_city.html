@@ -4,21 +4,11 @@
 {% endblock %}
 {% block content %}
 	Выберите тур
-	{% if request.user.is_authenticated %}
-		<form>
-			<input type="submit" value="Забронировать" type="hidden">
-		</form>		
-	{% else %}
-		<form action="/Travel/login/">
-			<p>Войдите что бы забронировать тур</p>
-			<input type="submit" value = "Войти" type = "hidden"/>
-		</form>
-	{% endif %}
 	{% for city in cities %}
 		{% for tour in city.tour_set.all %}
-		  	<a><h3>{{ tour.text }} {{tour.price}}руб., {{ city.name }}</h3></a>
-			<br/>
+        	<a>
+				<h3>{{ tour.name }} {{ city.name }}</h3> 
+	      	</a> 
 		{% endfor %}
-		
 	{% endfor %}
 {% endblock %}

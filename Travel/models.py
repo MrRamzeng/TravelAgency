@@ -52,6 +52,7 @@ class City(models.Model):
 		return unicode(self.name) + ", " + unicode(self.region)
 
 class Tour(models.Model):
+    name = models.CharField('Название тура', max_length = 50) 
 	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
 	date = models.DateField("Дата заезда")
 	days = models.IntegerField('Количество дней')
@@ -79,7 +80,7 @@ class Hotel(models.Model):
 	name = models.CharField('Название', max_length = 20, blank = True, null = True)
 	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
 	address = models.TextField('Адрес')
-	comfort = models.IntegerField('Звезд', max_length = 1)
+	comfort = models.IntegerField('Звезд')
 	def __unicode__(self):
 		return 'Гостиница ' + unicode (self.name) + ', ' + unicode(self.city) + ' ' + unicode(self.address) + ' Звезд: ' + unicode(self.comfort)
 

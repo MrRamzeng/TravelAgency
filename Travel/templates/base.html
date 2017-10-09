@@ -4,10 +4,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% load static %}
-		<script src="{% static 'jquery/jquery-3.1.1.min.js' %}"> </script> 
-		<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-		<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+	<script src="{% static 'jquery/jquery-3.1.1.min.js' %}"> </script> 
+	<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
 </head>
 <body>
 	<div class="bg">
@@ -72,14 +72,6 @@
 									<a href="/admin/">Администратор</a>
 								</li>
 							</ul>
-						{% else %}
-							{% if user.is_superuser%}
-								<ul class="nav navbar-nav">
-									<li>
-										<a href="/admin/">Администратор</a>
-									</li>
-								</ul>
-							{% endif %}
 						{% endif %}
 						<ul class="nav navbar-nav navbar-right">
 							<li>
