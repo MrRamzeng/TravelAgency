@@ -7,7 +7,7 @@
 	{% for city in cities %}
 		{% for tour in city.tour_set.all %}
     	   	<a href='tour/{{tour.id}}'>
-				<h3>{{ tour.name }} {{ city.name }}</h3> 
+				<h3>{{ tour.name }}, {{ city.name }}</h3> 
 			</a>
 		{% endfor %}
 	{% endfor %}

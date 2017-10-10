@@ -66,9 +66,8 @@ class Tourist(models.Model): # Модель пользователя сайта 
 	birthday = models.DateField("Дата рождения") # Дата рождения 
 	phone = models.CharField("Номер телефона", max_length = 100) # Мобильный телефон
 	adress = models.CharField("Адрес", max_length = 100) # Адрес проживания
-	#tour = models.ForeignKey(Tour, on_delete=models.CASCADE, null = True, verbose_name = 'Выбранный тур')
 	def __unicode__(self):
-		full_name = unicode(self.surname) + " " + unicode(self.name[0]) + "." + unicode(self.patronymic[0])
+		full_name = unicode(self.surname) + " " + unicode(self.name[0]) + "." + unicode(self.patronymic[0]) + "."
 		return full_name
 
 class Type(models.Model):
@@ -90,6 +89,6 @@ class Tourbooking(models.Model):
 	tour = models.ForeignKey(Tour, null = True, on_delete = models.SET_NULL, verbose_name = "Выбранный тур")
 	tourist = models.ForeignKey(Tourist, null = True, on_delete = models.SET_NULL, verbose_name = "Турист")
 	manager = models.ForeignKey(Manager, null = True, on_delete = models.SET_NULL, verbose_name = 'Менеджер')
-	approved = models.BooleanField(default=False, verbose_name = 'Подтверждение')
+	approved = models.BooleanField(default = False, verbose_name = 'Подтверждение')
 	def __unicode__(self):
-		return unicode(self.tourist) + ' ' + unicode(self.tour) + ' ' + unicode(self.approved)
+		return unicode(self.tourist) + ', ' + unicode(self.tour) + ', ' + unicode(self.approved)

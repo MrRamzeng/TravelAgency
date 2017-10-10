@@ -33,6 +33,10 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            user.tourist = Tourist()
+            user.tourist.name = "alala"
+            user.tourist.surname = "trulala"
+            user.tourist.patronymic = "fkfkfkfk"
             login(request, user)
             return redirect('/Travel')
     else:
