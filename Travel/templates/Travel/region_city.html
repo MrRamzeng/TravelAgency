@@ -6,9 +6,9 @@
 	Выберите тур
 	{% for city in cities %}
 		{% for tour in city.tour_set.all %}
-        	<a>
+    	   	<a href='tour/{{tour.id}}'>
 				<h3>{{ tour.name }} {{ city.name }}</h3> 
-	      	</a> 
+			</a>
 		{% endfor %}
 	{% endfor %}
 {% endblock %}

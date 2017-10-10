@@ -58,7 +58,8 @@
 				Войдите, чтобы посмотреть эту страницу. 
 			  </p> 
 			</th> 
-       {% endif %}
+			{% endif %}
+		{% endif %}
       <form method = "post" action = "{% url 'login' %}"> 
 	  		{% csrf_token %} 
   			<tr> 

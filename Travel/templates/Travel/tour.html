@@ -4,14 +4,20 @@
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
+	{% for tour in tour %}
+    <h3>{{ tour.name }}</h3>
+    <p>
+        {{tour.text}}
+    </p>
+	{% endfor %}
 	{% if request.user.is_authenticated %}
         <form>
             <input type="submit" value="Забронировать" type="hidden">
         </form>		
     {% else %}
         <form action="/Travel/login/">
-            <p>Войдите что бы забронировать тур</p>
             <input type="submit" value = "Войти" type = "hidden"/>
+            <p>Войдите что бы забронировать тур</p>
         </form>
     {% endif %}
 {% endblock %}

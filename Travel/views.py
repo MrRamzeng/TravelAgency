@@ -14,7 +14,6 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 def index(request):
-    
     return render(request, "Travel/index.html", { "Travel": True })
 
 def regions(request):
@@ -39,3 +38,7 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form, 'signup': True, 'login': True})
+
+def tour(request, tour_id = None, region_id = None):
+    tour = Tour.objects.all()
+    return render(request, 'Travel/tour.html', {'tour': tour})
