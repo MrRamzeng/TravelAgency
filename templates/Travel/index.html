@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+	ОстровОк Тур
+{{ index.title }}
+{% endblock %}
+{% block content %}
+	{% if user.is_authenticated %} 
+		{% if user.is_staff %} 
+			<h1>Дарова {{user.first_name}}!</h1> 
+		{% else %} 
+			<h1>Добро пожаловать {{user.first_name}} {{user.patronymic}}! Дратути!</h1> 
+		{% endif %} 
+	{% endif %} 
+{% endblock %}
