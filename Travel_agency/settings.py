@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'twitter_bootstrap',
 ]
 
 MIDDLEWARE = [
@@ -122,10 +121,6 @@ USE_TZ = False
 DATE_FORMAT = "l j M. Y"
 
 DATE_INPUT_FORMATS = ('%d.%m.%Y',)
-
-TIME_FORMAT = "G:i"
-
-TIME_INPUT_FORMATS = ('%H:%M',)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

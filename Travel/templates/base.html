@@ -1,135 +1,114 @@
 <html lang="ru">
 	<head>
-		<title>{% block title %} {% endblock %}</title>
+		<title>
+			{% block title %} {% endblock %}
+		</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		{% load static %}
 		<script src="{% static 'jquery/jquery-3.1.1.min.js' %}"> </script> 
 		<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
 		<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
 	</head>
 	<body>
 		<div class="bg">
-			<h2 style="width: 70%; margin: 0 auto;" align="right">+7 (833) 555 55-55</h2>
+			<h2 class="content" align="right">
+				+7 (833) 555 55-55
+			</h2>
 		</div>
-		<div style="width: 70%; margin: 0 auto;">
-		<!-- Классы navbar и navbar-default -->
-			<nav class="navbar navbar-default">
-		<!-- Контейнер -->
-				<div>
-		<!-- Заголовок -->
-					<div class="navbar-header">
-			<!-- Кнопка «Гамбургер» -->
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
-							<span class=sr-only>Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-			<!-- Бренд или название сайта -->
-						<a class="navbar-brand logo" href="/Travel"></a>
-					</div>
-		<!-- Основная часть меню -->
-					<div class="collapse navbar-collapse" id="navbar-main">
-			<!-- Содержимое основной части -->
-						<ul class="nav navbar-nav">
-							<li class="{% if Travel %} active {% endif %}">
-								<a href="/Travel">
-									Главная
-									<span class="sr-only">(current)</span>
-								</a>
-							</li>
-							<li class="dropdown {% if regions %} active {% endif %}">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-									Туры по россии
-									<span class="caret"></span>
-								 </a>
-								<ul class="dropdown-menu">
-									<li class = "{% if regions %} active {% endif %}">
-										<a href="/Travel/regions">Регионы</a>
-									</li>
-									<li>
-										<a href="#">Ссылка</a>
-									</li>
-									<li role = "separator" class = "divider"></li>
-									<li>
-										<a href = "#">Ссылка</a>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<a href="#">Туры к морю</a>
-							</li>
-							<li>
-								<a href="#">Автобусные туры</a>
-							</li>
-						</ul>
-						{% if user.is_authenticated %}
-							{% if user.is_staff %}
-								<ul class="nav navbar-nav">
-									<li>
-										<a href="/admin/">Администратор</a>
-									</li>
-								</ul>
-							{% endif %}
-							<ul class="nav navbar-nav navbar-right">
+		<div class="content">
+			<nav class="navbar-default">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
+						<span class=sr-only>Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand logo" href="/Travel"></a>
+				</div>
+				<div class="collapse navbar-collapse" id="navbar-main">
+					<ul class="nav navbar-nav">
+						<li class="{% if Travel %} active {% endif %}">
+							<a href="/Travel">
+								Главная
+								<span class="sr-only">(current)</span>
+							</a>
+						</li>
+						<li class = "{% if regions %} active {% endif %}">
+							<a href="/Travel/regions">Регионы</a>
+						</li>
+						<li>
+							<a href="#">Туры к морю</a>
+						</li>
+						<li>
+							<a href="#">Автобусные туры</a>
+						</li>
+					</ul>
+					{% if user.is_authenticated %}
+						{% if user.is_staff %}
+							<ul class="nav navbar-nav">
 								<li>
-									<a href="{% url 'logout' %}">
-										Выход
-										<span class="glyphicon glyphicon-log-out"></span>
-									</a>
-								</li>
-							</ul>
-						{% else %}
-							<ul class="nav navbar-nav navbar-right">
-								<li class="dropdown">
-									<a href="login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-										Войти в личный кабинет
-										<span class="caret"></span>
-									 </a>
-									<ul class="dropdown-menu">
-										<table align = "center">
-											<form method = "post" action = "{% url 'login' %}">
-												{% csrf_token %}
-												<tr>
-													<td align = "center">
-														<label for="username">Логин:</label><br>
-														<input type="text" name="username" placeholder="Введите логин" id="username">
-													</td>
-												</tr>
-												<tr>
-													<td align = "center">
-														<label for="password">Пароль:</label>
-														<br>
-														<input type="password" name="password" placeholder="Введите пароль" id="password">
-													</td>
-												</tr>
-												<tr>
-													<td align = "center">
-														<p align="center">
-															{% if form.errors %}
-																<font color = "red" size = "3">
-																	Неверное имя пользователя или пароль!
-																</font>
-															{% endif %}
-														</p>
-														<input type="submit" value="Войти"/>
-														<div class="label round secondary">
-															<a href="/Travel/signup/">
-																Регистрация
-															</a>
-														</div>
-													</td>
-												</tr>
-											</form>
-										</table>
-									</ul>
+									<a href="/admin/">Администратор</a>
 								</li>
 							</ul>
 						{% endif %}
-					</div>
+						<ul class="nav navbar-nav navbar-right">
+							<li>
+								<a href="{% url 'logout' %}">
+									Выход
+									<span class="glyphicon glyphicon-log-out"></span>
+								</a>
+							</li>
+						</ul>
+					{% else %}
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+									Войти в личный кабинет
+									<span class="caret"></span>
+								 </a>
+								<ul class="dropdown-menu">
+									<table align = "center">
+										<form method = "post" action = "{% url 'login' %}">
+											{% csrf_token %}
+											<tr>
+												<td align = "center">
+													<label for="username">Логин:</label><br>
+													<input type="text" name="username" placeholder="Введите логин" id="username">
+												</td>
+											</tr>
+											<tr>
+												<td align = "center">
+													<label for="password">Пароль:</label>
+													<br>
+													<input type="password" name="password" placeholder="Введите пароль" id="password">
+												</td>
+											</tr>
+											<tr>
+												<td align = "center">
+													<p align="center">
+														{% if form.errors %}
+															<font color = "red" size = "3">
+																Неверное имя пользователя или пароль!
+															</font>
+														{% endif %}
+													</p>
+													<input type="submit" value="Войти"/>
+													<div class="label round secondary">
+														<a href="/Travel/signup/">
+															Регистрация
+														</a>
+													</div>
+												</td>
+											</tr>
+										</form>
+									</table>
+								</ul>
+							</li>
+						</ul>
+					{% endif %}
 				</div>
 			</nav>
 			{% block content %}

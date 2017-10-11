@@ -5,10 +5,10 @@
 {% endblock %} 
 {% block content %}
 	{% for tour in tour %}
-    <h3>{{ tour.name }}</h3>
-    <p>
-        {{tour.text}}
-    </p>
+        <h3>{{ tour.name }}</h3>
+        <p>
+            {{tour.text}}
+        </p>
 	{% endfor %}
 	{% if request.user.is_authenticated %}
         <form>

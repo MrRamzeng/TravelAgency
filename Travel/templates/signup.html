@@ -1,67 +1,23 @@
-<html lang="ru"> 
-	<head> 
-	  <title>Войти</title> 
-	  <meta charset="utf-8"> 
-	  <meta name="viewport" content="width=device-width, initial-scale=1"> 
-	  {% load static %} 
-	  <script src="{% static 'jquery/jquery-3.1.1.min.js' %}"> </script>  
-	  <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script> 
-	  <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" /> 
-	  <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> 
-	</head> 
-	<body> 
-	  <div class="bg"> 
-		<h2 style="width: 70%; margin: 0 auto;" align="right">+7 (833) 555 55-55</h2> 
-	  </div> 
-	  <div style="width: 70%; margin: 0 auto;"> 
-	  <!-- Классы navbar и navbar-default --> 
-		<nav class="navbar navbar-default"> 
-		  <!-- Контейнер --> 
-		  <div> 
-			<!-- Заголовок --> 
-			<div class="navbar-header"> 
-			  <!-- Кнопка «Гамбургер» --> 
-			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false"> 
-				<span class=sr-only>Toggle navigation</span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-				<span class="icon-bar"></span> 
-			  </button> 
-			  <!-- Бренд или название сайта --> 
-			  <a class="navbar-brand logo" href="/Travel"></a> 
-			</div> 
-			<!-- Основная часть меню --> 
-			<div class="collapse navbar-collapse" id="navbar-main"> 
-			  <!-- Содержимое основной части --> 
-			  <ul class="nav navbar-nav"> 
-				<li class="{% if Travel %} active {% endif %}"> 
-				  <a href="/Travel"> 
-					Главная 
-					<span class="sr-only">(current)</span> 
-				  </a> 
-				</li> 
-			  </ul> 
-			</div> 
-		  </div> 
-		</nav> 
-		<h2>Регистрация</h2> 
-		<form method="post"> 
-		  {% csrf_token %} 
-				{% for field in form %} 
-					<p> 
-						{{ field.label_tag }}<br> 
-						{{ field }} 
-						{% if field.help_text %} 
-							<small style="color: grey">{{ field.help_text }}</small> 
-						{% endif %} 
-						{% for error in field.errors %} 
-							<p style="color: red">{{ error }}</p> 
-						{% endfor %} 
-					</p>
+{% extends 'base.html' %} 
+{% block title %} 
+  Зарегистрироваться 
+{% endblock %} 
+{% block content %} 
+<h2>Регистрация</h2> 
+	<form method="post"> 
+  	{% csrf_token %} 
+	  {% for field in form %} 
+  	  <p> 
+	      <input{{ field.label_tag }}<br> 
+	      {{ field }} 
+	      {% if field.help_text %} 
+	        <small style="color: grey">{{ field.help_text }}</small> 
+	      {% endif %} 
+	      {% for error in field.errors %} 
+	        <p style="color: red">{{ error }}</p> 
 				{% endfor %}
-				<button type="submit">Sign up</button> 
-				<a href="/Travel/login">Уже зарегистрированы?</a> 
-			</form> 
-		</div> 
-	</body> 
-</html>
+			</p> 
+		{% endfor %} 
+		<button type="submit">Зарегистрироваться</button> 
+	</form> 
+{% endblock %}

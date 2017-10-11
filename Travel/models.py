@@ -10,6 +10,18 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 # Здесь происходит создание моделей для сайта.
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()
+
 class Manager(models.Model): # Модель менеджера
 	user = models.OneToOneField(User, on_delete = models.CASCADE) # Индивидуальный идентификатор пользователя 
 	surname = models.CharField("Фамилия", max_length = 20) # Фамилия 
@@ -40,7 +52,7 @@ class City(models.Model):
 		return unicode(self.name) + ", " + unicode(self.region)
 
 class Hotel(models.Model):
-	name = models.CharField('Название', max_length = 20, blank = True, null = True)
+	name = models.CharField('Название', max_length = 50, blank = True, null = True)
 	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
 	address = models.TextField('Адрес')
 	comfort = models.IntegerField('Звезд')
@@ -50,7 +62,7 @@ class Hotel(models.Model):
 class Tour(models.Model): 
 	name = models.CharField('Название тура', max_length = 50) 
 	city = models.ForeignKey(City, null = True, on_delete = models.SET_NULL, verbose_name = "Город")
-	hotel = models.ForeignKey(Hotel, null = True, on_delete = models.SET_NULL, verbose_name = 'Отель')
+	hotel = models.ForeignKey(Hotel, blank = True, null = True, on_delete = models.SET_NULL, verbose_name = 'Отель')
 	date = models.DateField("Дата заезда") 
 	days = models.IntegerField('Количество дней') 
 	price = models.IntegerField("Цена путевки")
