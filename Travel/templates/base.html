@@ -20,20 +20,18 @@
 		<div class="content">
 			<nav class="navbar-default">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
-						<span class=sr-only>Toggle navigation</span>
+					<a class="navbar-brand logo" href="/Travel"></a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand logo" href="/Travel"></a>
 				</div>
 				<div class="collapse navbar-collapse" id="navbar-main">
 					<ul class="nav navbar-nav">
 						<li class="{% if Travel %} active {% endif %}">
 							<a href="/Travel">
 								Главная
-								<span class="sr-only">(current)</span>
 							</a>
 						</li>
 						<li class = "{% if regions %} active {% endif %}">
@@ -63,11 +61,13 @@
 							</li>
 						</ul>
 					{% else %}
+<!--                                                                     НАИЗУСТЬ                                                                    -->
+<!--                                                                    ДО СУББОТЫ                                                                   -->
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown">
-								<a href="login" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<a href="login" class="dropdown-toggle" data-toggle="dropdown" role="button">
+									<span class="glyphicon glyphicon-log-in"></span>
 									Войти в личный кабинет
-									<span class="caret"></span>
 								 </a>
 								<ul class="dropdown-menu">
 									<table align = "center">
@@ -76,14 +76,14 @@
 											<tr>
 												<td align = "center">
 													<label for="username">Логин:</label><br>
-													<input type="text" name="username" placeholder="Введите логин" id="username">
+													<input type="text" name="username" placeholder="Введите логин">
 												</td>
 											</tr>
 											<tr>
 												<td align = "center">
-													<label for="password">Пароль:</label>
+													<label>Пароль:</label>
 													<br>
-													<input type="password" name="password" placeholder="Введите пароль" id="password">
+													<input type="password" name="password" placeholder="Введите пароль">
 												</td>
 											</tr>
 											<tr>

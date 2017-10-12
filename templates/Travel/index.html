@@ -8,7 +8,7 @@
 		{% if user.is_staff %} 
 			<h1>Дарова {{user.first_name}}!</h1> 
 		{% else %} 
-			<h1>Добро пожаловать {{user.first_name}} {{user.patronymic}}! Дратути!</h1> 
+			<h1>Добро пожаловать {{user.first_name}} {{user.last_name}}! Дратути!</h1> 
 		{% endif %} 
 	{% endif %} 
 {% endblock %}
