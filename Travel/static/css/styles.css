@@ -3,16 +3,6 @@
     margin: 0 auto;
 }
 
-table {
-	width: 50%
-}
-.tdata {
-	min-height: 20px
-}
-.title {
-	text-align: center;
-}
-
 .bg {
     height: 175px;
     background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url(ostrovok.jpg) left 0px top 0px / auto auto repeat;
