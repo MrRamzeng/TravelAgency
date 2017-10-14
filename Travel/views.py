@@ -9,15 +9,6 @@ from Travel.forms import SignUpForm
 def index(request):
     return render(request, "Travel/index.html", { "Travel": True })
 
-def regions(request):
-    region = Region.objects.all()
-    return render(request, "Travel/regions.html", {'region': region, 'regions': True})
-
-def region_city(request, region_id = None):
-    region = Region.objects.get(id = region_id)
-    cities = region.city_set.all()
-    return render(request, "Travel/region_city.html", {'cities': cities})
-
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -32,6 +23,16 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
+def regions(request):
+    region = Region.objects.all()
+    return render(request, "Travel/regions.html", {'region': region, 'regions': True})
+
+def region_city(request, region_id = None):
+    region = Region.objects.get(id = region_id)
+    cities = region.city_set.all()
+    return render(request, "Travel/region_city.html", {'cities': cities})
+
 def tour(request, tour_id = None, region_id = None):
-    tour = Tour.objects.all()
-    return render(request, 'Travel/tour.html', {'tour': tour})
+    tour = Tour.objects.get(id = tour_id)
+    description = tour_set.all()
+    return render(request, 'Travel/tour.html', {'description': description})
