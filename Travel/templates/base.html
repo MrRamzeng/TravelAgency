@@ -1,110 +1,108 @@
-<html lang="ru">
-	<head>
-		<title>
-			{% block title %} {% endblock %}
-		</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		{% load static %}
-		<script src="{% static 'jquery/jquery-3.1.1.min.js' %}"> </script> 
-		<script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-		<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
-		<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
-	</head>
-	<body>
-		<div class="bg">
-			<h2 class="content" align="right">
-				+7 (833) 555 55-55
-			</h2>
-		</div>
-		<div class="content">
-			<nav class="navbar-default">
-				<div class="navbar-header">
-					<a class="navbar-brand logo" href="/Travel"></a>
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-				<div class="collapse navbar-collapse" id="navbar-main">
-					<ul class="nav navbar-nav">
-						<li class="{% if Travel %} active {% endif %}">
-							<a href="/Travel">
-								Главная
-							</a>
-						</li>
-						<li class = "{% if regions %} active {% endif %}">
-							<a href="/Travel/regions">Регионы</a>
-						</li>
-						<li>
-							<a href="#">Туры к морю</a>
-						</li>
-						<li>
-							<a href="#">Автобусные туры</a>
-						</li>
-					</ul>
-					{% if user.is_authenticated %}
-						{% if user.is_staff %}
-							<ul class="nav navbar-nav">
-								<li>
-									<a href="/admin/">Администратор</a>
-								</li>
-							</ul>
-						{% endif %}
-						<ul class="nav navbar-nav navbar-right">
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		{% block title %} {% endblock %}
+	</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% load static %}
+	<script type="text/javascript" src="{% static 'jquery/jquery-3.1.1.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+	<div class="bg">
+		<h2 class="content" align="right">
+			8 (800) 555-35-35
+		</h2>
+	</div>
+	<div class="content">
+		<nav class="navbar-default">
+			<div class="navbar-header">
+				<a href="/Travel" class="navbar-brand logo"></a>
+				<button class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="{% if Travel %} active {% endif %}">
+						<a href="/Travel">Главная</a>
+					</li>
+					<li class="{% if regions %} active {% endif %}">
+						<a href="/Travel/regions">Регионы</a>
+					</li>
+					<li>
+						<a href="#">Туры по Вятке</a>
+					</li>
+					<li>
+						<a href="#">Автобусные туры</a>
+					</li>
+				</ul>
+				{% if user.is_authenticated %}
+					{% if user.is_staff %}
+						<ul class="nav navbar-nav">
 							<li>
-								<a href="{% url 'logout' %}">
-									Выход
-									<span class="glyphicon glyphicon-log-out"></span>
-								</a>
-							</li>
-						</ul>
-					{% else %}
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-									<span class="glyphicon glyphicon-log-in"></span>
-									Войти в личный кабинет
-								 </a>
-								<ul class="dropdown-menu" style="width: 206px;">
-									<table align = "center">
-										<form method = "post" action = "{% url 'login' %}">
-											{% csrf_token %}
-											<tr>
-												<td align = "center">
-													<label for="username">Логин:</label><br>
-													<input type="text" name="username" placeholder="Введите логин">
-												</td>
-											</tr>
-											<tr>
-												<td align = "center">
-													<label>Пароль:</label>
-													<br>
-													<input type="password" name="password" placeholder="Введите пароль">
-												</td>
-											</tr>
-											<tr>
-												<td align = "center">
-													<input type="submit" value="Войти"/>
-													<div class="label round secondary">
-														<a href="/Travel/signup/">
-															Регистрация
-														</a>
-													</div>
-												</td>
-											</tr>
-										</form>
-									</table>
-								</ul>
+								<a href="/admin/">Администрация</a>
 							</li>
 						</ul>
 					{% endif %}
-				</div>
-			</nav>
-			{% block content %}
-			
-			{% endblock %}
-		</div>
-	</body>
-	</html>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="{% url 'logout' %}">
+								Выйти
+								<span class="glyphicon glyphicon-log-out"></span>
+							</a>
+						</li>
+					</ul>
+				{% else %}
+					<ul class="nav navbar-right navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+								<span class="glyphicon-log-in glyphicon"></span>
+								Войти в личный кабинет
+							</a>
+							<ul class="dropdown-menu" style="width: 206px;">
+								<table align="center">
+									<form action="{% url 'login' %}" method="post">
+										{% csrf_token %}
+										<tr>
+											<td align="center">
+												<label>Логин:</label>
+												<br>
+												<input type="text" placeholder="Введите логин">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+												<label>Пароль:</label>
+												<br>
+												<input type="password" placeholder="Введите пароль">
+											</td>
+										</tr>
+										<tr>
+											<td align="center">
+												<input type="submit" value="Войти">
+												<div class="label round secondary">
+													<a href="/Travel/signup">
+														Зарегистрироваться
+													</a>
+												</div>
+											</td>
+										</tr>
+									</form>
+								</table>
+							</ul>
+						</li>
+					</ul>
+				{% endif %}
+			</div>
+		</nav>
+		{% block content %} {% endblock %}
+	</div>
+</body>
+</html>
