@@ -33,6 +33,5 @@ def region_city(request, region_id = None):
     return render(request, "Travel/region_city.html", {'cities': cities})
 
 def tour(request, tour_id = None, region_id = None):
-    tour = Tour.objects.get(id = tour_id)
-    description = tour_set.all()
-    return render(request, 'Travel/tour.html', {'description': description})
+    tour = Tour.objects.filter(id = tour_id)
+    return render(request, 'Travel/tour.html', {'tour': tour})
