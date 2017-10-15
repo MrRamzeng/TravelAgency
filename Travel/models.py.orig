@@ -5,9 +5,15 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+<<<<<<< HEAD
 from django.db.models.signals import post_save
 
 from django.dispatch import receiver
+# Здесь происходит создание моделей для сайта.
+
+
+=======
+>>>>>>> 0096a71f948258ab97dd7962ddf49d886ce43324
 class Manager(models.Model): # Модель менеджера
     user = models.OneToOneField(User, on_delete = models.CASCADE) # Индивидуальный идентификатор пользователя 
     surname = models.CharField("Фамилия", max_length = 20) # Фамилия 
@@ -57,6 +63,7 @@ class Tour(models.Model):
             return unicode(self.name) + ' ' + unicode(self.city) + " " + unicode(self.date) + ', ' + unicode(self.days) + " дней, " + unicode(self.price) + "руб."
 
 class Tourist(models.Model): # Модель пользователя сайта (туриста)
+<<<<<<< HEAD
     user = models.OneToOneField(User, null=True, on_delete = models.CASCADE) # Индивидуальный идентификатор пользователя
     surname = models.CharField("Фамилия", max_length = 20) # Фамилия 
     name = models.CharField("Имя", max_length = 20) # Имя 
@@ -67,6 +74,18 @@ class Tourist(models.Model): # Модель пользователя сайта 
     def __unicode__(self):
             full_name = unicode(self.surname) + " " + unicode(self.name) + "." + unicode(self.patronymic) + "."
             return full_name
+=======
+	user = models.ForeignKey(User, on_delete = models.CASCADE) # Индивидуальный идентификатор пользователя
+	surname = models.CharField("Фамилия", max_length = 20) # Фамилия 
+	name = models.CharField("Имя", max_length = 20) # Имя 
+	patronymic = models.CharField("Отчество", max_length = 20) # Отчество
+	birthday = models.DateField("Дата рождения") # Дата рождения 
+	phone = models.CharField("Номер телефона", max_length = 100) # Мобильный телефон
+	adress = models.CharField("Адрес", max_length = 100) # Адрес проживания
+	def __unicode__(self):
+		full_name = unicode(self.surname) + " " + unicode(self.name[0]) + "." + unicode(self.patronymic[0]) + "."
+		return full_name
+>>>>>>> 0096a71f948258ab97dd7962ddf49d886ce43324
 
 class Type(models.Model):
     name = models.CharField("Тип", max_length = 50)
