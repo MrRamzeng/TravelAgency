@@ -4,19 +4,23 @@
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
-	{% for tour in tour %}
-        <h3>{{ tour.name }}</h3>
-        <p>
-            {{tour.text}}
-        </p>
-	{% endfor %}
+    <h3>{{ tour.name }}</h3>
+    <p>
+        {{tour.text}}
+    </p>
 	{% if request.user.is_authenticated %}
-        <form>
-            <input type="submit" value="Забронировать" type="hidden">
-        </form>		
+        {% if not booking.approved %}
+            <form action="/Travel/add_booking/{{tour.id}}">
+                <input type="submit" value="Забронировать" type="send">
+            </form>
+        {% else %}
+            <form action="/Travel/delete_booking/{{tour.id}}">
+                <input type="submit" value="Отменить">
+            </form>
+        {% endif %}
     {% else %}
         <form action="/Travel/login/">
-            <input type="submit" value = "Войти" type = "hidden"/>
+            <input type="submit" value = "Войти">
             <p>Войдите что бы забронировать тур</p>
         </form>
     {% endif %}

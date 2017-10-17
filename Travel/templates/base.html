@@ -14,9 +14,9 @@
 </head>
 <body>
 	<div class="bg">
-		<h2 class="content" align="right">
+		<h3 class="content" align="right">
 			8 (800) 555-35-35
-		</h2>
+		</h3>
 	</div>
 	<div class="content">
 		<nav class="navbar-default">
@@ -37,7 +37,7 @@
 						<a href="/Travel/regions">Регионы</a>
 					</li>
 					<li>
-						<a href="#">Туры по Вятке</a>
+						<a href="#">Туры к морю</a>
 					</li>
 					<li>
 						<a href="#">Автобусные туры</a>
@@ -54,21 +54,21 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li>
 							<a href="{% url 'logout' %}">
-								Выйти
 								<span class="glyphicon glyphicon-log-out"></span>
+								Выйти
 							</a>
 						</li>
 					</ul>
 				{% else %}
-					<ul class="nav navbar-right navbar-nav">
+					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-								<span class="glyphicon-log-in glyphicon"></span>
+								<span class="glyphicon glyphicon-log-in"></span>
 								Войти в личный кабинет
 							</a>
 							<ul class="dropdown-menu" style="width: 206px;">
 								<table align="center">
-									<form action="{% url 'login' %}" method="post">
+									<form method="post" action="{% url 'login' %}">
 										{% csrf_token %}
 										<tr>
 											<td align="center">
@@ -88,9 +88,7 @@
 											<td align="center">
 												<input type="submit" value="Войти">
 												<div class="label round secondary">
-													<a href="/Travel/signup">
-														Зарегистрироваться
-													</a>
+													<a href="/Travel/signup/">Зарегистрироваться</a>
 												</div>
 											</td>
 										</tr>

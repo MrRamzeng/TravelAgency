@@ -5,17 +5,16 @@
 
 .bg {
     height: 175px;
-    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url(ostrovok.jpg) left 0px top 0px / auto auto repeat;
-    max-width: 100%;
-    z-index: 11;
-    text-align: center;
-    display: block;
-    flex-direction: column;
-    padding-top: 50px;
-    padding-bottom: 60px;
+    background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url(ostrovok.jpg);
+    padding-top: 60px;
 }
 
 .logo{
     width: 205px;
     background: url(logo.jpg);
+}
+
+.style{
+    font-size: 15px;
+    color: black;
 }
