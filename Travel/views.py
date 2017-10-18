@@ -5,6 +5,7 @@ from . models import *
 
 from django.contrib.auth import login, authenticate
 from Travel.forms import SignUpForm
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, "Travel/index.html", { "Travel": True })
@@ -32,21 +33,24 @@ def region_cities(request, region_id):
     cities = region.city_set.all()
     return render(request, "Travel/region_cities.html", {'cities': cities, 'regions':True})
 
+@login_required
 def tour(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
-    tourist__id=request.user.tourist.id
+    tourist_id=request.user.tourist.id
     try:
-        booking=Tourbooking.objects.get(tour__id=tour_id, tourist__id=tourist__id)
+        booking=Tourbooking.objects.get(tour__id=tour_id, tourist__id=tourist_id)
     except Tourbooking.DoesNotExist:
         booking = None
     return render(request, 'Travel/tour.html', {'tour': tour, 'booking': booking})
 
+@login_required
 def add_book_tour(request, tour_id):
     t = Tour.objects.get(id=tour_id)
     tourist=request.user.tourist
     Tourbooking.objects.create(tour=t, tourist=tourist)
     return redirect('tour', tour_id=tour_id)
 
+@login_required
 def delete_book_tour(request, tour_id):
     t = Tour.objects.get(id=tour_id)    
     tourist=request.user.tourist.id

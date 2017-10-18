@@ -22,6 +22,8 @@ from Travel import views as Travel_views
 urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r"^Travel/", include("Travel.urls")),
+    url(r'^accounts/login/$', auth_views.login, name = 'login'),
+    url(r'^accounts/logout/$', auth_views.logout, name = 'logout'),
     url(r'^Travel/login/$', auth_views.login, name = 'login'),
     url(r'^Travel/logout/$', auth_views.logout, name = 'logout'),
     url(r'^Travel/signup/$', Travel_views.signup, name = 'signup'),
