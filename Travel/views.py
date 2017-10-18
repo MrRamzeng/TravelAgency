@@ -44,13 +44,10 @@ def tour(request, tour_id):
     return render(request, 'Travel/tour.html', {'tour': tour, 'booking': booking})
 
 def add_book_tour(request, tour_id):
-    if AnonymousUser.is_authenticated:
-        tour = Tour.objects.get(id=tour_id)
-        return redirect('tour')
-    else:
-        tourist=request.user.tourist
-        Tourbooking.objects.create(tour=tour, tourist=tourist)
-        return redirect('tour', tour_id=tour_id)
+    tour = Tour.objects.get(id=tour_id)
+    tourist=request.user.tourist
+    Tourbooking.objects.create(tour=tour, tourist=tourist)
+    return redirect('tour', tour_id=tour_id)
 
 def delete_book_tour(request, tour_id):
     t = Tour.objects.get(id=tour_id)    
