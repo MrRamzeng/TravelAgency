@@ -3,12 +3,14 @@
 	Туры
 {% endblock %}
 {% block content %}
-	<h2 align="center">Выберите тур</h2>
-	<br>
+	<h2 align="center">
+		Выберите тур
+	</h2>
 	{% for city in cities %}
 		{% for tour in city.tour_set.all %}
-    	   	<a href='/Travel/tour/{{tour.id}}' class="style">
-				{{ tour.name }}, {{ city.name }} <br>
+			<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробности">
+				{{ city.name }}, {{ tour.name }}, {{ tour.date }}, {{ tour.price }}руб.
+				<br>
 			</a>
 		{% endfor %}
 	{% endfor %}

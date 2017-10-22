@@ -5,101 +5,76 @@
 		{% block title %} {% endblock %}
 	</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	{% load static %}
-	<script type="text/javascript" src="{% static 'jquery/jquery-3.1.1.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-	<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
-<body>
+<body style="margin: 0;">
 	<div class="bg">
-		<h3 class="content" align="right">
-			8 (800) 555-35-35
-		</h3>
+		<h2 class="content" align="right" style="padding-top: 60px;">
+			8 (888) 765-43-21
+		</h2>
 	</div>
 	<div class="content">
-		<nav class="navbar-default">
-			<div class="navbar-header">
-				<a href="/Travel" class="navbar-brand logo"></a>
-				<button class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav">
-					<li class="{% if Travel %} active {% endif %}">
-						<a href="/Travel">Главная</a>
-					</li>
-					<li class="{% if regions %} active {% endif %}">
-						<a href="/Travel/regions">Регионы</a>
-					</li>
+		<ul class="menu">
+			{% block branding %}
+				<li>
+					<a href="/Travel">ОстровОК тур</a>
+				</li>
+			{% endblock %}
+			{% if Travel %}
+				<li class="active">
+					<a href="/Travel">Главная</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="/Travel">Главная</a>
+				</li>
+			{% endif %}
+			{% if region %}
+				<li class="active">
+					<a href="/Travel/regions">Регионы</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="/Travel/regions">Регионы</a>
+				</li>
+			{% endif %}
+			<li>
+				<a href="#">Туры по Вятке</a>
+			</li>
+			<li>
+				<a href="#">Автобусные туры</a>
+			</li>
+			{% if user.is_authenticated %}
+				{% if user.is_staff %}
 					<li>
-						<a href="#">Туры к морю</a>
+						<a href="/Travel/admin/">Администрация</a>
 					</li>
-					<li>
-						<a href="#">Автобусные туры</a>
-					</li>
-				</ul>
-				{% if user.is_authenticated %}
-					{% if user.is_staff %}
-						<ul class="nav navbar-nav">
-							<li>
-								<a href="/admin/">Администрация</a>
-							</li>
-						</ul>
-					{% endif %}
-					<ul class="nav navbar-nav navbar-right">
-						<li>
-							<a href="{% url 'logout' %}">
-								<span class="glyphicon glyphicon-log-out"></span>
-								Выйти
-							</a>
-						</li>
-					</ul>
-				{% else %}
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-								<span class="glyphicon glyphicon-log-in"></span>
-								Войти в личный кабинет
-							</a>
-							<ul class="dropdown-menu" style="width: 206px;">
-								<table align="center">
-									<form method="post" action="{% url 'login' %}">
-										{% csrf_token %}
-										<tr>
-											<td align="center">
-												<label>Логин:</label>
-												<br>
-												<input type="text" name="username" placeholder="Введите логин">
-											</td>
-										</tr>
-										<tr>
-											<td align="center">
-												<label>Пароль:</label>
-												<br>
-												<input type="password" name="password" placeholder="Введите пароль">
-											</td>
-										</tr>
-										<tr>
-											<td align="center">
-												<input type="submit" value="Войти">
-												<div class="label round secondary">
-													<a href="/Travel/signup/">Зарегистрироваться</a>
-												</div>
-											</td>
-										</tr>
-									</form>
-								</table>
-							</ul>
-						</li>
-					</ul>
 				{% endif %}
-			</div>
-		</nav>
+				<li style="float: right;">
+					<a href="{% url 'logout' %}">
+						<span class="glyphicon glyphicon-log-out"></span>
+						Выйти
+					</a>
+				</li>
+			{% else %}
+				{% if not Travel and not region %}
+					<li class="active" style="float: right;">
+						<a href="{% url 'login' %}">
+							<span class="glyphicon glyphicon-log-in"></span>
+							Войти
+						</a>
+					</li>
+				{% else %}
+					<li style="float: right;">
+						<a href="{% url 'login' %}">
+							<span class="glyphicon glyphicon-log-in"></span>
+							Войти
+						</a>
+					</li>
+				{% endif %}
+			{% endif %}
+		</ul>
 		{% block content %} {% endblock %}
 	</div>
 </body>

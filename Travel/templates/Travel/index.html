@@ -1,14 +1,31 @@
 {% extends "base.html" %}
 {% block title %}
-	ОстровОк Тур
-{{ index.title }}
+	Главная
 {% endblock %}
 {% block content %}
-	{% if user.is_authenticated %} 
-		{% if user.is_staff %} 
-			<h1>Дарова {{user.first_name}}!</h1> 
-		{% else %} 
-			<h1>Добро пожаловать {{user.first_name}} {{user.last_name}}! Дратути!</h1> 
-		{% endif %} 
-	{% endif %} 
+	{% if not user.is_staff and not user.is_anonymous %}
+		<h2>
+			Здравствуйте {{user.first_name}}!
+		</h2>
+	{% endif %}
+	{% if user.is_anonymous %}
+		<h2>
+			Добро пожаловать гость!
+		</h2>
+		<p>Для покупки тура вам необходимо:</p>
+		<ul>
+			<li>
+				<p>1) Зарегистрироваться указав необходимые данные.</p>
+			</li>
+			<li>
+				<p>2) Выбрать тур.</p>
+			</li>
+			<li>
+				<p>3) Дождаться подтверждение заявки менеджером тур-фирмы.</p>
+			</li>
+			<li>
+				<p>4) Оплатить тур.</p>
+			</li>
+		</ul>
+	{% endif %}
 {% endblock %}

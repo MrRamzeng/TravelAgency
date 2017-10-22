@@ -1,41 +1,39 @@
-{% extends "base.html" %} 
-{% block title %} 
-  Войти 
-{% endblock %} 
-	{% block content %} 
-	<table align = "center"> 
-		<form method = "post" action = "{% url 'login' %}"> 
-			{% csrf_token %} 
-			<tr> 
-				<td align = "center"> 
-					<label for="username">Логин:</label><br> 
-					<input type="text" name="username" placeholder="Введите логин" id="username"> 
-				</td> 
-			</tr> 
-			<tr> 
-				<td align = "center"> 
-					<label for="password">Пароль:</label> 
-					<br> 
-					<input type="password" name="password" placeholder="Введите пароль" id="password"> 
-				</td> 
-			</tr> 
-			<tr> 
-				<td align = "center"> 
-					<p align="center"> 
-						{% if form.errors %} 
-							<font color = "red" size = "3"> 
-								Неверное имя пользователя или пароль! 
-							</font> 
-						{% endif %} 
-					</p> 
-					<input type="submit" value="Войти"/> 
-					<div class="label round secondary"> 
-						<a href="/Travel/signup/"> 
-							Регистрация 
-						</a> 
-					</div> 
-				</td> 
-			</tr> 
-		</form> 
-	</table> 
+{% extends "base.html" %}
+{% block title %}
+	Войти
+{% endblock %}
+{% block content %}
+	<table align="center">
+		<form method="POST" action="{% url 'login' %}">
+			{% csrf_token %}
+			<tr>
+				<td align="center">
+					<label>Логин:</label>
+					<br>
+					<input type="text" name="username" placeholder="Введите логин">
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<label>Пароль:</label>
+					<br>
+					<input type="password" name="password" placeholder="Введите пароль">
+					<br>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					{% if form.errors %}
+						<p align="center">
+							<font color="red" size="4">
+								Не верный логин или пароль!
+							</font>
+						</p>
+					{% endif %}
+					<input type="submit" value="Войти">
+					<a href="/Travel/signup/">Зарегистрироваться</a>
+				</td>
+			</tr>
+		</form>
+	</table>
 {% endblock %}

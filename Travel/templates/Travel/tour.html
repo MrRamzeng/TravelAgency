@@ -4,7 +4,7 @@
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
-    <table border="1" class="content" style="width:100%">
+    <table border="2" class="content" style="width:100%; border-collapse: collapse;">
         <tr>
             <td colspan="6" align="center">
                 <h3>{{ tour.name }}</h3>
@@ -58,12 +58,16 @@
                         {% if not booking.approved %}
                             <p>Ожидается подтверждение</p>
                         {% else %}
-                        <form action="/Travel/delete_booking/{{tour.id}}" align="center">
+                        <div align="center">
+                            <button>Оплатить</button>
+                        </div>
+                        <form action="/Travel/delete_booking_tour/{{tour.id}}" align="center">
+                            <br>
                             <input type="submit" value="Отменить">
                         </form>
                         {% endif %}
                     {% else %}
-                        <form action="/Travel/add_booking/{{tour.id}}" align="center">
+                        <form action="/Travel/add_booking_tour/{{tour.id}}" align="center">
                             <input type="submit" value="Забронировать">
                         </form>		
                     {% endif %}

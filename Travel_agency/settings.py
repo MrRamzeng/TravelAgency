@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'suit',
     'Travel.apps.TravelConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,8 +76,10 @@ WSGI_APPLICATION = 'Travel_agency.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Ostrovok_tour',
+        'USER': 'admin',
+        'PASSWORD': '156024',
     }
 }
 
@@ -110,7 +111,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -120,7 +121,7 @@ USE_TZ = False
 
 DATE_FORMAT = "l j M. Y"
 
-DATE_INPUT_FORMATS = ('%d.%m.%Y',)
+DATE_INPUT_FORMATS = '%d.%m.%Y'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

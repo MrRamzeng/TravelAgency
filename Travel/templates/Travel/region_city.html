@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+	Туры
+{% endblock %}
+{% block content %}
+	Выберите тур
+	<br>
+	{% for city in cities %}
+		{% for tour in city.tour_set.all %}
+    	   	<a href='/Travel/tour/{{tour.id}}' class="style">
+				{{ tour.name }}, {{ city.name }} <br>
+			</a>
+		{% endfor %}
+	{% endfor %}
+{% endblock %}
