@@ -1,8 +1,11 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block title %}
-	Войти
+	Авторизация
 {% endblock %}
 {% block content %}
+	<h2 align="center">
+		Авторизация
+	</h2>
 	<table align="center">
 		<form method="POST" action="{% url 'login' %}">
 			{% csrf_token %}
@@ -18,20 +21,23 @@
 					<label>Пароль:</label>
 					<br>
 					<input type="password" name="password" placeholder="Введите пароль">
-					<br>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">
 					{% if form.errors %}
-						<p align="center">
-							<font color="red" size="4">
-								Не верный логин или пароль!
+						<p>
+							<font color="red">
+								Неверный логин или пароль!
 							</font>
 						</p>
 					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<input type="submit" value="Войти">
-					<a href="/Travel/signup/">Зарегистрироваться</a>
+					<a href="{% url 'signup' %}">Зарегистрироваться</a>
 				</td>
 			</tr>
 		</form>

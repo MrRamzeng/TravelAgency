@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Travel_agency.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Ostrovok_tour',
+        'NAME': 'Ostrovok',
         'USER': 'admin',
         'PASSWORD': '156024',
     }
@@ -115,11 +115,9 @@ TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
-USE_L10N = False
+USE_L10N = True
 
 USE_TZ = False
-
-DATE_FORMAT = "l j M. Y"
 
 DATE_INPUT_FORMATS = ('%d.%m.%Y',)
 

@@ -28,7 +28,7 @@ def regions(request):
 def region_cities(request, region_id):
     region=Region.objects.get(id=region_id)
     cities=region.city_set.all()
-    return render(request, "Travel/region_cities.html", {"cities": cities, "region":True})
+    return render(request, "Travel/region_cities.html", {"cities": cities, "regions":True})
 
 def tour(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
@@ -39,7 +39,7 @@ def tour(request, tour_id):
             booking=Tour_booking.objects.get(tour__id=tour_id, tourist__id=tourist_id)
         except Tour_booking.DoesNotExist:
             pass
-    return render(request, 'Travel/tour.html', {'tour': tour, 'booking': booking})
+    return render(request, 'Travel/tour.html', {'tour': tour, 'booking': booking, "regions":True})
 
 def add_booking_tour(request, tour_id):
     tour=Tour.objects.get(id=tour_id)

@@ -30,7 +30,7 @@
 					<a href="/Travel">Главная</a>
 				</li>
 			{% endif %}
-			{% if region %}
+			{% if regions %}
 				<li class="active">
 					<a href="/Travel/regions">Регионы</a>
 				</li>
@@ -58,7 +58,7 @@
 					</a>
 				</li>
 			{% else %}
-				{% if not Travel and not region %}
+				{% if not Travel and not regions %}
 					<li class="active" style="float: right;">
 						<a href="{% url 'login' %}">
 							<span class="glyphicon glyphicon-log-in"></span>

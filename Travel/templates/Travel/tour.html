@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
 {% block title %} 
-  ОстровОк Тур 
+  {{tour.name}}
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td>
-                {{tour.text}}
+                {{tour.tour_description}}
             </td>
             <td>
                 {{tour.hotel}}
@@ -47,9 +47,8 @@
                 {{tour.price}}руб.
             </td>
             <td>
-                <br>
                 {% if not request.user.is_authenticated %}
-                    <form action="/Travel/login/" align="center">
+                    <form action="{% url 'login' %}" align="center">
                         <p align="left">Войдите что бы забронировать тур</p>
                         <input type="submit" value = "Войти">
                     </form>
@@ -72,7 +71,6 @@
                         </form>		
                     {% endif %}
                 {% endif %}
-                <br>
             </td>
         </tr> 
     </table>
