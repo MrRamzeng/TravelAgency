@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- #
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from Travel.forms import SignUpForm
+from Travel.forms import SignUpForm, UpdateProfile
 from . models import *
 
 def index(request):
@@ -16,7 +16,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/')
+            return redirect('my_profile')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
@@ -41,14 +41,38 @@ def tour(request, tour_id):
             pass
     return render(request, 'Travel/tour.html', {'tour': tour, 'booking': booking, "regions":True})
 
+def my_profile(request):
+    tourist=request.user.tourist
+    return render(request, 'Travel/my_profile.html', {'my_profile':True})
+
+def change_my_profile(request):
+    if request.method == 'POST':
+        change_profile = UpdateProfile(request.POST, instance=request.user)
+        change_data = UpdateProfile(request.POST, instance=request.user.tourist)
+        if change_profile.is_valid() and change_data.is_valid():
+            change_profile.save()
+            change_data.save()
+            request.user.tourist.patronymic
+            request.user.tourist.mobile_phone
+            return redirect('my_profile')
+    else:
+        change_profile = UpdateProfile()
+        change_data = UpdateProfile()
+    return render(request, 'registration/change_my_profile.html', {'my_profile':True})
+
+def my_tours(request):
+    tourist_id=request.user.tourist.id
+    booking=Tour_booking.objects.all().filter(tourist__id=tourist_id)
+    return render(request, 'Travel/my_tours.html', {'booking':booking, 'my_tours':True})
+
 def add_booking_tour(request, tour_id):
     tour=Tour.objects.get(id=tour_id)
     tourist=request.user.tourist
     Tour_booking.objects.create(tour=tour, tourist=tourist)
-    return redirect('tour', tour_id=tour_id)
+    return redirect('my_tours')
 
 def delete_booking_tour(request, tour_id):
     tour=Tour.objects.get(id=tour_id)
     tourist=request.user.tourist
     Tour_booking.objects.get(tour=tour, tourist=tourist).delete()
-    return redirect('tour', tour_id=tour_id)
+    return redirect('my_tours')

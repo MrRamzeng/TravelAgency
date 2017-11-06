@@ -4,36 +4,40 @@
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
-    <table border="2" class="content" style="width:100%; border-collapse: collapse;">
+    <table border="2" class="content" style="border-collapse: collapse;">
         <tr>
-            <td colspan="6" align="center">
+            <td colspan="6" align="center" style="padding:0%">
                 <h3>{{ tour.name }}</h3>
             </td>
         </tr>
         <tr>
-            <th style="width: 55%; text-align:center">
+            <th colspan="6" style="text-align:center">
                 Описание
             </th>
-            <th style="width: 15%; text-align:center">
+        </tr>
+        <tr>
+            <td colspan="6">
+                {{tour.tour_description}}
+            </td>
+        </tr>
+        <tr>
+            <th style="text-align:center">
                 Гостиница
             </th>
             <th style="text-align:center">
                 Дата заезда
             </th>
-            <th style="width: 5%; text-align:center">
+            <th style="text-align:center">
                 Дней
             </th>
-            <th style="width: 5%; text-align:center">
-                Цена
+            <th style="text-align:center">
+                Стоимость
             </th>
-            <th style="width: 10%; text-align:center">
+            <th style="text-align:center">
                 Забронировать
             </th>
         </tr>
         <tr>
-            <td>
-                {{tour.tour_description}}
-            </td>
             <td>
                 {{tour.hotel}}
             </td>
@@ -46,9 +50,9 @@
             <td>
                 {{tour.price}}руб.
             </td>
-            <td>
+            <td align="center">
                 {% if not request.user.is_authenticated %}
-                    <form action="{% url 'login' %}" align="center">
+                    <form action="{% url 'login' %}">
                         <p align="left">Войдите что бы забронировать тур</p>
                         <input type="submit" value = "Войти">
                     </form>
@@ -57,16 +61,16 @@
                         {% if not booking.approved %}
                             <p>Ожидается подтверждение</p>
                         {% else %}
-                        <div align="center">
+                        <div>
                             <button>Оплатить</button>
                         </div>
-                        <form action="/Travel/delete_booking_tour/{{tour.id}}" align="center">
+                        <form action="/Travel/delete_booking_tour/{{tour.id}}">
                             <br>
                             <input type="submit" value="Отменить">
                         </form>
                         {% endif %}
                     {% else %}
-                        <form action="/Travel/add_booking_tour/{{tour.id}}" align="center">
+                        <form action="/Travel/add_booking_tour/{{tour.id}}">
                             <input type="submit" value="Забронировать">
                         </form>		
                     {% endif %}

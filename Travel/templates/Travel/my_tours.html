@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+    Личный кабинет
+{% endblock title %}
+{% block content %}
+    <h2 align="center">Ваши туры</h2>
+    {% if booking %}
+        <table border="2" class="content" style="border-collapse: collapse;">
+            <tr>
+                <th>
+                    Тур
+                </th>
+                <th style="width:20%">
+                    Статус заказа
+                </th>
+            </tr>
+            {% if request.user.tourist %}
+                {% for tour in booking %}
+                    <tr>
+                        <td>
+                            {{tour.tour.name}}, {{tour.tour.date}}, дней: {{tour.tour.days}}, {{tour.tour.price}}руб.
+                        </td>
+                        {% if not tour.approved %}
+                            <td>
+                                Ожидается подтверждение
+                            </td>
+                        {% else %}
+                            <td align="center">
+                                <button>Оплатить</button>
+                                <form action="/Travel/delete_booking_tour/{{tour.tour.id}}">
+                                    <br>
+                                    <input type="submit" value="Отменить">
+                                </form>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    {% else %}
+        <h3>Пока, вы не забронировали ни один тур.</h3>
+    {% endif %}
+{% endblock content %}

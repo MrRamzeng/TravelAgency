@@ -15,66 +15,92 @@
 		</h2>
 	</div>
 	<div class="content">
-		<ul class="menu">
-			{% block branding %}
-				<li>
-					<a href="/Travel">ОстровОК тур</a>
-				</li>
-			{% endblock %}
-			{% if Travel %}
-				<li class="active">
-					<a href="/Travel">Главная</a>
-				</li>
-			{% else %}
-				<li>
-					<a href="/Travel">Главная</a>
-				</li>
-			{% endif %}
-			{% if regions %}
-				<li class="active">
-					<a href="/Travel/regions">Регионы</a>
-				</li>
-			{% else %}
-				<li>
-					<a href="/Travel/regions">Регионы</a>
-				</li>
-			{% endif %}
-			<li>
-				<a href="#">Туры по Вятке</a>
-			</li>
-			<li>
-				<a href="#">Автобусные туры</a>
-			</li>
-			{% if user.is_authenticated %}
-				{% if user.is_staff %}
+		<nav class="menu">
+			<ul>
+				{% block branding %}
 					<li>
-						<a href="/Travel/admin/">Администрация</a>
+						<a href="/Travel">ОстровОК тур</a>
 					</li>
-				{% endif %}
-				<li style="float: right;">
-					<a href="{% url 'logout' %}">
-						<span class="glyphicon glyphicon-log-out"></span>
-						Выйти
-					</a>
-				</li>
-			{% else %}
-				{% if not Travel and not regions %}
-					<li class="active" style="float: right;">
-						<a href="{% url 'login' %}">
-							<span class="glyphicon glyphicon-log-in"></span>
-							Войти
-						</a>
+				{% endblock %}
+				{% if Travel %}
+					<li class="active">
+						<a href="/Travel">Главная</a>
 					</li>
 				{% else %}
-					<li style="float: right;">
-						<a href="{% url 'login' %}">
-							<span class="glyphicon glyphicon-log-in"></span>
-							Войти
-						</a>
+					<li>
+						<a href="/Travel">Главная</a>
 					</li>
 				{% endif %}
-			{% endif %}
-		</ul>
+				{% if regions %}
+					<li class="active">
+						<a href="/Travel/regions">Регионы</a>
+					</li>
+				{% else %}
+					<li>
+						<a href="/Travel/regions">Регионы</a>
+					</li>
+				{% endif %}
+				<li>
+					<a href="#">Туры по Вятке</a>
+				</li>
+				<li>
+					<a href="#">Автобусные туры</a>
+				</li>
+				{% if user.is_authenticated %}
+					{% if user.is_staff %}
+						<li>
+							<a href="/Travel/admin/">Администрация</a>
+						</li>
+						<li style="float: right;">
+							<a href="{% url 'logout' %}">Выйти</a>
+						</li>
+					{% else %}
+						{% if my_profile %}
+							<li class="active" style="float: right;">
+								<a>Личный кабинет</a>
+								<ul>
+									<li class="active"><a href="{% url 'my_profile' %}">Мой профиль</a></li>
+									<li><a href="{% url 'my_tours' %}">Мои туры </a></li>
+									<li><a href="{% url 'logout' %}">Выйти</a></li>
+								</ul>
+							</li>
+						{% elif my_tours %}
+							<li class="active" style="float: right;">
+								<a>Личный кабинет</a>
+								<ul>
+									<li><a href="{% url 'my_profile' %}">Мой профиль</a></li>
+									<li class="active"><a href="{% url 'my_tours' %}">Мои туры </a></li>
+									<li><a href="{% url 'logout' %}">Выйти</a></li>
+								</ul>
+							</li>
+						{% else %}
+							<li style="float: right;">
+								<a>Личный кабинет</a>
+								<ul>
+									<li><a href="{% url 'my_profile' %}">Мой профиль</a></li>
+									<li><a href="{% url 'my_tours' %}">Мои туры </a></li>
+									<li><a href="{% url 'logout' %}">Выйти</a></li>
+								</ul>
+							</li>
+						{% endif %}
+					{% endif %}
+				{% else %}
+					{% if not Travel and not regions and not my_tours and not my_profile %}
+						<li class="active" style="float: right;">
+							<a href="{% url 'login' %}">
+								Войти в личный кабинет
+							</a>
+						</li>
+					{% else %}
+						<li style="float: right;">
+							<a href="{% url 'login' %}">
+								Войти в личный кабинет
+							</a>
+						</li>
+					{% endif %}
+				{% endif %}
+			</ul>
+		</nav>
 		{% block content %} {% endblock %}
 	</div>
 </body>
