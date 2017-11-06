@@ -42,7 +42,7 @@ class Hotel(models.Model):
     name = models.CharField('Название', max_length=50)
     city = models.ForeignKey(City, verbose_name="Город", null=True, on_delete=models.SET_NULL)
     address = models.CharField('Адрес', max_length=200)
-    comfort = models.IntegerField('Комфорт')
+    comfort = models.PositiveSmallIntegerField('Комфорт', default=1)
     def __unicode__(self):
         return unicode(self.city) + ", " + unicode(self.address) + ", " +  unicode(self.name) + ", звезд: " + unicode(self.comfort)
     class Meta:
@@ -63,11 +63,19 @@ class Tour(models.Model):
     tour_description = models.TextField('Описание тура')
     city = models.ForeignKey(City, verbose_name="Город", null=True, on_delete=models.SET_NULL)
     date = models.DateField('Дата заезда')
-    days = models.IntegerField('Дней')
+    days = models.PositiveSmallIntegerField('Дней')
     hotel = models.ForeignKey(Hotel, verbose_name="Отель", null=True, blank=True)
-    price = models.IntegerField('Цена')
+    hotel_price = models.PositiveSmallIntegerField('Цена за номер', blank=True)
+    tour_price = models.PositiveSmallIntegerField('Цена')
     def __unicode__(self):
-        return unicode(self.name) + ", тип тура: " + unicode(self.type) + ", " + unicode(self.date) + ", дней: " + unicode(self.days) + ", " + unicode(self.hotel) + ", " + unicode(self.price) + " руб."
+        a = self.hotel_price
+        b = self.days
+        c = self.tour_price
+        price = a * b + c 
+        if self.hotel is None:
+            return unicode(self.name) + ", тип тура: " + unicode(self.type) + ", " + unicode(self.date.strftime("%d.%m.%Y")) + ", дней: " + unicode(self.days) + ", " + unicode(int(price)) + " руб."
+        else:
+            return unicode(self.name) + ", тип тура: " + unicode(self.type) + ", " + unicode(self.date.strftime("%d.%m.%Y")) + ", дней: " + unicode(self.days) + ", " + unicode(self.hotel) + ", " + unicode(int(price)) + " руб."
     class Meta:
         verbose_name_plural = "туры"
         verbose_name = 'тур'
@@ -112,7 +120,10 @@ class Allocution(models.Model):
     comments = models.TextField('Комментарии')
     tour = models.ForeignKey(Tour, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Выбранный тур')
     def __unicode__(self):
-        return unicode(self.last_name) + ' ' + unicode(self.patronymic[0]) + '.' + unicode(self.first_name) + '. Тип обращения: ' + unicode(self.type_of_allocution) + ', дата и время обращения: ' + unicode(self.date_and_time)
+        if self.patronymic is "":
+            return unicode(self.last_name) + ' ' + unicode(self.first_name[0]) + '. Тип обращения: ' + unicode(self.type_of_allocution) + ', дата и время обращения: ' + unicode(self.date_and_time.strftime("%d.%m.%Y %H:%M"))
+        else:
+            return unicode(self.last_name) + ' ' + unicode(self.first_name[0]) + '.' + unicode(self.patronymic[0]) + '. Тип обращения: ' + unicode(self.type_of_allocution) + ', дата и время обращения: ' + unicode(self.date_and_time)
     class Meta:
         verbose_name_plural='обращения'
         verbose_name='обращение'
@@ -126,7 +137,7 @@ class Tour_booking(models.Model):
         if self.approved is True:
             return unicode(self.tour) + ", " + unicode(self.tourist) + ", подтверждено"
         else:
-            return unicode(self.Tour) + ", " + unicode(self.tourist) + ", не подтверждено"
+            return unicode(self.tour) + ", " + unicode(self.tourist) + ", не подтверждено"
     class Meta:
         verbose_name = "бронирование тура"
         verbose_name_plural="броонирования туров"
