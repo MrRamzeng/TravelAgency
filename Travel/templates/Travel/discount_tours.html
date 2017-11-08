@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}
+    Туры со скидкой
+{% endblock title %}
+{% block content %}
+    <h2 align="center">Туры со скидкой</h2>
+    {% for tour in tours %}
+        {% if tour.hotel %}
+            <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+                <font color="red">
+                    <i style="font-size:20px;">Акция! </i>
+                    {{ tour.city }}, {{ tour.name }}, {{ tour.date }}, {{ tour.type }} тур.
+                </font>
+                <br>
+            </a>
+        {% else %}
+            <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+                {{ tour.city }}, {{ tour.name }}, {{ tour.hotel }}, {{ tour.date }}, {{ tour.type }} тур.
+                <br>
+            </a>
+        {% endif %}
+    {% endfor %}
+{% endblock content %}

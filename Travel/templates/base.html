@@ -40,11 +40,17 @@
 						<a href="/Travel/regions">Регионы</a>
 					</li>
 				{% endif %}
+				{% if discount %}
+					<li class="active">
+						<a href="/Travel/discount_tours">Туры со скидкой</a>
+					</li>
+				{% else %}
+					<li>
+						<a href="/Travel/discount_tours">Туры со скидкой</a>
+					</li>
+				{% endif %}
 				<li>
 					<a href="#">Туры по Вятке</a>
-				</li>
-				<li>
-					<a href="#">Автобусные туры</a>
 				</li>
 				{% if user.is_authenticated %}
 					{% if user.is_staff %}
@@ -102,6 +108,9 @@
 			</ul>
 		</nav>
 		{% block content %} {% endblock %}
+	</div>
+	<div id="footer">
+		Mr.Ramzeng&reg;
 	</div>
 </body>
 </html>

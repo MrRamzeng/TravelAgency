@@ -4,14 +4,31 @@
 {% endblock %}
 {% block content %}
 	<h2 align="center">
-		Выберите тур
+		Туры
 	</h2>
 	{% for city in cities %}
 		{% for tour in city.tour_set.all %}
-			<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробности">
-				{{ city.name }}, {{ tour.name }}, {{ tour.date }}, {{ tour.price }}руб.
-				<br>
-			</a>
+			{% if tour.hotel is None %}
+                {% if tour.sale > 0 %}
+					<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+						<font color="red">
+							<i style="font-size:20px;">Акция! </i>
+							{{ tour.name }}, {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}.
+						</font>
+						<br>
+					</a>
+                {% else %}
+					<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+						{{ tour.name }}, {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}.
+						<br>
+					</a>
+                {% endif %}
+			{% else %}
+				<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+					{{ tour.name }}, {{ city.name }}, {{ tour.type }} тур, {{ tour.hotel.name }}, {{ tour.date }}.
+					<br>
+				</a>
+			{% endif %}
 		{% endfor %}
 	{% endfor %}
 {% endblock %}

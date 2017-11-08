@@ -5,7 +5,7 @@
 {% block content %}
     <h2 align="center">Ваши туры</h2>
     {% if booking %}
-        <table border="2" class="content" style="border-collapse: collapse;">
+        <table border="2" class="content" style="border-collapse: collapse; width: 100%;">
             <tr>
                 <th>
                     Тур
@@ -18,7 +18,7 @@
                 {% for tour in booking %}
                     <tr>
                         <td>
-                            {{tour.tour.name}}, {{tour.tour.date}}, дней: {{tour.tour.days}}, {{tour.tour.price}}руб.
+                            {{tour.tour.name}}, {{tour.tour.date}}, дней: {{tour.tour.days}}, {{tour.tour.tour_price}}руб.
                         </td>
                         {% if not tour.approved %}
                             <td>

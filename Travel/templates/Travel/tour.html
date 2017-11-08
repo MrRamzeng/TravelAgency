@@ -4,7 +4,7 @@
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
-    <table border="2" class="content" style="border-collapse: collapse;">
+    <table border="2" class="content" style="width: 100%; border-collapse: collapse;">
         <tr>
             <td colspan="6" align="center" style="padding:0%">
                 <h3>{{ tour.name }}</h3>
@@ -31,15 +31,25 @@
                 Дней
             </th>
             <th style="text-align:center">
-                Стоимость
+                {% if tour.sale > 0 %}
+                    <font color="red">
+                        Акционная цена*
+                    </font>
+                {% else %}
+                    Стоимость
+                {% endif %}
             </th>
-            <th style="text-align:center">
+            <th style="text-align:center;">
                 Забронировать
             </th>
         </tr>
         <tr>
             <td>
-                {{tour.hotel}}
+                {% if tour.hotel is None %}
+                    -
+                {% else %}
+                    {{tour.hotel}}
+                {% endif %}
             </td>
             <td>
                 {{tour.date}}
@@ -47,8 +57,36 @@
             <td align="center">
                  {{tour.days}}
             </td>
-            <td>
-                {{tour.price}}руб.
+            <td align="center">
+                {% if tour.hotel is None %}
+                    <!--Отеля нет-->
+                    {% if tour.discount > 0 %}  <!--Есть скидка-->
+                        <strike>
+                            {{tour.tour_price}}руб  <!--Цена без скидки-->
+                        </strike>. 
+                        <font color="red">
+                            <b>{{price_with_discount_without_hotel}}руб.</b> <!--Цена со скидкой-->
+                        </font>
+                    {% else %}
+                        {{tour.tour_price}}руб. <!--Иначе цена без скидки-->
+                    {% endif %} 
+                {% else %}
+                    <!--Есть отель-->
+                    {% if tour.discount > 0 %}
+                        <!--Есть скидка-->
+                        <strike>
+                            {{price_without_discount}}руб
+                            <!--Цена без скидки-->
+                        </strike>. 
+                        <font color="red">
+                            <b>{{price_with_discount}}руб.</b>
+                            <!--Цена со скидкой-->
+                        </font>
+                    {% else %}
+                        <!--Иначе цена без скидки-->
+                        {{price_without_discount}}руб.
+                    {% endif %}
+                {% endif %}
             </td>
             <td align="center">
                 {% if not request.user.is_authenticated %}
@@ -78,4 +116,13 @@
             </td>
         </tr> 
     </table>
+    {% if tour.discount >= 20 %}
+        <p style="font-size: 12px; color: red;">
+            * Горящий тур
+        </p>
+    {% elif tour.discount > 0 %}
+        <p style="font-size: 12px; color: red;">
+            * Сезонная скидка
+        </p>
+    {% endif %}
 {% endblock %}

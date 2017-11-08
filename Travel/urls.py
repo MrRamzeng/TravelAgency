@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^regions/$', views.regions, name = "regions"),
     url(r'^cities/(?P<region_id>[0-9]+)/$', views.region_cities, name = "region_cities"),
     url(r'^tour/(?P<tour_id>[0-9]+)/$', views.tour, name = 'tour'),
+    url(r'^discount_tours/$', views.discount_tours, name = 'discount'),
     url(r'^my_profile/$', views.my_profile, name='my_profile'),
     url(r'^my_tours/$', views.my_tours, name='my_tours'),
     url(r'^add_booking_tour/(?P<tour_id>[0-9]+)/$', views.add_booking_tour, name = 'add_booking_tour'),

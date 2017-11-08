@@ -32,6 +32,12 @@ def region_cities(request, region_id):
 
 def tour(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
+    # Цена без скидки
+    price_without_discount = (tour.days * tour.hotel_price + tour.tour_price)
+    # Цена со скидкой
+    price_with_discount = (tour.days * tour.hotel_price + tour.tour_price) * (100-tour.discount) / 100
+    # Цена со скидкой без отеля
+    price_with_discount_without_hotel = tour.tour_price * (100-tour.discount) / 100
     booking=None
     if not request.user.is_anonymous:
         tourist_id=request.user.tourist.id
@@ -39,7 +45,20 @@ def tour(request, tour_id):
             booking=Tour_booking.objects.get(tour__id=tour_id, tourist__id=tourist_id)
         except Tour_booking.DoesNotExist:
             pass
-    return render(request, 'Travel/tour.html', {'tour': tour, 'booking': booking, "regions":True})
+    return render(request, 
+        'Travel/tour.html', 
+        {'tour': tour, 
+            'price_without_discount': price_without_discount, 
+            'price_with_discount': price_with_discount,
+            'price_with_discount_without_hotel': price_with_discount_without_hotel,
+            'booking': booking, 
+            "regions":True
+        }
+    )
+
+def discount_tours(request):
+    tours = Tour.objects.all().exclude(discount = 0)
+    return render(request, 'Travel/discount_tours.html', {'tours':tours, "discount":True})
 
 def my_profile(request):
     tourist=request.user.tourist
@@ -68,7 +87,10 @@ def my_tours(request):
 def add_booking_tour(request, tour_id):
     tour=Tour.objects.get(id=tour_id)
     tourist=request.user.tourist
-    Tour_booking.objects.create(tour=tour, tourist=tourist)
+    last_name = request.user.last_name
+    first_name = request.user.first_name
+    patronymic = request.user.tourist.patronymic
+    Tour_booking.objects.create(tour=tour, tourist=tourist, last_name=last_name, first_name=first_name, patronymic=patronymic)
     return redirect('my_tours')
 
 def delete_booking_tour(request, tour_id):
