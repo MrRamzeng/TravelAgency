@@ -5,7 +5,7 @@
 {% block content %}
     <h2 align="center">Туры со скидкой</h2>
     {% for tour in tours %}
-        {% if tour.hotel %}
+        {% if tour.hotel is None %} <!-- Если нет отеля -->
             <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
                 <font color="red">
                     <i style="font-size:20px;">Акция! </i>
@@ -13,9 +13,12 @@
                 </font>
                 <br>
             </a>
-        {% else %}
+        {% else %} <!-- Иначе есть отель -->
             <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-                {{ tour.city }}, {{ tour.name }}, {{ tour.hotel }}, {{ tour.date }}, {{ tour.type }} тур.
+                <font color="red">
+                    <i style="font-size:20px;">Акция! </i>
+                    {{ tour.city.name }}, {{ tour.name }}, {{ tour.hotel.name }}, {{ tour.date }}, {{ tour.type }} тур.
+                </font>
                 <br>
             </a>
         {% endif %}

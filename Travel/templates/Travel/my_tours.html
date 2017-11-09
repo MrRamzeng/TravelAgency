@@ -4,7 +4,7 @@
 {% endblock title %}
 {% block content %}
     <h2 align="center">Ваши туры</h2>
-    {% if booking %}
+    {% if booking %} <!-- если есть бронирование -->
         <table border="2" class="content" style="border-collapse: collapse; width: 100%;">
             <tr>
                 <th>
@@ -14,30 +14,32 @@
                     Статус заказа
                 </th>
             </tr>
-            {% if request.user.tourist %}
-                {% for tour in booking %}
-                    <tr>
+            {% for tour_info in booking %}
+                <tr>
+                    <td>
+                        <a href="/Travel/tour/{{ tour_info.tour.id }}" title="Нажмите, чтобы перейти к туру">
+                            {{tour_info.tour.name}}, 
+                            {{tour_info.tour.city.name}}, 
+                            {{tour_info.tour.date}}, 
+                            дней: {{tour_info.tour.days}}, 
+                        </a>
+                    </td>
+                    {% if not tour_info.approved %}
                         <td>
-                            {{tour.tour.name}}, {{tour.tour.date}}, дней: {{tour.tour.days}}, {{tour.tour.tour_price}}руб.
+                            Ожидается подтверждение
                         </td>
-                        {% if not tour.approved %}
-                            <td>
-                                Ожидается подтверждение
-                            </td>
-                        {% else %}
-                            <td align="center">
-                                <button>Оплатить</button>
-                                <form action="/Travel/delete_booking_tour/{{tour.tour.id}}">
-                                    <br>
-                                    <input type="submit" value="Отменить">
-                                </form>
-                            </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            {% endif %}
+                    {% else %}
+                        <td align="center">
+                            <button>Оплатить</button>
+                            <form action="/Travel/delete_booking_tour/{{tour_info.tour.id}}">
+                                <br>
+                                <input type="submit" value="Отменить">                                </form>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
         </table>
-    {% else %}
+    {% else %} <!-- Иначе -->
         <h3>Пока, вы не забронировали ни один тур.</h3>
     {% endif %}
 {% endblock content %}

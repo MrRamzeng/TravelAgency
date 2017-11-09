@@ -89,25 +89,25 @@
                 {% endif %}
             </td>
             <td align="center">
-                {% if not request.user.is_authenticated %}
+                {% if not request.user.is_authenticated %} <!-- если нет пользователя -->
                     <form action="{% url 'login' %}">
                         <p align="left">Войдите что бы забронировать тур</p>
                         <input type="submit" value = "Войти">
                     </form>
-                {% else %}
-                    {% if booking %}
-                        {% if not booking.approved %}
+                {% else %} <!-- Иначе пользователь существует -->
+                    {% if booking %} <!-- Если тур забронирован -->
+                        {% if not booking.approved %} <!-- Если бронирование не подтверждено -->
                             <p>Ожидается подтверждение</p>
-                        {% else %}
-                        <div>
-                            <button>Оплатить</button>
-                        </div>
-                        <form action="/Travel/delete_booking_tour/{{tour.id}}">
-                            <br>
-                            <input type="submit" value="Отменить">
-                        </form>
-                        {% endif %}
-                    {% else %}
+                        {% else %} <!-- Иначе бронирование подтверждено -->
+                            <div>
+                                <button>Оплатить</button>
+                            </div>
+                            <form action="/Travel/delete_booking_tour/{{tour.id}}">
+                                <br>
+                                <input type="submit" value="Отменить">
+                            </form>
+                        {% endif %} 
+                    {% else %} <!-- Иначе  забронировать тур -->
                         <form action="/Travel/add_booking_tour/{{tour.id}}">
                             <input type="submit" value="Забронировать">
                         </form>		
@@ -116,11 +116,11 @@
             </td>
         </tr> 
     </table>
-    {% if tour.discount >= 20 %}
+    {% if tour.discount >= 20 %} <!-- Если скидка больше либо равна 20% -->
         <p style="font-size: 12px; color: red;">
             * Горящий тур
         </p>
-    {% elif tour.discount > 0 %}
+    {% elif tour.discount > 0 %}  <!-- Или есть скидка -->
         <p style="font-size: 12px; color: red;">
             * Сезонная скидка
         </p>

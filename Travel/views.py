@@ -32,9 +32,9 @@ def region_cities(request, region_id):
 
 def tour(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
-    # Цена без скидки
+    # Цена с отелем без скидки 
     price_without_discount = (tour.days * tour.hotel_price + tour.tour_price)
-    # Цена со скидкой
+    # Цена с отелем и скидкой
     price_with_discount = (tour.days * tour.hotel_price + tour.tour_price) * (100-tour.discount) / 100
     # Цена со скидкой без отеля
     price_with_discount_without_hotel = tour.tour_price * (100-tour.discount) / 100
@@ -90,7 +90,8 @@ def add_booking_tour(request, tour_id):
     last_name = request.user.last_name
     first_name = request.user.first_name
     patronymic = request.user.tourist.patronymic
-    Tour_booking.objects.create(tour=tour, tourist=tourist, last_name=last_name, first_name=first_name, patronymic=patronymic)
+    mobile_phone = request.user.tourist.mobile_phone
+    Tour_booking.objects.create(tour=tour, tourist=tourist, mobile_phone=mobile_phone, last_name=last_name, first_name=first_name, patronymic=patronymic)
     return redirect('my_tours')
 
 def delete_booking_tour(request, tour_id):
