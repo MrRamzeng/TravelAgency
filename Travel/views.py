@@ -20,10 +20,10 @@ def tours(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
     # Цена за тур и проживание со скидкой 
     discount_price=(tour.days*tour.hotel_price+tour.tour_price)*(100-tour.discount)/100
-    # Цена за тур и проживание без скидки 
-    price_without_discount=tour.days*tour.hotel_price+tour.tour_price
     # Цена за тур со скидкой без проживания
     discount_price_without_hotel=tour.tour_price*(100-tour.discount)/100
+    # Цена за тур и проживание без скидки 
+    price_without_discount=tour.days*tour.hotel_price+tour.tour_price
     booking=None
     if not request.user.is_anonymous:
         tourist_id=request.user.tourist.id
