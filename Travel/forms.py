@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from . models import Tourist
 
-class SignUpForm(UserCreationForm):
+class Signup_form(UserCreationForm):
     last_name = forms.CharField(
         max_length=30, 
         help_text="Обязательно поле.", 
@@ -32,7 +32,7 @@ class SignUpForm(UserCreationForm):
                 'password2'
         )
 
-class UpdateProfile(forms.ModelForm):
+class Change_form(forms.ModelForm):
     first_name = forms.CharField(label=_(u'Имя'), required=False, max_length=50)
     last_name = forms.CharField(label=_(u'Фамилия'), required=False, max_length=50)
     patronymic = forms.CharField(label=_(u'Отчество'), required=False, max_length=50)

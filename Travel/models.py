@@ -71,9 +71,9 @@ class Tour(models.Model):
     tour_description = models.TextField('Описание тура')
     city = models.ForeignKey(City, verbose_name="Город", null=True, on_delete=models.SET_NULL)
     date = models.DateField('Дата тура')
-    days = models.PositiveIntegerField('Дней')
+    days = models.PositiveIntegerField('Дней', default=0)
     hotel = models.ForeignKey(Hotel, verbose_name="Отель", null=True, blank=True)
-    hotel_price = models.PositiveIntegerField('Цена за номер', null=True, blank=True)
+    hotel_price = models.PositiveIntegerField('Цена за номер', null=True, blank=True, default=0)
     tour_price = models.PositiveIntegerField('Цена')
     discount = models.PositiveIntegerField('Скидка', default=0, validators=[MaxValueValidator(100)])
     def __unicode__(self):
@@ -158,7 +158,7 @@ class Tour(models.Model):
         verbose_name = 'тур'
 
 class Manager(models.Model):
-    username = models.OneToOneField(User, verbose_name="Пользователь", null=True, on_delete=models.SET_NULL)
+    username = models.OneToOneField(User, verbose_name="Пользователь")
     patronymic = models.CharField('Отчество', blank=True, max_length=50)
     date_of_birth = models.DateField('Дата рождения')
     address = models.CharField('Адрес', max_length=200)
@@ -177,7 +177,7 @@ class Manager(models.Model):
         verbose_name='менеджер'
 
 class Tourist(models.Model):
-    username = models.OneToOneField(User, verbose_name="Пользователь", null=True, on_delete=models.SET_NULL)
+    username = models.OneToOneField(User, verbose_name="Пользователь")
     patronymic = models.CharField('Отчество', blank=True, max_length=50)
     mobile_phone = models.CharField('Номер телефона', max_length=50)
     def __unicode__(self):
@@ -243,7 +243,7 @@ class Tour_booking(models.Model):
     first_name = models.CharField('Имя', max_length=50, blank=True)
     patronymic = models.CharField('Отчество', max_length=50, blank=True)
     mobile_phone = models.CharField('Номер телефона', max_length=50)
-    manager = models.ForeignKey(Manager, verbose_name="Менеджер")
+    manager = models.ForeignKey(Manager, verbose_name="Менеджер", null=True)
     approved = models.BooleanField(default=False, verbose_name='Подтвержение')
     def __unicode__(self):
         if self.tourist:

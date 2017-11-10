@@ -1,43 +1,29 @@
 # -*- coding: utf-8 -*- #
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from Travel.forms import SignUpForm, UpdateProfile
+from Travel.forms import Signup_form, Change_form
 from . models import *
 
-def index(request):
-    return render(request, "Travel/index.html", {"Travel":True})
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('my_profile')
-    else:
-        form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+def home(request):
+    return render(request, "Travel/home.html", {"Travel":True})
 
 def regions(request):
-    region=Region.objects.all()
-    return render(request, "Travel/regions.html", {'region': region, 'regions': True})
+    regions=Region.objects.all()
+    return render(request, "Travel/regions.html", {'regions': regions})
 
-def region_cities(request, region_id):
+def cities(request, region_id):
     region=Region.objects.get(id=region_id)
     cities=region.city_set.all()
-    return render(request, "Travel/region_cities.html", {"cities": cities, "regions":True})
+    return render(request, "Travel/cities.html", {"cities": cities})
 
-def tour(request, tour_id):
+def tours(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
-    # Цена с отелем без скидки 
-    price_without_discount = (tour.days * tour.hotel_price + tour.tour_price)
-    # Цена с отелем и скидкой
-    price_with_discount = (tour.days * tour.hotel_price + tour.tour_price) * (100-tour.discount) / 100
-    # Цена со скидкой без отеля
-    price_with_discount_without_hotel = tour.tour_price * (100-tour.discount) / 100
+    # Цена за тур и гостиницу по скидке 
+    discount_price=(tour.days*tour.hotel_price+tour.tour_price)*(100-tour.discount)/100
+    # Цена за тур и гостиницу без скидки 
+    price_without_discount=tour.days*tour.hotel_price+tour.tour_price
+    # Цена за тур без гостиницы по скидкой
+    discount_price_without_hotel=tour.tour_price*(100-tour.discount)/100
     booking=None
     if not request.user.is_anonymous:
         tourist_id=request.user.tourist.id
@@ -47,18 +33,31 @@ def tour(request, tour_id):
             pass
     return render(request, 
         'Travel/tour.html', 
-        {'tour': tour, 
+        {'tour': tour,
+            'discount_price': discount_price,
             'price_without_discount': price_without_discount, 
-            'price_with_discount': price_with_discount,
-            'price_with_discount_without_hotel': price_with_discount_without_hotel,
-            'booking': booking, 
-            "regions":True
+            'discount_price_without_hotel': discount_price_without_hotel,
+            'booking': booking,
         }
     )
 
 def discount_tours(request):
     tours = Tour.objects.all().exclude(discount = 0)
-    return render(request, 'Travel/discount_tours.html', {'tours':tours, "discount":True})
+    return render(request, 'Travel/discount_tours.html', {'tours':tours})
+
+def signup(request):
+    if request.method == 'POST':
+        form = Signup_form(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('my_profile')
+    else:
+        form = Signup_form()
+    return render(request, 'registration/signup.html', {'form': form})
 
 def my_profile(request):
     tourist=request.user.tourist
@@ -66,8 +65,8 @@ def my_profile(request):
 
 def change_my_profile(request):
     if request.method == 'POST':
-        change_profile = UpdateProfile(request.POST, instance=request.user)
-        change_data = UpdateProfile(request.POST, instance=request.user.tourist)
+        change_profile = Change_form(request.POST, instance=request.user)
+        change_data = Change_form(request.POST, instance=request.user.tourist)
         if change_profile.is_valid() and change_data.is_valid():
             change_profile.save()
             change_data.save()
@@ -75,8 +74,8 @@ def change_my_profile(request):
             request.user.tourist.mobile_phone
             return redirect('my_profile')
     else:
-        change_profile = UpdateProfile()
-        change_data = UpdateProfile()
+        change_profile = Change_form()
+        change_data = Change_form()
     return render(request, 'registration/change_my_profile.html', {'my_profile':True})
 
 def my_tours(request):

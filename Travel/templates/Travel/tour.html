@@ -4,7 +4,7 @@
 {{ index.title }} 
 {% endblock %} 
 {% block content %}
-    <table border="2" class="content" style="width: 100%; border-collapse: collapse;">
+    <table border="2" class="content" style="border-collapse: collapse;">
         <tr>
             <td colspan="6" align="center" style="padding:0%">
                 <h3>{{ tour.name }}</h3>
@@ -46,7 +46,7 @@
         <tr>
             <td>
                 {% if tour.hotel is None %}
-                    -
+                    На усмотрение
                 {% else %}
                     {{tour.hotel}}
                 {% endif %}
@@ -65,7 +65,7 @@
                             {{tour.tour_price}}руб  <!--Цена без скидки-->
                         </strike>. 
                         <font color="red">
-                            <b>{{price_with_discount_without_hotel}}руб.</b> <!--Цена со скидкой-->
+                            <b>{{discount_price_without_hotel}}руб.</b> <!--Цена со скидкой-->
                         </font>
                     {% else %}
                         {{tour.tour_price}}руб. <!--Иначе цена без скидки-->
@@ -79,7 +79,7 @@
                             <!--Цена без скидки-->
                         </strike>. 
                         <font color="red">
-                            <b>{{price_with_discount}}руб.</b>
+                            <b>{{discount_price}}руб.</b>
                             <!--Цена со скидкой-->
                         </font>
                     {% else %}

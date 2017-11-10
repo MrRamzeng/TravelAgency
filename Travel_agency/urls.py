@@ -20,11 +20,11 @@ from django.views.generic.base import RedirectView
 from Travel import views as Travel_views
 
 urlpatterns = [
-    url(r"^Travel/admin/", admin.site.urls),
     url(r"^Travel/", include("Travel.urls")),
+    url(r'^Travel/signup/$', Travel_views.signup, name='signup'),
     url(r'^Travel/login/$', auth_views.login, name="login"),
     url(r'^Travel/logout/$', auth_views.logout, name='logout'),
-    url(r'^Travel/signup/$', Travel_views.signup, name='signup'),
+    url(r"^Travel/admin/", admin.site.urls),
     url(r'^Travel/change_my_profile/$', Travel_views.change_my_profile, name='change_my_profile'),
     url(r'^$', RedirectView.as_view(url = '/Travel/')),
 ]    

@@ -31,7 +31,7 @@
 						<a href="/Travel">Главная</a>
 					</li>
 				{% endif %}
-				{% if regions %}
+				{% if regions or cities or tour %}
 					<li class="active">
 						<a href="/Travel/regions">Регионы</a>
 					</li>
@@ -91,7 +91,7 @@
 						{% endif %}
 					{% endif %}
 				{% else %}
-					{% if not Travel and not regions and not my_tours and not my_profile %}
+					{% if not Travel and not regions and not cities and not tour and not my_tours and not my_profile %}
 						<li class="active" style="float: right;">
 							<a href="{% url 'login' %}">
 								Войти в личный кабинет
