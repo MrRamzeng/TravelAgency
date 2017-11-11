@@ -18,12 +18,12 @@ def cities(request, region_id):
 
 def tours(request, tour_id):
     tour = Tour.objects.get(id = tour_id)
-    # Цена за тур и проживание со скидкой 
-    discount_price=(tour.days*tour.hotel_price+tour.tour_price)*(100-tour.discount)/100
-    # Цена за тур со скидкой без проживания
+    # Цена за тур и гостиницу по скидке 
+    discount_price=(tour.tour_days*tour.hotel_price+tour.tour_price)*(100-tour.discount)/100
+    # Цена за тур и гостиницу без скидки 
+    price_without_discount=tour.tour_days*tour.hotel_price+tour.tour_price
+    # Цена за тур без гостиницы cо скидкой
     discount_price_without_hotel=tour.tour_price*(100-tour.discount)/100
-    # Цена за тур и проживание без скидки 
-    price_without_discount=tour.days*tour.hotel_price+tour.tour_price
     booking=None
     if not request.user.is_anonymous:
         tourist_id=request.user.tourist.id
@@ -63,7 +63,7 @@ def my_profile(request):
     tourist=request.user.tourist
     return render(request, 'Travel/my_profile.html', {'my_profile':True})
 
-def change_my_profile(request):
+def change_profile(request):
     if request.method == 'POST':
         change_profile = Change_form(request.POST, instance=request.user)
         change_data = Change_form(request.POST, instance=request.user.tourist)
@@ -71,12 +71,12 @@ def change_my_profile(request):
             change_profile.save()
             change_data.save()
             request.user.tourist.patronymic
-            request.user.tourist.mobile_phone
+            request.user.tourist.phone_number
             return redirect('my_profile')
     else:
         change_profile = Change_form()
         change_data = Change_form()
-    return render(request, 'registration/change_my_profile.html', {'my_profile':True})
+    return render(request, 'registration/change_profile.html', {'my_profile':True})
 
 def my_tours(request):
     tourist_id=request.user.tourist.id
@@ -89,8 +89,8 @@ def add_booking_tour(request, tour_id):
     last_name = request.user.last_name
     first_name = request.user.first_name
     patronymic = request.user.tourist.patronymic
-    mobile_phone = request.user.tourist.mobile_phone
-    Tour_booking.objects.create(tour=tour, tourist=tourist, mobile_phone=mobile_phone, last_name=last_name, first_name=first_name, patronymic=patronymic)
+    phone_number = request.user.tourist.phone_number
+    Tour_booking.objects.create(tour=tour, tourist=tourist, phone_number=phone_number, last_name=last_name, first_name=first_name, patronymic=patronymic)
     return redirect('my_tours')
 
 def delete_booking_tour(request, tour_id):

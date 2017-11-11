@@ -86,14 +86,3 @@ td{
 th{
 	padding: 5px;
 }
-
-#footer {
-    position: fixed; /* Фиксированное положение */
-    right: 0; bottom: 0; /* Левый нижний угол */
-    padding: 10px; /* Поля вокруг текста */
-    background: #e5e5e5; /* Цвет фона */
-    color: #555; /* Цвет текста */
-	width: 100%; /* Ширина слоя */
-	text-align: right;
-	font-size: 18px;
-}

@@ -9,7 +9,7 @@
             <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
                 <font color="red">
                     <i style="font-size:20px;">Акция! </i>
-                    {{ tour.city }}, {{ tour.name }}, {{ tour.date }}, {{ tour.type }} тур.
+                    {{ tour.name }}, г. {{ tour.city.name }}, {{ tour.tour_date }}, дней: {{tour.tour_days}} {{ tour.tour_type }} тур.
                 </font>
                 <br>
             </a>
@@ -17,7 +17,7 @@
             <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
                 <font color="red">
                     <i style="font-size:20px;">Акция! </i>
-                    {{ tour.city.name }}, {{ tour.name }}, {{ tour.hotel.name }}, {{ tour.date }}, {{ tour.type }} тур.
+                    {{ tour.name }}, г. {{ tour.city.name }}, {{ tour.hotel.name }}, звезд: {{tour.hotel.comfort}}, {{ tour.tour_date }}, дней: {{tour.tour_days}} {{ tour.tour_type }} тур.
                 </font>
                 <br>
             </a>
