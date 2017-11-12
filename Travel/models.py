@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
-from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Создание моделей.
 class Country(models.Model):
@@ -16,7 +16,7 @@ class Country(models.Model):
 		verbose_name="страна"
 
 class Region(models.Model):
-	country = models.ForeignKey(Country, verbose_name="Страна", null=True, on_delete=models.SET_NULL)
+	country = models.ForeignKey(Country, verbose_name="Страна", null=True)
 	name = models.CharField('Регион', max_length=50)
 	def __unicode__(self):
 		return unicode(self.country) + ", " + unicode(self.name)
@@ -25,7 +25,7 @@ class Region(models.Model):
 		verbose_name="регион"
 
 class City(models.Model):
-	region = models.ForeignKey(Region, verbose_name="Регион", null=True, blank=True, on_delete=models.SET_NULL)
+	region = models.ForeignKey(Region, verbose_name="Регион", null=True, blank=True)
 	name = models.CharField('Город', max_length=50)
 	def __unicode__(self):
 		return unicode(self.region) + ", " + unicode(self.name)
@@ -35,11 +35,11 @@ class City(models.Model):
 
 class Hotel(models.Model):
 	name = models.CharField('Название', max_length=50)
-	city = models.ForeignKey(City, verbose_name="Город", null=True, on_delete=models.SET_NULL)
+	city = models.ForeignKey(City, verbose_name="Город", null=True)
 	address = models.CharField('Адрес', max_length=200)
-	comfort = models.PositiveIntegerField('Комфорт', default=1, validators=[MaxValueValidator(5)])
+	comfort = models.PositiveIntegerField('Комфорт', default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])
 	def __unicode__(self):
-		return (unicode(self.city)
+		return (unicode(self.city.name)
 			+ ", " 
 			+ unicode(self.address) 
 			+ ", " 
@@ -61,11 +61,11 @@ class Tour_type(models.Model):
 
 class Tour(models.Model):
 	name = models.CharField('Название тура', max_length=50)
-	tour_type = models.ForeignKey(Tour_type, null=True, verbose_name='Тип тура')
-	tour_description = models.TextField('Описание тура')
+	type = models.ForeignKey(Tour_type, null=True, verbose_name='Тип тура')
+	description = models.TextField('Описание тура')
 	city = models.ForeignKey(City, null=True, verbose_name='Город')
-	tour_date = models.DateField('Дата тура')
-	tour_days = models.PositiveIntegerField('Дней', default=1)
+	date = models.DateField('Дата тура')
+	days = models.PositiveIntegerField('Дней', default=1, validators=[MinValueValidator(1)])
 	hotel = models.ForeignKey(Hotel, null=True, blank=True, verbose_name='Гостиница')
 	hotel_price = models.PositiveIntegerField('Цена за номер', default=0)
 	tour_price = models.PositiveIntegerField('Цена тура', default=0)
@@ -74,80 +74,58 @@ class Tour(models.Model):
 		if self.discount>0:
 			if self.hotel is None:
 				price=self.tour_price*(100-self.discount)/100
-			else:
-				price=(self.tour_price+self.hotel_price*self.tour_days)*(100-self.discount)/100
-		else:
-			if self.hotel is None:
-				price=self.tour_price
-			else:
-				price=self.tour_price+self.hotel_price*self.tour_days
-		if self.discount==0:
-			if self.hotel is None:
-				return (
+    				return (
 					unicode(self.name)
-					+ ', тип тура: '
-					+  unicode(self.tour_type)
 					+ ', г. '
 					+ unicode(self.city.name)
 					+ ', дата тура: '
-					+ unicode(self.tour_date.strftime('%d.%m.%Y'))
-					+ ', дней: '
-					+ unicode(self.tour_days)
-					+ ', цена: '
+					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', скидка: '
+					+ unicode(self.discount)
+					+ '%, '
 					+ unicode(int(price))
 					+ 'руб.'
 				)
 			else:
+				price=(self.tour_price+self.hotel_price*self.days)*(100-self.discount)/100
 				return (
 					unicode(self.name)
-					+ ', тип тура: '
-					+  unicode(self.tour_type)
 					+ ', г. '
 					+ unicode(self.city.name)
 					+ ', дата тура: '
-					+ unicode(self.tour_date.strftime('%d.%m.%Y'))
-					+ ', гостиница: '
+					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', '
 					+ unicode(self.hotel.name)
-					+ ', дней: '
-					+ unicode(self.tour_days)
-					+ ', цена: '
+					+ ', скидка: '
+					+ unicode(self.discount)
+					+ '%, '
 					+ unicode(int(price))
 					+ 'руб.'
 				)
 		else:
 			if self.hotel is None:
+				price=self.tour_price
 				return (
 					unicode(self.name)
-					+ ', тип тура: '
-					+  unicode(self.tour_type)
 					+ ', г. '
 					+ unicode(self.city.name)
 					+ ', дата тура: '
-					+ unicode(self.tour_date.strftime('%d.%m.%Y'))
-					+ ', дней: '
-					+ unicode(self.tour_days)
-					+ ', скидка: '
-					+ unicode(self.discount)
-					+ '%, цена: '
+					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', '
 					+ unicode(int(price))
 					+ 'руб.'
 				)
 			else:
+				price=self.tour_price+self.hotel_price*self.days
 				return (
 					unicode(self.name)
-					+ ', тип тура: '
-					+  unicode(self.tour_type)
 					+ ', г. '
 					+ unicode(self.city.name)
 					+ ', дата тура: '
-					+ unicode(self.tour_date.strftime('%d.%m.%Y'))
-					+ ', дней: '
-					+ unicode(self.tour_days)
-					+ ', гостиница: '
+					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', '
 					+ unicode(self.hotel.name)
-					+ ', скидка: '
-					+ unicode(self.discount)
-					+ '%, цена: '
+					+ ', '
 					+ unicode(int(price))
 					+ 'руб.'
 				)
@@ -160,7 +138,7 @@ class Manager(models.Model):
 	patronymic = models.CharField('Отчество', blank=True, max_length=50)
 	birthday = models.DateField('Дата рождения')
 	address = models.CharField('Адрес', max_length=200)
-	phone_number = models.CharField('Номер телефона', max_length=50)
+	phone = models.CharField('Номер телефона', max_length=50)
 	def __unicode__(self):
 		return (unicode(self.username) 
 			+ " "
@@ -168,7 +146,7 @@ class Manager(models.Model):
 			+ ", дата рождения: " 
 			+ unicode(self.birthday.strftime("%d.%m.%Y")) 
 			+ " "
-			+ unicode(self.phone_number)
+			+ unicode(self.phone)
 		)
 	class Meta:
 		verbose_name_plural="Менеджеры"
@@ -177,17 +155,20 @@ class Manager(models.Model):
 class Tourist(models.Model):
 	username = models.OneToOneField(User, verbose_name="Пользователь")
 	patronymic = models.CharField('Отчество', blank=True, max_length=50)
-	phone_number = models.CharField('Номер телефона', max_length=50)
+	phone = models.CharField('Номер телефона', max_length=50)
 	def __unicode__(self):
-		return (unicode(self.username) 
+		return (
+			unicode(self.username) 
 			+ " "
 			+ unicode(self.patronymic)
+			+ ' '
+			+ unicode(self.phone)
 		)
 	class Meta:
 		verbose_name_plural="Туристы"
 		verbose_name='турист'
 
-class Allocution_type(models.Model):
+class Recource_type(models.Model):
 	name = models.CharField('тип обращения', max_length=50)
 	def __unicode__(self):
 		return unicode(self.name)
@@ -195,40 +176,41 @@ class Allocution_type(models.Model):
 		verbose_name_plural = 'Типы обращений'
 		verbose_name = 'тип обращения'
 
-class Allocution(models.Model):
-	username = models.OneToOneField(User, null=True, on_delete=models.SET_NULL, verbose_name='Пользователь')
+class Recource(models.Model):
 	last_name = models.CharField('Фамилия', max_length=50)
 	first_name = models.CharField('Имя', max_length=50)
 	patronymic = models.CharField('Отчество', max_length=50, blank=True)
-	allocution_type = models.ForeignKey(Allocution_type, null=True, on_delete=models.SET_NULL, verbose_name='Тип обращения')
-	text_allocution = models.TextField('Текст обращения')
+	tour = models.ForeignKey(Tour, null=True, blank=True, verbose_name='Выбранный тур')
+	type = models.ForeignKey(Recource_type, null=True, verbose_name='Тип обращения')
+	text = models.TextField('Текст обращения')
 	date_and_time = models.DateTimeField('Дата и время обращения')
 	comments = models.TextField('Комментарии')	
-	tour = models.ForeignKey(Tour, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Выбранный тур')
 	def __unicode__(self):
-		if self.patronymic is "": # Если нет фамилии
-			return (unicode(self.last_name)
-				+ ' ' 
-				+ unicode(self.first_name) 
-				+ ', тип обращения: ' 
-				+ unicode(self.allocution_type) 
-				+ ', дата время обращения: ' 
-				+ unicode(self.date_and_time.strftime("%d.%m.%Y, %H:%M"))
-				+ ', тур: '
-				+ unicode(self.tour.name)
-			)
-		else: # Иначе
-			return (unicode(self.last_name)
+		if self.tour:
+			return (
+				unicode(self.last_name)
 				+ ' '
 				+ unicode(self.first_name) 
 				+ ' ' 
 				+ unicode(self.patronymic) 
 				+ ', тип обращения: ' 
-				+ unicode(self.allocution_type) 
+				+ unicode(self.type) 
 				+ ', дата и время обращения: ' 
 				+ unicode(self.date_and_time.strftime("%d.%m.%Y, %H:%M"))
 				+ ', тур: '
-				+ unicode(self.tour.name)
+				+ unicode(self.tour)
+			)
+		else:
+			return (
+				unicode(self.last_name)
+				+ ' '
+				+ unicode(self.first_name) 
+				+ ' ' 
+				+ unicode(self.patronymic) 
+				+ ', тип обращения: ' 
+				+ unicode(self.type) 
+				+ ', дата и время обращения: ' 
+				+ unicode(self.date_and_time.strftime("%d.%m.%Y, %H:%M"))
 			)
 	class Meta:
 		verbose_name_plural='Обращения'
@@ -237,55 +219,38 @@ class Allocution(models.Model):
 class Tour_booking(models.Model):
 	tour = models.ForeignKey(Tour, verbose_name="Выбранный тур")
 	tourist = models.ForeignKey(Tourist, verbose_name="Турист", blank=True)
-	last_name = models.CharField('Фамилия', max_length=50, blank=True)
-	first_name = models.CharField('Имя', max_length=50, blank=True)
+	last_name = models.CharField('Фамилия', max_length=50)
+	first_name = models.CharField('Имя', max_length=50)
 	patronymic = models.CharField('Отчество', max_length=50, blank=True)
-	phone_number = models.CharField('Номер телефона', max_length=50)
+	phone = models.CharField('Номер телефона', max_length=50)
 	manager = models.ForeignKey(Manager, verbose_name="Менеджер", null=True)
 	approved = models.BooleanField(default=False, verbose_name='Подтвержение')
 	def __unicode__(self):
-		if self.tourist:
-			if self.approved is True: # Если подтверждено
-				return (unicode(self.tour)
-					+ ", " 
-					+ unicode(self.tourist) 
-					+ " "
-					+ unicode(self.phone_number)
-					+ ", подтверждено"
-				)
-			else: # Иначе
-				return (unicode(self.tour)
-					+ ", " 
-					+ unicode(self.tourist) 
-					+ " "
-					+ unicode(self.phone_number)
-					+ ", не подтверждено"
-				)
-		else:
-			if self.approved is True: # Если подтверждено
-				return (unicode(self.tour)
-					+ ", " 
-					+ unicode(self.last_name) 
-					+ " "
-					+ unicode(self.first_name)
-					+ " "
-					+ unicode(self.patronymic)
-					+ ", "
-					+ unicode(self.phone_number)
-					+ ", подтверждено"
-				)
-			else: # Иначе
-				return (unicode(self.tour)
-					+ ", " 
-					+ unicode(self.last_name) 
-					+ " "
-					+ unicode(self.first_name)
-					+ " "
-					+ unicode(self.patronymic)
-					+ ", "
-					+ unicode(self.phone_number)
-					+ ", не подтверждено"
-				)
+		if self.approved is True: # Если подтверждено
+			return (unicode(self.last_name) 
+				+ " "
+				+ unicode(self.first_name)
+				+ " "
+				+ unicode(self.patronymic)
+				+ ", "
+				+ unicode(self.phone)
+				+ ", " 
+				+ unicode(self.tour.name)
+				+ ", подтверждено"
+			)
+		else: # Иначе
+			return (
+				unicode(self.last_name) 
+				+ " "
+				+ unicode(self.first_name)
+				+ " "
+				+ unicode(self.patronymic)
+				+ ", " 
+				+ unicode(self.phone)
+				+ ", "
+				+ unicode(self.tour.name)
+				+ ", не подтверждено"
+			)
 	class Meta:
 		verbose_name_plural="Бронирования туров"
 		verbose_name = "бронирование тура"
@@ -299,7 +264,7 @@ def create_tourist(sender, instance, created, **kwargs):
 def save_tourist(sender, instance, **kwargs):
 	instance.tourist.save()
 
-def user_unicode_patch(self):
+def user_full_name(self):
 	return '%s, %s %s' % (self.username, self.last_name, self.first_name)
 
-User.__unicode__ = user_unicode_patch
+User.__unicode__ = user_full_name

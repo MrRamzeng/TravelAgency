@@ -19,34 +19,34 @@
 			<ul>
 				{% block branding %}
 					<li>
-						<a href="/Travel">ОстровОК тур</a>
+						<a href="{% url 'home' %}">ОстровОк тур</a>
 					</li>
-				{% endblock %}
+				{% endblock branding %}
 				{% if Travel %}
 					<li class="active">
-						<a href="/Travel">Главная</a>
+						<a href="{% url 'home' %}">Главная</a>
 					</li>
 				{% else %}
 					<li>
-						<a href="/Travel">Главная</a>
+						<a href="{% url 'home' %}">Главная</a>
 					</li>
 				{% endif %}
 				{% if regions or cities or tour %}
 					<li class="active">
-						<a href="/Travel/regions">Регионы</a>
+						<a href="{% url 'regions' %}">Регионы</a>
 					</li>
 				{% else %}
 					<li>
-						<a href="/Travel/regions">Регионы</a>
+						<a href="{% url 'regions' %}">Регионы</a>
 					</li>
 				{% endif %}
-				{% if tours %}
+				{% if discount_tours %}
 					<li class="active">
-						<a href="/Travel/discount_tours">Туры со скидкой</a>
+						<a href="{% url 'discount_tours' %}">Туры со скидкой</a>
 					</li>
 				{% else %}
 					<li>
-						<a href="/Travel/discount_tours">Туры со скидкой</a>
+						<a href="{% url 'discount_tours' %}">Туры со скидкой</a>
 					</li>
 				{% endif %}
 				<li>
@@ -91,7 +91,7 @@
 						{% endif %}
 					{% endif %}
 				{% else %}
-					{% if not Travel and not regions and not cities and not tour and not my_tours and not my_profile %}
+					{% if form %}
 						<li class="active" style="float: right;">
 							<a href="{% url 'login' %}">
 								Войти в личный кабинет

@@ -4,20 +4,20 @@
 {% endblock title %}
 {% block content %}
     <h2 align="center">Туры со скидкой</h2>
-    {% for tour in tours %}
+    {% for tour in discount_tours %}
         {% if tour.hotel is None %} <!-- Если нет отеля -->
-            <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-                <font color="red">
-                    <i style="font-size:20px;">Акция! </i>
-                    {{ tour.name }}, г. {{ tour.city.name }}, {{ tour.tour_date }}, дней: {{tour.tour_days}} {{ tour.tour_type }} тур.
-                </font>
-                <br>
-            </a>
+			<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+				<font color="red">
+					<i style="font-size:20px;">Акция! </i>
+					{{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}.
+				</font>
+				<br>
+			</a>
         {% else %} <!-- Иначе есть отель -->
             <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
                 <font color="red">
                     <i style="font-size:20px;">Акция! </i>
-                    {{ tour.name }}, г. {{ tour.city.name }}, {{ tour.hotel.name }}, звезд: {{tour.hotel.comfort}}, {{ tour.tour_date }}, дней: {{tour.tour_days}} {{ tour.tour_type }} тур.
+                    {{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}, {{ tour.hotel.name }}, звезд: {{tour.hotel.comfort}}. 
                 </font>
                 <br>
             </a>

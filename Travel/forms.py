@@ -36,8 +36,8 @@ class Change_form(forms.ModelForm):
     first_name = forms.CharField(label=_(u'Имя'), required=False, max_length=50)
     last_name = forms.CharField(label=_(u'Фамилия'), required=False, max_length=50)
     patronymic = forms.CharField(label=_(u'Отчество'), required=False, max_length=50)
-    phone_number = forms.CharField(label=_(u'Мобильный телефон'), required=False, max_length=50)
+    phone = forms.CharField(label=_(u'Мобильный телефон'), required=False, max_length=50)
     email = forms.EmailField(max_length=254, required=False)
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'patronymic', 'phone_number', 'email')
+        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email')

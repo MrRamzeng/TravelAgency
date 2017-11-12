@@ -20,8 +20,9 @@
                         <a href="/Travel/tour/{{ tour_info.tour.id }}" title="Нажмите, чтобы перейти к туру">
                             {{tour_info.tour.name}}, г. 
                             {{tour_info.tour.city.name}}, 
-                            {{tour_info.tour.tour_date}}, 
-                            дней: {{tour_info.tour.tour_days}},
+                            {{ tour_info.tour.type }} тур,
+                            {{tour_info.tour.date}}, 
+                            дней: {{tour_info.tour.days}},
                             гостиница: {{tour_info.tour.hotel.name}},
                             звезд: {{tour_info.tour.hotel.comfort}}.
                         </a>
@@ -35,7 +36,8 @@
                             <button>Оплатить</button>
                             <form action="/Travel/delete_booking_tour/{{tour_info.tour.id}}">
                                 <br>
-                                <input type="submit" value="Отменить">                                </form>
+                                <input type="submit" value="Отменить">
+                             </form>
                         </td>
                     {% endif %}
                 </tr>

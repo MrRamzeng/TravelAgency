@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Travel_agency.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Ostrovok',
+        'NAME': 'travel',
         'USER': 'admin',
         'PASSWORD': '156024',
     }
