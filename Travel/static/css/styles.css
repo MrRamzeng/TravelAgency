@@ -34,8 +34,6 @@
 
 .menu a{
 	text-decoration: none;
-	font-size: 16px;
-	color: #555;
 }
 
 .menu ul ul{
@@ -51,8 +49,6 @@
 
 .menu ul ul a{
 	text-decoration: none;
-	font-size: 16px;
-	color: #555;
 }
 
 .menu li:hover ul{
