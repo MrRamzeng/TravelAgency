@@ -45,8 +45,7 @@ class Hotel(models.Model):
 			+ ", " 
 			+  unicode(self.name) 
 			+ ", звезд: " 
-			+ unicode(self.comfort)
-		)
+			+ unicode(self.comfort))
 	class Meta:
 		verbose_name_plural="Гостиницы"
 		verbose_name="гостиница"
@@ -74,7 +73,7 @@ class Tour(models.Model):
 		if self.discount>0:
 			if self.hotel is None:
 				price=self.tour_price*(100-self.discount)/100
-    				return (
+    			return (
 					unicode(self.name)
 					+ ', г. '
 					+ unicode(self.city.name)
@@ -84,8 +83,7 @@ class Tour(models.Model):
 					+ unicode(self.discount)
 					+ '%, '
 					+ unicode(int(price))
-					+ 'руб.'
-				)
+					+ 'руб.')
 			else:
 				price=(self.tour_price+self.hotel_price*self.days)*(100-self.discount)/100
 				return (
@@ -100,11 +98,9 @@ class Tour(models.Model):
 					+ unicode(self.discount)
 					+ '%, '
 					+ unicode(int(price))
-					+ 'руб.'
-				)
+					+ 'руб.')
 		else:
 			if self.hotel is None:
-				price=self.tour_price
 				return (
 					unicode(self.name)
 					+ ', г. '
@@ -112,9 +108,8 @@ class Tour(models.Model):
 					+ ', дата тура: '
 					+ unicode(self.date.strftime('%d.%m.%Y'))
 					+ ', '
-					+ unicode(int(price))
-					+ 'руб.'
-				)
+					+ unicode(self.tour_price)
+					+ 'руб.')
 			else:
 				price=self.tour_price+self.hotel_price*self.days
 				return (
@@ -127,8 +122,7 @@ class Tour(models.Model):
 					+ unicode(self.hotel.name)
 					+ ', '
 					+ unicode(int(price))
-					+ 'руб.'
-				)
+					+ 'руб.')
 	class Meta:
 		verbose_name_plural='Туры'
 		verbose_name='тур'
@@ -146,8 +140,7 @@ class Manager(models.Model):
 			+ ", дата рождения: " 
 			+ unicode(self.birthday.strftime("%d.%m.%Y")) 
 			+ " "
-			+ unicode(self.phone)
-		)
+			+ unicode(self.phone))
 	class Meta:
 		verbose_name_plural="Менеджеры"
 		verbose_name='менеджер'
@@ -162,8 +155,7 @@ class Tourist(models.Model):
 			+ " "
 			+ unicode(self.patronymic)
 			+ ' '
-			+ unicode(self.phone)
-		)
+			+ unicode(self.phone))
 	class Meta:
 		verbose_name_plural="Туристы"
 		verbose_name='турист'
@@ -198,8 +190,7 @@ class Recource(models.Model):
 				+ ', дата и время обращения: ' 
 				+ unicode(self.date_and_time.strftime("%d.%m.%Y, %H:%M"))
 				+ ', тур: '
-				+ unicode(self.tour)
-			)
+				+ unicode(self.tour))
 		else:
 			return (
 				unicode(self.last_name)
@@ -210,8 +201,7 @@ class Recource(models.Model):
 				+ ', тип обращения: ' 
 				+ unicode(self.type) 
 				+ ', дата и время обращения: ' 
-				+ unicode(self.date_and_time.strftime("%d.%m.%Y, %H:%M"))
-			)
+				+ unicode(self.date_and_time.strftime("%d.%m.%Y, %H:%M")))
 	class Meta:
 		verbose_name_plural='Обращения'
 		verbose_name='обращение'
@@ -236,8 +226,7 @@ class Tour_booking(models.Model):
 				+ unicode(self.phone)
 				+ ", " 
 				+ unicode(self.tour.name)
-				+ ", подтверждено"
-			)
+				+ ", подтверждено")
 		else: # Иначе
 			return (
 				unicode(self.last_name) 
@@ -249,8 +238,7 @@ class Tour_booking(models.Model):
 				+ unicode(self.phone)
 				+ ", "
 				+ unicode(self.tour.name)
-				+ ", не подтверждено"
-			)
+				+ ", не подтверждено")
 	class Meta:
 		verbose_name_plural="Бронирования туров"
 		verbose_name = "бронирование тура"

@@ -4,7 +4,7 @@ from . models import Country, Region, City, Hotel, Tour_type, Tour,  Manager, To
 
 # Здесь происходит регистрация моделей 
 class Search_tour(admin.ModelAdmin): # Поиск туров
-    search_fields=['type__name','name','city__name', 'hotel__name', 'type__name']
+    search_fields=['name', 'city__name', 'hotel__name', 'type__name']
 
 class Search_manager(admin.ModelAdmin): # Поиск менеджеров
     search_fields=['username__last_name', 'username__first_name', 'patronymic', 'phone']
