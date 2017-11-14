@@ -73,7 +73,7 @@ class Tour(models.Model):
 		if self.discount>0:
 			if self.hotel is None:
 				price=self.tour_price*(100-self.discount)/100
-    			return (
+				return (
 					unicode(self.name)
 					+ ', г. '
 					+ unicode(self.city.name)
