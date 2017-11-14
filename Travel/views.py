@@ -5,7 +5,13 @@ from Travel.forms import Signup_form, Change_form
 from . models import *
 
 def home(request):
-    return render(request, "Travel/home.html", {"Travel":True})
+    if not request.user.is_anonymous:
+        if request.user.is_staff:
+            return redirect('/Travel/admin/')
+        else:
+            return redirect('my_tours')
+    else:
+        return render(request, "Travel/home.html", {"Travel":True})
 
 def regions(request):
     regions=Region.objects.all()
