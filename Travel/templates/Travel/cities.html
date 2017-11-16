@@ -7,38 +7,19 @@
 		Туры
 	</h2>
 	{% for city in cities %}
-		{% for tour in city.tour_set.all %}
-			{% if tour.hotel is None %}
-                {% if tour.discount > 0 %}
-					<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-						<font color="red">
-							<i style="font-size:20px;">Акция! </i>
-							{{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}.
-						</font>
-						<br>
-					</a>
-                {% else %}
-					<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-						{{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}.
-						<br>
-					</a>
-                {% endif %}
-			{% else %}
-                {% if tour.discount > 0 %}
-					<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-						<font color="red">
-							<i style="font-size:20px;">Акция! </i>
-							{{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}, {{ tour.hotel.name }}, звезд: {{tour.hotel.comfort}}. 
-						</font>
-						<br>
-					</a>
-                {% else %}
-					<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-						{{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}, {{ tour.hotel.name }}, звезд: {{tour.hotel.comfort}}.
-						<br>
-					</a>
-                {% endif %}
-			{% endif %}
+        {% for tour in city.tour_set.all %}
+            {% if tour.discount > 0 %}
+                <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+                    <font color="red">
+                        <i style="font-size:20px;">Акция! </i>
+                        {{ tour }}.
+                    </font>
+                    <br>
+                </a>
+            {% else %}
+                <a href="/Travel/tour/{{tour.id}}">{{ tour }}</a>
+                <br>
+            {% endif %}
 		{% endfor %}
 	{% endfor %}
 {% endblock %}

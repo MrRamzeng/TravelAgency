@@ -5,22 +5,12 @@
 {% block content %}
     <h2 align="center">Туры со скидкой</h2>
     {% for tour in discount_tours %}
-        {% if tour.hotel is None %} <!-- Если нет отеля -->
-			<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-				<font color="red">
-					<i style="font-size:20px;">Акция! </i>
-					{{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}.
-				</font>
-				<br>
-			</a>
-        {% else %} <!-- Иначе есть отель -->
-            <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-                <font color="red">
-                    <i style="font-size:20px;">Акция! </i>
-                    {{ tour.name }}, г. {{ city.name }}, {{ tour.type }} тур, {{ tour.date }}, дней: {{tour.days}}, {{ tour.hotel.name }}, звезд: {{tour.hotel.comfort}}. 
-                </font>
-                <br>
-            </a>
-        {% endif %}
+		<a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+			<font color="red">
+				<i style="font-size:20px;">Акция! </i>
+				{{ tour }}.
+			</font>
+			<br>
+		</a>
     {% endfor %}
 {% endblock content %}

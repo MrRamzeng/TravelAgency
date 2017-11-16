@@ -1,21 +1,15 @@
 # -*- coding: utf-8 -*- #
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from Travel.forms import Signup_form, Change_form
+from Travel.forms import SignupForm, ChangeForm
 from . models import *
 
 def home(request):
-    if not request.user.is_anonymous:
-        if request.user.is_staff:
-            return redirect('/Travel/admin/')
-        else:
-            return redirect('my_tours')
-    else:
-        return render(request, "Travel/home.html", {"Travel":True})
+    return render(request, 'Travel/home.html', {'Travel':True})
 
 def regions(request):
-    regions=Region.objects.all()
-    return render(request, "Travel/regions.html", {'regions': regions})
+    countries=Country.objects.all()
+    return render(request, "Travel/regions.html", {'countries':countries})
 
 def cities(request, region_id):
     region=Region.objects.get(id=region_id)
@@ -27,22 +21,22 @@ def tours(request, tour_id):
     # Цена за тур и гостиницу по скидке 
     discount_price=(tour.days*tour.hotel_price+tour.tour_price)*(100-tour.discount)/100
     # Цена за тур и гостиницу без скидки 
-    price_without_discount=tour.days*tour.hotel_price+tour.tour_price
+    price=tour.days*tour.hotel_price+tour.tour_price
     # Цена за тур без гостиницы cо скидкой
-    discount_price_without_hotel=tour.tour_price*(100-tour.discount)/100
+    discount_tour_price=tour.tour_price*(100-tour.discount)/100
     booking=None
     if not request.user.is_anonymous:
         tourist_id=request.user.tourist.id
         try:
-            booking=Tour_booking.objects.get(tour__id=tour_id, tourist__id=tourist_id)
-        except Tour_booking.DoesNotExist:
+            booking=TourBooking.objects.get(tour__id=tour_id, tourist__id=tourist_id)
+        except TourBooking.DoesNotExist:
             pass
     return render(request, 
         'Travel/tour.html', 
         {'tour': tour,
             'discount_price': discount_price,
-            'price_without_discount': price_without_discount, 
-            'discount_price_without_hotel': discount_price_without_hotel,
+            'price': price, 
+            'discount_tour_price': discount_tour_price,
             'booking': booking,
         }
     )
@@ -53,7 +47,7 @@ def discount_tours(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = Signup_form(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -62,7 +56,7 @@ def signup(request):
             login(request, user)
             return redirect('my_profile')
     else:
-        form = Signup_form()
+        form = SignupForm()
     return render(request, 'registration/signup.html', {'form': form})
 
 def my_profile(request):
@@ -71,8 +65,8 @@ def my_profile(request):
 
 def change_profile(request):
     if request.method == 'POST':
-        change_profile = Change_form(request.POST, instance=request.user)
-        change_data = Change_form(request.POST, instance=request.user.tourist)
+        change_profile = ChangeForm(request.POST, instance=request.user)
+        change_data = ChangeForm(request.POST, instance=request.user.tourist)
         if change_profile.is_valid() and change_data.is_valid():
             change_profile.save()
             change_data.save()
@@ -80,13 +74,13 @@ def change_profile(request):
             request.user.tourist.phone
             return redirect('my_profile')
     else:
-        change_profile = Change_form()
-        change_data = Change_form()
+        change_profile = ChangeForm()
+        change_data = ChangeForm()
     return render(request, 'registration/change_profile.html', {'my_profile':True})
 
 def my_tours(request):
     tourist_id=request.user.tourist.id
-    booking=Tour_booking.objects.all().filter(tourist__id=tourist_id)
+    booking=TourBooking.objects.all().filter(tourist__id=tourist_id)
     return render(request, 'Travel/my_tours.html', {'booking':booking, 'my_tours':True})
 
 def add_booking_tour(request, tour_id):
@@ -96,11 +90,11 @@ def add_booking_tour(request, tour_id):
     first_name = request.user.first_name
     patronymic = request.user.tourist.patronymic
     phone = request.user.tourist.phone
-    Tour_booking.objects.create(tour=tour, tourist=tourist, last_name=last_name, first_name=first_name, patronymic=patronymic, phone=phone)
+    TourBooking.objects.create(tour=tour, tourist=tourist, last_name=last_name, first_name=first_name, patronymic=patronymic, phone=phone)
     return redirect('my_tours')
 
 def delete_booking_tour(request, tour_id):
     tour=Tour.objects.get(id=tour_id)
     tourist=request.user.tourist
-    Tour_booking.objects.get(tour=tour, tourist=tourist).delete()
+    TourBooking.objects.get(tour=tour, tourist=tourist).delete()
     return redirect('my_tours')

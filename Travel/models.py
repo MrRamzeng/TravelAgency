@@ -50,7 +50,7 @@ class Hotel(models.Model):
 		verbose_name_plural="Гостиницы"
 		verbose_name="гостиница"
 
-class Tour_type(models.Model):
+class TourType(models.Model):
 	name = models.CharField('Тип тура', max_length=50)
 	def __unicode__(self):
 		return unicode(self.name)
@@ -60,7 +60,7 @@ class Tour_type(models.Model):
 
 class Tour(models.Model):
 	name = models.CharField('Название тура', max_length=50)
-	type = models.ForeignKey(Tour_type, null=True, verbose_name='Тип тура')
+	type = models.ForeignKey(TourType, null=True, verbose_name='Тип тура')
 	description = models.TextField('Описание тура')
 	city = models.ForeignKey(City, null=True, verbose_name='Город')
 	date = models.DateField('Дата тура')
@@ -77,8 +77,10 @@ class Tour(models.Model):
 					unicode(self.name)
 					+ ', г. '
 					+ unicode(self.city.name)
-					+ ', дата тура: '
+					+ ', '
 					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', дней: '
+					+ unicode(self.days)
 					+ ', скидка: '
 					+ unicode(self.discount)
 					+ '%, '
@@ -90,8 +92,10 @@ class Tour(models.Model):
 					unicode(self.name)
 					+ ', г. '
 					+ unicode(self.city.name)
-					+ ', дата тура: '
+					+ ', '
 					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', дней: '
+					+ unicode(self.days)
 					+ ', '
 					+ unicode(self.hotel.name)
 					+ ', скидка: '
@@ -105,8 +109,10 @@ class Tour(models.Model):
 					unicode(self.name)
 					+ ', г. '
 					+ unicode(self.city.name)
-					+ ', дата тура: '
+					+ ', '
 					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', дней: '
+					+ unicode(self.days)
 					+ ', '
 					+ unicode(self.tour_price)
 					+ 'руб.')
@@ -116,8 +122,10 @@ class Tour(models.Model):
 					unicode(self.name)
 					+ ', г. '
 					+ unicode(self.city.name)
-					+ ', дата тура: '
+					+ ', '
 					+ unicode(self.date.strftime('%d.%m.%Y'))
+					+ ', дней: '
+					+ unicode(self.days)
 					+ ', '
 					+ unicode(self.hotel.name)
 					+ ', '
@@ -160,7 +168,7 @@ class Tourist(models.Model):
 		verbose_name_plural="Туристы"
 		verbose_name='турист'
 
-class Recource_type(models.Model):
+class RecourceType(models.Model):
 	name = models.CharField('тип обращения', max_length=50)
 	def __unicode__(self):
 		return unicode(self.name)
@@ -173,7 +181,7 @@ class Recource(models.Model):
 	first_name = models.CharField('Имя', max_length=50)
 	patronymic = models.CharField('Отчество', max_length=50, blank=True)
 	tour = models.ForeignKey(Tour, null=True, blank=True, verbose_name='Выбранный тур')
-	type = models.ForeignKey(Recource_type, null=True, verbose_name='Тип обращения')
+	type = models.ForeignKey(RecourceType, null=True, verbose_name='Тип обращения')
 	text = models.TextField('Текст обращения')
 	date_and_time = models.DateTimeField('Дата и время обращения')
 	comments = models.TextField('Комментарии')	
@@ -206,7 +214,7 @@ class Recource(models.Model):
 		verbose_name_plural='Обращения'
 		verbose_name='обращение'
 
-class Tour_booking(models.Model):
+class TourBooking(models.Model):
 	tour = models.ForeignKey(Tour, verbose_name="Выбранный тур")
 	tourist = models.ForeignKey(Tourist, verbose_name="Турист", blank=True)
 	last_name = models.CharField('Фамилия', max_length=50)
@@ -253,6 +261,6 @@ def save_tourist(sender, instance, **kwargs):
 	instance.tourist.save()
 
 def user_full_name(self):
-	return '%s, %s %s' % (self.username, self.last_name, self.first_name)
+	return '%s %s' % (self.last_name, self.first_name)
 
 User.__unicode__ = user_full_name

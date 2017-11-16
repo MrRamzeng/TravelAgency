@@ -65,7 +65,7 @@
                             {{tour.tour_price}}руб  <!--Цена без скидки-->
                         </strike>. 
                         <font color="red">
-                            <b>{{discount_price_without_hotel}}руб.</b> <!--Цена со скидкой-->
+                            <b>{{discount_tour_price}}руб.</b> <!--Цена со скидкой-->
                         </font>
                     {% else %}
                         {{tour.tour_price}}руб. <!--Иначе цена без скидки-->
@@ -75,7 +75,7 @@
                     {% if tour.discount > 0 %}
                         <!--Есть скидка-->
                         <strike>
-                            {{price_without_discount}}руб
+                            {{price}}руб
                             <!--Цена без скидки-->
                         </strike>. 
                         <font color="red">
@@ -84,7 +84,7 @@
                         </font>
                     {% else %}
                         <!--Иначе цена без скидки-->
-                        {{price_without_discount}}руб.
+                        {{price}}руб.
                     {% endif %}
                 {% endif %}
             </td>

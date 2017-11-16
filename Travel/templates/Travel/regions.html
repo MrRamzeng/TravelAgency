@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 {% block title %}
-	Расписание
+	Страны и регионы
 {% endblock %}
 {% block content %}
 	<h2 align = "center">
-		Выберите регион
+		Выберите направление
 	</h2>
-		{% for regions in regions %}
-			<a href="/Travel/cities/{{regions.id}}" class="style">{{ regions }}</a>
-			<br>
+	<ul style="font-size: 18px;">
+		{% for country in countries %}
+			<b>{{country}}</b>
+			<ul>
+				{% for region in country.region_set.all %}
+					<a href="/Travel/cities/{{region.id}}">
+						- {{ region.name }}
+					</a>
+					<br>
+				{% endfor %}
+			</ul>
 		{% endfor %}
+	</ul>
 {% endblock %}
