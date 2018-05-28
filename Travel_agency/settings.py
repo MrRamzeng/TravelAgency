@@ -25,7 +25,7 @@ SECRET_KEY = 'xq7^bq$b$f#pb60&zxxxfgv$gk_z@8vlf70g5%7b7h^3(h7k(r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ostrovoktour.herokuapp.com']
 
 
 # Application definition
