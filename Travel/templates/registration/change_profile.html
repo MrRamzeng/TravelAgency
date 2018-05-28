@@ -3,42 +3,42 @@
     Мой профиль
 {% endblock title %}
 {% block content %}
-    <h2 align='center'>Мой профиль</h2>
+    <h2>Мой профиль</h2>
     <table border="2" class="content" style="border-collapse: collapse; width: 30%">
         <form method="post">
             {% csrf_token %}
             <tr>
-                <th style="padding: 5px;" align="left">Фамилия:</th>
+                <th>Фамилия:</th>
                 <td style="width: 60%;">
-                    <input type="text" name="last_name" value="{{user.last_name}}" style="width: 100%; border:none; outline:none; font-size: 14px; cursor:pointer;"> 
+                    <input type="text" name="last_name" value="{{user.last_name}}" class="change"> 
                 </td>
             </tr>
             <tr>
-                <th style="padding: 5px;" align="left">Имя:</th>
+                <th>Имя:</th>
                 <td style="width: 60%;">
-                    <input type="text" name="first_name" value="{{user.first_name}}" style="width: 100%; border:none; outline:none; cursor:pointer;">
+                    <input type="text" name="first_name" value="{{user.first_name}}" class="change">
                 </td>
             </tr>
             <tr>
-                <th style="padding: 5px;" align="left">Отчество:</th>
+                <th>Отчество:</th>
                 <td style="width: 60%;">
-                    <input type="text" name="patronymic" value="{{request.user.tourist.patronymic}}" style="width: 100%; border:none; outline:none; cursor:pointer;">
+                    <input type="text" name="patronymic" value="{{request.user.tourist.patronymic}}" class="change">
                 </td>
             </tr>
             <tr>
-                <th style="padding: 5px;" align="left">Номер телефона:</th>
+                <th>Номер телефона:</th>
                 <td style="width: 60%;">
-                    <input type="text" name="phone" value="{{request.user.tourist.phone}}" style="width: 100%; border:none; outline:none; cursor:pointer;">
+                    <input type="text" name="phone" value="{{request.user.tourist.phone}}" class="change">
                 </td>
             </tr>
             <tr>
-                <th style="padding: 5px;" align="left">Почта:</th>
+                <th>Почта:</th>
                 <td style="width: 60%;">
-                    <input type="email" name="email" value="{{user.email}}" style="width: 100%; border:none; outline:none; cursor:pointer;">
+                    <input type="email" name="email" value="{{user.email}}" class="change">
                 </td>
             </tr>
             <tr>
-                <th colspan="2" style="height: 27px;">
+                <th colspan="2">
                     <input type="submit" value="Сохранить" style="width: 100%; height: 100%; cursor:pointer;">
                 </th>
             </tr>

@@ -1,113 +1,119 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-	<title>
-		{% block title %} {% endblock %}
-	</title>
-	<meta charset="utf-8">
-	{% load static %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-</head>
-<body style="margin: 0;">
-	<div class="bg">
-		<h2 class="content" align="right" style="padding-top: 60px;">
-			8 (888) 765-43-21
-		</h2>
-	</div>
-	<div class="content">
-		<nav class="menu">
-			<ul>
-				{% block branding %}
-					<li>
-						<a href="{% url 'home' %}">ОстровОк тур</a>
-					</li>
-				{% endblock branding %}
-				{% if Travel %}
-					<li class="active">
-						<a href="{% url 'home' %}">Главная</a>
-					</li>
-				{% else %}
-					<li>
-						<a href="{% url 'home' %}">Главная</a>
-					</li>
-				{% endif %}
-				{% if countries or cities or tour %}
-					<li class="active">
-						<a href="{% url 'regions' %}">Регионы</a>
-					</li>
-				{% else %}
-					<li>
-						<a href="{% url 'regions' %}">Регионы</a>
-					</li>
-				{% endif %}
-				{% if discount_tours %}
-					<li class="active">
-						<a href="{% url 'discount_tours' %}">Туры со скидкой</a>
-					</li>
-				{% else %}
-					<li>
-						<a href="{% url 'discount_tours' %}">Туры со скидкой</a>
-					</li>
-				{% endif %}
-				<li>
-					<a href="#">Туры по Вятке</a>
-				</li>
-				{% if user.is_authenticated %}
-					{% if user.is_staff %}
-						<li>
-							<a href="/Travel/admin/">Администрация</a>
-						</li>
-						<li style="float: right;">
-							<a href="{% url 'logout' %}">Выйти</a>
-						</li>
-					{% else %}
-						{% if my_profile %}
-							<li class="active" style="float: right;">
-								<a>Личный кабинет</a>
-								<ul>
-									<li class="active"><a href="{% url 'my_profile' %}">Мой профиль</a></li>
-									<li><a href="{% url 'my_tours' %}">Мои туры </a></li>
-									<li><a href="{% url 'logout' %}">Выйти</a></li>
-								</ul>
-							</li>
-						{% elif my_tours %}
-							<li class="active" style="float: right;">
-								<a>Личный кабинет</a>
-								<ul>
-									<li><a href="{% url 'my_profile' %}">Мой профиль</a></li>
-									<li class="active"><a href="{% url 'my_tours' %}">Мои туры </a></li>
-									<li><a href="{% url 'logout' %}">Выйти</a></li>
-								</ul>
-							</li>
-						{% else %}
-							<li style="float: right;">
-								<a>Личный кабинет</a>
-								<ul>
-									<li><a href="{% url 'my_profile' %}">Мой профиль</a></li>
-									<li><a href="{% url 'my_tours' %}">Мои туры </a></li>
-									<li><a href="{% url 'logout' %}">Выйти</a></li>
-								</ul>
-							</li>
-						{% endif %}
-					{% endif %}
-				{% else %}
-					{% if form %}
-						<li class="active" style="float: right;">
-							<a href="{% url 'login' %}">
-								Войти в личный кабинет
-							</a>
-						</li>
-					{% else %}
-						<li style="float: right;">
-							<a href="{% url 'login' %}">
-								Войти в личный кабинет
-							</a>
-						</li>
-					{% endif %}
-				{% endif %}
-			</ul>
-		</nav>
-		{% block content %} {% endblock %}
-	</div>
-</body>
-</html>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1"> 
+  {% load static %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="{% static 'jquery/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+  <script src="{% static 'jquery/jquery.maskedinput.min.js' %}"></script>
+  <script src="{% static 'js/clock.js' %}"></script>
+  <script src="{% static 'js/guard.js' %}"></script>
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <title>
+    {% block title %} {% endblock %}
+  </title>
+  <div class="bg">
+    <table class="info-table">
+      <tr>
+        <td><h3 id="clock"></h3><h3 class="info">{% now "D. d E Y " %}г.</h3></td>
+        <td><h3 class="info phone">+8 (888) 765-43-21</h3></td>
+      </tr>
+    </table>
+  </div>
+  <nav class="navbar-default" navbar-fixed-top role="navigation">
+    <div class="content">
+      <div class="navbar-header">
+        <a href="/Travel" class="navbar-brand logo"></a>
+        <button class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
+          <span class="icon-bar"></span>
+
+          <span class="icon-bar"></span>
+
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse" id="navbar-main">
+        <ul class="nav navbar-nav">
+          <li class="{% if Travel %} active {% endif %}">
+            <a href="/Travel">Главная</a>
+          </li>
+
+          <li class="{% if countries %} active {% endif %}">
+            <a href="{% url 'regions' %}">Направления</a>
+          </li>
+
+          <li class="{% if discount_tours %} active {% endif %}">
+            <a href="{% url 'discount_tours' %}">Туры со скидкой</a>
+          </li>
+
+          <li>
+            <a href="#">Туры по Вятке</a>
+          </li>
+        </ul>
+        {% if user.is_authenticated %}
+          {% if user.is_staff %}
+            <ul class="nav navbar-nav">
+              <li>
+                <a href="/Travel/admin/">Администрация</a>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li>
+                <a href="{% url 'logout' %}">
+                  <span class="glyphicon glyphicon-log-out"></span>
+                  Выйти
+                </a>
+              </li>
+            </ul>
+          {% else %}
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown {% if profile or bookings %} active {% endif %}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="glyphicon glyphicon-briefcase"></span>
+                  Личный кабинет
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="{% if profile %} active {% endif %}">
+                    <a href="{% url 'profile' %}">
+                      <span class="glyphicon glyphicon-user"></span>
+                      Мой аккаунт
+                    </a>
+                  </li>
+                  <li class="{% if bookings %} active {% endif %}">
+                    <a href="{% url 'bookings' %}">
+                      <span class="glyphicon glyphicon-shopping-cart"></span>
+                      Мои заказы
+                    </a>
+                  </li>
+                  <li>
+                    <a href="{% url 'logout' %}">
+                      <span class="glyphicon glyphicon-log-out"></span>
+                      Выйти
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          {% endif %}
+        {% else %}
+          <ul class="nav navbar-right navbar-nav">
+            <li>
+              <a href="{% url 'login' %}">
+                <span class="glyphicon glyphicon-log-in"></span>
+                Вход/Регистрация
+              </a> 
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+  <div class="content">
+    {% block content %} {% endblock %}
+  </div>
+</html> 

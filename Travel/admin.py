@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- #
 from django.contrib import admin
-from . models import Country, Region, City, Hotel, TourType, Tour,  Manager, Tourist, RecourceType, Recource, TourBooking
+from . models import Country, Region, City, Hotel, TourType, Tour,  Manager, Tourist, TourBooking
 
 # Здесь происходит регистрация моделей 
 class SearchTour(admin.ModelAdmin): # Поиск туров
@@ -11,9 +11,6 @@ class SearchManager(admin.ModelAdmin): # Поиск менеджеров
 
 class SearchTourist(admin.ModelAdmin): # Поиск туристов 
     search_fields=['username__last_name', 'username__first_name', 'patronymic', 'phone']
-
-class SearchRecource(admin.ModelAdmin): # Поиск обращений туристов
-    search_fields=['last_name', 'first_name', 'patronymic', 'type__name']
 
 class SearchBooking(admin.ModelAdmin): # Поиск бронирований туров
     search_fields=['tour__name', 'last_name', 'first_name', 'patronymic', 'phone']
@@ -26,6 +23,4 @@ admin.site.register(TourType)
 admin.site.register(Tour, SearchTour)
 admin.site.register(Manager, SearchManager)
 admin.site.register(Tourist, SearchTourist)
-admin.site.register(RecourceType)
-admin.site.register(Recource, SearchRecource)
 admin.site.register(TourBooking, SearchBooking)

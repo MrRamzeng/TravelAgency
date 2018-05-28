@@ -3,22 +3,26 @@
 	Туры
 {% endblock %}
 {% block content %}
-	<h2 align="center">
+	<h2>
 		Туры
 	</h2>
 	{% for city in cities %}
         {% for tour in city.tour_set.all %}
-            {% if tour.discount > 0 %}
-                <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
-                    <font color="red">
-                        <i style="font-size:20px;">Акция! </i>
-                        {{ tour }}.
-                    </font>
-                    <br>
-                </a>
+            {% if not tour %}
+                В данном городе пока нет туров.
             {% else %}
-                <a href="/Travel/tour/{{tour.id}}">{{ tour }}</a>
-                <br>
+                {% if tour.discount > 0 %}
+                    <a href="/Travel/tour/{{ tour.id }}" title="Нажмите чтобы узнать подробнее">
+                        <font color="red">
+                            <i style="font-size:20px;">Акция! </i>
+                            {{ tour }}
+                        </font>
+                        <br>
+                    </a>
+                {% else %}
+                    <a href="/Travel/tour/{{tour.id}}">{{ tour }}</a>
+                    <br>
+                {% endif %}
             {% endif %}
 		{% endfor %}
 	{% endfor %}

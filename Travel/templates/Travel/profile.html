@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}
+    Мой профиль
+{% endblock title %}
+{% block content %}
+<div class="container">
+	<div class="row main-form">
+		<div class="form-group">
+			<h3>Мой профиль</h3>
+			<label class="cols-sm-2 control-label">Фамилия</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-user" aria-hidden="true"></i>
+					</span>
+					<input class="form-control" value="{{ request.user.last_name }}" disabled>
+				</div>
+			</div>
+		</div>
+			
+		<div class="form-group">
+			<label class="cols-sm-2 control-label">Имя</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-user" aria-hidden="true"></i>
+					</span>
+					<input class="form-control" value="{{ request.user.first_name }}" disabled>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="cols-sm-2 control-label">Отчество</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-user" aria-hidden="true"></i>
+					</span>
+					<input class="form-control" value="{{ request.user.tourist.patronymic }}" disabled>
+				</div>
+			</div>
+		</div>
+
+		<!--<div class="form-group">
+			<label class="cols-sm-2 control-label">Дата рождения</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-gift" aria-hidden="true"></i>
+					</span>
+					<input class="form-control" value="{{ request.user.tourist.birthday|date:'d.m.Y' }}" disabled>
+				</div>
+			</div>
+		</div>-->
+
+		<div class="form-group">
+			<label class="cols-sm-2 control-label">Телефон</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-phone" aria-hidden="true"></i>
+					</span>
+					<input class="form-control" value="{{ request.user.tourist.phone }}" disabled>
+				</div>
+			</div>
+		</div>
+			
+		<div class="form-group">
+			<label class="cols-sm-2 control-label">Email</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon">
+						<i class="fa fa-envelope" aria-hidden="true"></i>
+					</span>
+					<input class="form-control" value="{{ request.user.email }}" disabled>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+				<a href="{% url 'edit_profile' %}">
+					<button	class="btn btn-primary btn-lg btn-block login-button">Редактировать</button>
+				</a>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

@@ -3,34 +3,34 @@
     Мой профиль
 {% endblock title %}
 {% block content %}
-    <h2 align='center'>Мой профиль</h2>
-    <table border="2" class="content" style="border-collapse: collapse; width: 30%">
+    <h2>Мой профиль</h2>
+    <table border="2" align='center' style="border-collapse: collapse; width: 30%">
         <tr>
-            <th style="padding: 5px;" align="left">Фамилия:</th>
+            <th>Фамилия:</th>
             <td style="width: 60%;">
                 {{user.last_name}}
             </td>
         </tr>
         <tr>
-            <th style="padding: 5px;" align="left">Имя:</th>
+            <th>Имя:</th>
             <td style="width: 60%;">
                 {{user.first_name}}
             </td>
         </tr>
         <tr>
-            <th style="padding: 5px;" align="left">Отчество:</th>
+            <th>Отчество:</th>
             <td style="width: 60%;">
                 {{request.user.tourist.patronymic}}
             </td>
         </tr>
         <tr>
-            <th style="padding: 5px;" align="left">Номер телефона:</th>
+            <th>Номер телефона:</th>
             <td style="width: 60%;">
                 {{request.user.tourist.phone}}
             </td>
         </tr>
         <tr>
-            <th style="padding: 5px;" align="left">Почта:</th>
+            <th>Почта:</th>
             <td style="width: 60%;">
                 {{user.email}}
             </td>
@@ -38,7 +38,7 @@
         <tr>
             <th colspan="2">
                 <a href="{% url 'change_profile' %}">
-                    <button style="width: 100%; height: 27px;">Изменить</button>
+                    <button style="width: 100%;">Изменить</button>
                 </a>
             </th>
         </tr>

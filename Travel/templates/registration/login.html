@@ -1,45 +1,73 @@
-{% extends 'base.html' %}
-{% block title %}
-	Авторизация
-{% endblock %}
-{% block content %}
-	<h2 align="center">
-		Авторизация
-	</h2>
-	<table align="center">
-		<form method="POST">
-			{% csrf_token %}
-			<tr>
-				<td align="center">
-					<label>Логин:</label>
-					<br>
-					<input type="text" name="username" placeholder="Введите логин">
-				</td>
-			</tr>
-			<tr>
-				<td align="center">
-					<label>Пароль:</label>
-					<br>
-					<input type="password" name="password" placeholder="Введите пароль">
-				</td>
-			</tr>
-			<tr>
-				<td align="center">
-					{% if form.errors %}
-						<p>
-							<font color="red">
-								Неверный логин или пароль!
-							</font>
-						</p>
+{% extends "base.html" %} 
+{% block title %} 
+  Войти 
+{% endblock %} 
+	{% block content %}
+	<form method="post">
+		{% csrf_token %}
+		<div class="container">
+			<div class="row main-form">
+				<div class="form-group">
+					<div class="form-group" align="center">
+						<a href="{% url 'login' %}" class="btn btn-primary btn-lg login-button active" style="background-color:steelblue">Вход</a>
+						<a href="{% url 'signup' %}" class="btn btn-primary btn-lg login-button">Регистрация</a>
+					</div>
+					<label for="id_username" class="cols-sm-2 control-label">
+						Имя пользователя
+					</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon" {% if form.non_field_errors or form.username.errors %} style="border-top-color: red;
+							border-bottom-color: red; border-left-color: red;" {% endif %}>
+								<i class="fa fa-users fa icons" aria-hidden="true"></i>
+							</span>
+							<input maxlength="30" name="username" id="id_username" type="text"
+							class="form-control"  autocorrect=off autocapitalize=words {% if form.non_field_errors or form.username.errors %}
+							style="border-top-color: red; border-right-color: red; border-bottom-color: red" {% endif %} placeholder="Имя пользователя">
+						</div>
+					</div>
+					
+					{% if form.username.errors %}
+						<ul class="errorlist">
+							Обязательное поле.
+						</ul>
 					{% endif %}
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="submit" value="Войти">
-					<a href="{% url 'signup' %}">Зарегистрироваться</a>
-				</td>
-			</tr>
-		</form>
-	</table>
+
+				</div>
+		
+				<div class="form-group">
+					<label for="id_password" class="cols-sm-2 control-label">Пароль</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon" {% if form.non_field_errors or form.password.errors %} style="border-top-color: red;
+							border-bottom-color: red; border-left-color: red;" {% endif %}>
+								<i class="fa fa-lock fa-lg icons" aria-hidden="true"></i>
+							</span>
+							<input maxlength="50" name="password" type="password" id="id_password"
+							class="form-control" {% if form.non_field_errors or form.password.errors %} 
+							style="border-top-color: red; border-right-color: red; border-bottom-color: red" {% endif %} 
+							placeholder="**********"  autocorrect=off autocapitalize=words>
+						</div>
+					</div>
+
+					{% if form.non_field_errors %}
+    				<ul class='errorlist'>
+								Неверное имя пользователя или пароль.<br> Оба поля могут быть чувствительны к раскладке клавиатуры и регистру.
+    				</ul>
+					{% endif %}
+
+					{% if form.password.errors %}
+						<ul class="errorlist">
+							Обязательное поле.
+						</ul>
+					{% endif %}
+					
+				</div>
+
+				<div class="form-group ">
+					<input type="submit" name="submit" value="Войти" class="btn btn-primary btn-lg btn-block login-button">
+				</div>
+			</div>
+		</div>
+	</form>
 {% endblock %}

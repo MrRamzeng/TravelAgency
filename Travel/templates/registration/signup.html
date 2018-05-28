@@ -1,12 +1,158 @@
 {% extends "base.html" %}
 {% block title %}
-	Регистрация
+  Регистрация
 {% endblock %}
 {% block content %}
-	<h2 align="center">Регистрация</h2>
-	<form method="post">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button type="submit">Зарегистрироваться</button>
-	</form>
+  <form method="post" name="SignupForm">
+    {% csrf_token %}
+    <div class="container">
+      <div class="row main-form">
+        <div class="form-group">
+          <div class="form-group" align="center">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg login-button">Вход</a>
+            <a href="{% url 'signup' %}" class="btn btn-primary btn-lg login-button active" 
+            style="background-color:steelblue">Регистрация</a>
+          </div>
+          <label for="id_username" class="cols-sm-2 control-label">
+            Имя пользователя
+          </label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon" {% if form.username.errors %} style="border-top-color: red;
+              border-bottom-color: red; border-left-color: red;" {% endif %}>
+                <i class="fa fa-users fa icons" aria-hidden="true"></i>
+              </span>
+              <input id="id_username" maxlength="30" name="username" type="text"
+              class="form-control" autocorrect=off autocapitalize=words {% if form.username.errors %}
+              style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+              {% endif %} placeholder="Имя пользователя">
+            </div>
+          </div>
+          {% if form.username.errors %}
+            <ul class="errorlist cols-sm-2 control-label">
+              {{form.username.errors}}
+            </ul>
+          {% endif %} 
+        </div>
+    
+        <div class="form-group">
+          <label for="id_last_name" class="cols-sm-2 control-label">Фамилия</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon" {% if form.last_name.errors %} style="border-top-color: red;
+              border-bottom-color: red; border-left-color: red;" {% endif %}>
+                <i class="fa fa-user fa icons" aria-hidden="true"></i>
+              </span>
+              <input id="id_last_name" maxlength="30" name="last_name" type="text"
+              class="form-control" {% if form.last_name.errors %} 
+              style="border-top-color: red; border-right-color: red;
+              border-bottom-color: red" {% endif %} placeholder="Фамилия"
+              autocorrect=off autocapitalize=words>
+            </div>
+          </div>
+          {% if form.last_name.errors %}
+            <ul class="errorlist cols-sm-2 control-label">
+              {{form.last_name.errors}}
+            </ul>
+          {% endif %}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_first_name" class="cols-sm-2 control-label">Имя</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon" {% if form.first_name.errors %}
+              style="border-top-color: red;	border-bottom-color: red; 
+              border-left-color: red;" {% endif %}>
+                <i class="fa fa-user fa icons" aria-hidden="true"></i>
+              </span>
+              <input id="id_first_name" maxlength="30" name="first_name" type="text" 
+              class="form-control" {% if form.first_name.errors %} 
+              style="border-top-color: red; border-right-color: red;
+              border-bottom-color: red" {% endif %} placeholder="Имя"
+              autocorrect=off autocapitalize=words>
+            </div>
+          </div>
+          {% if form.first_name.errors %}
+            <ul class="errorlist cols-sm-2 control-label">
+              {{form.first_name.errors}}
+            </ul>
+          {% endif %}
+        </div>
+        
+        <div class="form-group">
+          <label for="id_email" class="cols-sm-2 control-label">Email</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon" {% if form.email.errors %} 
+              style="border-top-color: red;
+              border-bottom-color: red; border-left-color: red;" {% endif %}>
+                <i class="fa fa-envelope fa icons" aria-hidden="true"></i>
+              </span>
+              <input id="id_email" name="email" maxlength="254" type="email" class="form-control" 
+              {% if form.email.errors %} style="border-top-color: red; border-right-color: red; 
+              border-bottom-color: red" {% endif %} 
+              placeholder="name@example.com"  autocorrect=off autocapitalize=words>
+            </div>
+          </div>
+          {% if form.email.errors %} 
+            <ul class="errorlist cols-sm-2 control-label">
+              {{form.email.errors}}
+            </ul>
+          {% endif %} 
+        </div>
+
+        <div class="form-group">
+          <label for="id_password1" class="cols-sm-2 control-label">Пароль</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon" {% if form.password1.errors %} style="border-top-color: red;
+              border-bottom-color: red; border-left-color: red;" {% endif %}>
+                <i class="fa fa-lock fa-lg icons" aria-hidden="true"></i>
+              </span>
+              <input id="id_password1" maxlength="50" name="password1" type="password" 
+              onKeyUp="isConfirm('SignupForm','password1','password2','pass22','submit')" 
+              class="form-control" {% if form.password1.errors %} 
+              style="border-top-color: red; border-right-color: red; border-bottom-color: red" {% endif %}
+              placeholder="**********"  autocorrect=off autocapitalize=words>
+            </div>
+          </div>
+          {% if form.password1.errors %} 
+            <ul class="errorlist cols-sm-2 control-label">
+              {{form.password1.errors}}
+            </ul>
+          {% endif %} 
+          <span id="result"></span>
+        </div>
+    
+        <div class="form-group">
+          <label for="id_password2" class="cols-sm-2 control-label">Повторите пароль</label>
+          <div class="cols-sm-10">
+            <div class="input-group">
+              <span class="input-group-addon" {% if form.password2.errors %} style="border-top-color: red;
+              border-bottom-color: red; border-left-color: red;" {% endif %}>
+                <i class="fa fa-lock fa-lg icons" aria-hidden="true"></i>
+              </span>
+              <input id="id_password2" maxlength="50" name="password2" type="password" 
+              onKeyUp="isConfirm('SignupForm','password1','password2','pass22','submit')"
+              class="form-control" {% if form.password2.errors %} 
+              style="border-top-color: red; border-right-color: red; border-bottom-color: red" {% endif %} 
+              placeholder="**********"  autocorrect=off autocapitalize=words>
+            </div>
+          </div>
+          {% if form.password2.errors %} 
+            <ul class="errorlist cols-sm-2 control-label">
+              {{form.password2.errors}}
+            </ul>
+          {% endif %} 
+          <span id="pass22"></span>
+        </div>
+
+        <div class="form-group ">
+          <input type="submit" name="submit" value="Зарегистрироваться" 
+          class="btn btn-primary btn-lg btn-block login-button">
+        </div>
+      </div>
+    </div>
+  </form>
 {% endblock %}

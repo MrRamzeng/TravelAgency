@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% block title %}
+	Мой профиль
+{% endblock title %}
+{% block content %}
+	<form method="POST" name="EditForm">
+		{% csrf_token %}
+		<div class="container">
+			<div class="row main-form">		
+				<div class="form-group">
+					<h3>Мой профиль</h3>
+					<label for="id_last_name" class="cols-sm-2 control-label">Фамилия</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"
+								
+							{% if not request.user.last_name %}
+								style="border-top-color: red;	border-bottom-color: red; border-left-color: red;" 
+							{% endif %}
+
+							>
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+							<input id="id_last_name" maxlength="30" name="last_name" type="text"
+							class="form-control" value="{{ request.user.last_name }}"
+
+							{% if not request.user.first_name %}
+								style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+							{% endif %}
+							
+							autocorrect=off autocapitalize=words>
+						</div>
+					</div>
+				</div>
+					
+				<div class="form-group">
+					<label for="id_first_name" class="cols-sm-2 control-label">Имя</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"
+								
+							{% if not request.user.first_name %}
+								style="border-top-color: red;	border-bottom-color: red; border-left-color: red;" 
+							{% endif %}
+
+							>
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+							<input id="id_first_name" maxlength="30" name="first_name" type="text" 
+							class="form-control" value="{{ request.user.first_name }}"
+
+							{% if not request.user.first_name %}
+								style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+							{% endif %}
+							
+							autocorrect=off autocapitalize=words>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="id_patronymic" class="cols-sm-2 control-label">Отчество</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"
+								
+							{% if not request.user.tourist.patronymic %}
+								style="border-top-color: red;	border-bottom-color: red; border-left-color: red;" 
+							{% endif %}
+
+							>
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</span>
+							<input id="id_patronymic" maxlength="30" name="patronymic" type="text" 
+							class="form-control" value="{{ request.user.tourist.patronymic }}"
+
+							{% if not request.user.tourist.patronymic %}
+								style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+							{% endif %}
+
+							autocorrect=off autocapitalize=words>
+						</div>
+					</div>
+
+					{% if not request.user.tourist.patronymic %}
+						<ul class="errorlist">
+							Обязательное поле.
+						</ul>
+					{% endif %}
+
+				</div>
+
+				<!--<div class="form-group">
+					<label for="id_birthday" class="cols-sm-2 control-label">Дата рождения</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"
+								
+							{% if not request.user.tourist.birthday %}
+								style="border-top-color: red;	border-bottom-color: red; border-left-color: red;" 
+							{% endif %}
+							
+							>
+								<i class="fa fa-gift" aria-hidden="true"></i>
+							</span>
+							<input id="id_birthday" maxlength="30" name="birthday" type="text" 
+							class="form-control" value="{{ request.user.tourist.birthday|date:'d.m.Y' }}" 
+							
+							{% if not request.user.tourist.birthday %}
+								style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+								placeholder="01.01.2000"
+							{% endif %}
+
+							autocorrect=off autocapitalize=words>
+							<span class="input-group-addon">
+								<i class="fa fa-info" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+
+					{% if edit_data.errors %}
+						<ul class="errorlist">
+							Обязательное поле.
+						</ul>
+					{% endif %}
+
+				</div>-->
+
+				<div class="form-group">
+					<label for="id_phone" class="cols-sm-2 control-label">Телефон</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"
+								
+							{% if not request.user.tourist.phone %}
+								style="border-top-color: red;	border-bottom-color: red; border-left-color: red;" 
+							{% endif %}>
+
+								<i class="fa fa-phone" aria-hidden="true"></i>
+							</span>
+							<input id="id_phone" maxlength="30" name="phone" type="text" 
+							class="form-control" value="{{ request.user.tourist.phone }}" 
+							
+							{% if not request.user.tourist.phone %}
+								style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+							{% endif %}
+
+							autocorrect=off autocapitalize=words>
+							<script>
+								$("#id_phone").mask("+7 (999) 999-99-99");
+							</script>
+							<span class="input-group-addon">
+								<i class="fa fa-info" aria-hidden="true"
+								onclick="alert('По этому номеру с вами свяжется оператор для уточнения деталей заказа.'); return false"></i>
+							</span>
+						</div>
+					</div>
+
+					{% if not request.user.tourist.phone %}
+						<ul class="errorlist">
+							Обязательное поле.
+						</ul>
+					{% endif %}
+
+				</div>
+					
+				<div class="form-group">
+					<label for="id_email" class="cols-sm-2 control-label">Email</label>
+					<div class="cols-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon"
+								
+							{% if not request.user.email %}
+								style="border-top-color: red;	border-bottom-color: red; border-left-color: red;" 
+							{% endif %}
+
+								>
+								<i class="fa fa-envelope" aria-hidden="true"></i>
+							</span>
+							<input id="id_email" name="email" maxlength="254" type="email"
+							class="form-control" value="{{ request.user.email }}"
+							
+							{% if not request.user.email %}
+								style="border-top-color: red; border-right-color: red; border-bottom-color: red"
+							{% endif %}
+
+							autocorrect=off autocapitalize=words>
+							<span class="input-group-addon" onclick="alert('На данный E-mail будет отправлено сообщение о бронировании и оплате заказа.'); return false">
+								<i class="fa fa-info" aria-hidden="true"></i>
+							</span>
+						</div>
+					</div>
+
+					{% if not request.user.email %}
+						<ul class="errorlist">
+							Обязательное поле.
+						</ul>
+					{% endif %}
+
+				</div>
+
+				<div class="form-group ">
+					<a href="{% url 'profile' %}"></a>
+						<input type="submit" name="submit" value="Сохранить изменения" 
+						class="btn btn-primary btn-lg btn-block login-button">
+					</a>
+				</div>
+			</div>
+		</div>
+	</form>
+{% endblock content %}

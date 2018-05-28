@@ -1,128 +1,80 @@
 {% extends "base.html" %} 
 {% block title %} 
-  {{tour.name}}
-{{ index.title }} 
+  	{{tour.name}}
 {% endblock %} 
 {% block content %}
+    <h2>{{ tour.name }}</h2>
+    <div class="content">
+        <p>{{tour.description}}</p>
+    </div>
     <table border="2" class="content" style="border-collapse: collapse;">
         <tr>
-            <td colspan="6" align="center" style="padding:0%">
-                <h3>{{ tour.name }}</h3>
-            </td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:center">
-                Описание
-            </th>
-        </tr>
-        <tr>
-            <td colspan="6">
-                {{tour.description}}
-            </td>
-        </tr>
-        <tr>
-            <th style="text-align:center">
-                Гостиница
-            </th>
-            <th style="text-align:center">
-                Дата заезда
-            </th>
-            <th style="text-align:center">
-                Дней
-            </th>
-            <th style="text-align:center">
-                {% if tour.sale > 0 %}
-                    <font color="red">
-                        Акционная цена*
-                    </font>
-                {% else %}
-                    Стоимость
-                {% endif %}
-            </th>
-            <th style="text-align:center;">
-                Забронировать
-            </th>
-        </tr>
-        <tr>
-            <td>
-                {% if tour.hotel is None %}
-                    На усмотрение
-                {% else %}
-                    {{tour.hotel}}
-                {% endif %}
-            </td>
+            {% if tour.hotel %}
+            	<td style="width: 40%">
+                    {{tour.city.name}},
+                    {{tour.hotel.name}}, 
+                    {{tour.hotel.comfort}}&#10030,
+                    {{tour.hotel.address}}
+            	</td>
+            {% endif %}
             <td>
                 {{tour.date}}
             </td>
-            <td align="center">
-                 {{tour.days}}
+            <td>
+                Дней: {{tour.days}}
             </td>
-            <td align="center">
-                {% if tour.hotel is None %}
-                    <!--Отеля нет-->
-                    {% if tour.discount > 0 %}  <!--Есть скидка-->
-                        <strike>
-                            {{tour.tour_price}}руб  <!--Цена без скидки-->
-                        </strike>. 
-                        <font color="red">
-                            <b>{{discount_tour_price}}руб.</b> <!--Цена со скидкой-->
-                        </font>
-                    {% else %}
-                        {{tour.tour_price}}руб. <!--Иначе цена без скидки-->
-                    {% endif %} 
-                {% else %}
-                    <!--Есть отель-->
-                    {% if tour.discount > 0 %}
-                        <!--Есть скидка-->
-                        <strike>
-                            {{price}}руб
-                            <!--Цена без скидки-->
-                        </strike>. 
-                        <font color="red">
-                            <b>{{discount_price}}руб.</b>
-                            <!--Цена со скидкой-->
-                        </font>
-                    {% else %}
-                        <!--Иначе цена без скидки-->
-                        {{price}}руб.
-                    {% endif %}
-                {% endif %}
+            <td>
+				{% if tour.discount > 0 %} 
+					{% if not tour.hotel %}
+						<strike>{{tour.tour_price}}руб.</strike>
+						<font color="red">
+							<b>{{discount_tour_price}}руб.</b>
+						</font>
+					{% else %}
+						<strike>{{price}}руб.</strike>
+						<font color="red">
+							<b>{{discount_price}}руб.</b>
+						</font>
+					{% endif %}
+				{% else %}
+					{% if not tour.hotel %}
+						{{tour.tour_price}}руб.
+					{% else %}
+						{{price}}руб.
+					{% endif %}
+				{% endif %}
             </td>
-            <td align="center">
-                {% if not request.user.is_authenticated %} <!-- если нет пользователя -->
-                    <form action="{% url 'login' %}">
-                        <p align="left">Войдите что бы забронировать тур</p>
-                        <input type="submit" value = "Войти">
-                    </form>
-                {% else %} <!-- Иначе пользователь существует -->
-                    {% if booking %} <!-- Если тур забронирован -->
-                        {% if not booking.approved %} <!-- Если бронирование не подтверждено -->
-                            <p>Ожидается подтверждение</p>
-                        {% else %} <!-- Иначе бронирование подтверждено -->
-                            <div>
-                                <button>Оплатить</button>
+            <td>
+				{% if not user.is_authenticated %}
+					<form action="{% url 'login' %}">
+						Войдите, чтобы забронировать тур.<br>
+						<input type="submit" value="Войти">
+					</form>
+				{% else %}
+					{% if not booking %}
+						<form action="/Travel/add_booking/{{tour.id}}"  align='center'>
+							<input type="submit" value="Забронировать">
+						</form>
+					{% else %}
+						{% if not booking.approved and not booking.cancel %}
+							Ожидается подтверждение заявки менеджером.<br>
+							<form action="/Travel/delete_booking/{{tour.id}}">
+								<input type="submit" value="Отменить бронирование">
+							</form>
+						{% elif booking.approved %}
+							<div>
+								<button>Оплатить тур</button>
                             </div>
-                            <form action="/Travel/delete_booking_tour/{{tour.id}}">
-                                <br>
-                                <input type="submit" value="Отменить">
-                            </form>
-                        {% endif %} 
-                    {% else %} <!-- Иначе  забронировать тур -->
-                        <form action="/Travel/add_booking_tour/{{tour.id}}">
-                            <input type="submit" value="Забронировать">
-                        </form>		
-                    {% endif %}
-                {% endif %}
+                            <br>
+							<form action="/Travel/delete_booking/{{tour.id}}">
+								<input type="submit" value="Отменить заказ">
+							</form>
+						{% else %}
+							{{booking.message}}
+						{% endif %}
+					{% endif %}
+				{% endif %}
             </td>
         </tr> 
     </table>
-    {% if tour.discount >= 20 %} <!-- Если скидка больше либо равна 20% -->
-        <p style="font-size: 12px; color: red;">
-            * Горящий тур
-        </p>
-    {% elif tour.discount > 0 %}  <!-- Или есть скидка -->
-        <p style="font-size: 12px; color: red;">
-            * Сезонная скидка
-        </p>
-    {% endif %}
 {% endblock %}
