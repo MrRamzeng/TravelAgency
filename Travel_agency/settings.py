@@ -135,5 +135,5 @@ MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'Helpdesk', 'static'),
+    os.path.join(BASE_DIR, 'Travel', 'static'),
 )
