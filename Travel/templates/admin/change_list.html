@@ -49,7 +49,7 @@
         {% block object-tools-items %}
         {% if has_add_permission %}
         <li>
-            {% if not request.path == '/Travel/admin/Travel/tourbooking/'}
+            {% if not request.path == '/Travel/admin/Travel/tourbooking/' %}
                 {% url cl.opts|admin_urlname:'add' as add_url %}
                 <a role="button" href="{% add_preserved_filters add_url is_popup %}" class="btn btn-primary">
                     <span class="glyphicon glyphicon-plus"></span> {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
