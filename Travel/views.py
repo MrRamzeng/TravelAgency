@@ -11,24 +11,13 @@ def index(request):
             "Travel": True
         }
     )
-
-#def countries(request):
-#    countries = Country.objects.all()
-#    return render(
-#        request, 
-#        "Travel/regions.html", 
-#        {
-#            "countries": countries
-#        }
-#    )
-
 def regions(request):
-    countries = Country.objects.all()
+    regions = Region.objects.all()
     return render(
         request, 
         "Travel/regions.html", 
         {
-            "countries": countries
+            "regions": regions
         }
     )
 
@@ -258,10 +247,10 @@ def add_booking(request, tour_id):
     patronymic = request.user.tourist.patronymic
     phone = request.user.tourist.phone
     TourBooking.objects.create(tour=tour, tourist=tourist, last_name=last_name, first_name=first_name, patronymic=patronymic, phone=phone)
-    return redirect('my_tours')
+    return redirect('bookings')
 
 def delete_booking(request, tour_id):
     tour=Tour.objects.get(id=tour_id)
     tourist=request.user.tourist
     TourBooking.objects.get(tour=tour, tourist=tourist).delete()
-    return redirect('my_tours')
+    return redirect('bookings')

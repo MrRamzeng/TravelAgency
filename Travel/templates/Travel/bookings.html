@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Мои туры</h2>
     {% if booking %} <!-- если есть бронирование -->
-        <table border="2" class="content" style="border-collapse: collapse;">
+        <table class="table table-striped table-bordered">
             <tr>
                 <th>Тур</th>
                 <th style="width:20%">Статус</th>
@@ -20,14 +20,11 @@
                     <td>
                         {% if not tour_info.approved and not tour_info.cancel %}
                            Ожидается подтверждение заяки менеджером.<br>
-							<form action="/Travel/delete_booking_tour/{{tour_info.tour.id}}">
+							<form action="/Travel/delete_booking/{{tour_info.id}}">
 								<input type="submit" value="Отменить бронирование">
 							</form>
                         {% elif tour_info.approved %}
                             <button>Оплатить</button><br>
-                            <form action="/Travel/delete_booking_tour/{{tour_info.tour.id}}">
-                                <input type="submit" value="Отменить заказ">
-                             </form>
                         {% else %}
                             Отменено
                             <br>

@@ -7,16 +7,10 @@
 		Выберите направление
 	</h2>
 	<ul style="font-size: 18px;">
-		{% for country in countries %}
-			<b>{{country}}</b>
-			<ul>
-				{% for region in country.region_set.all %}
-					<a href="/Travel/cities/{{region.id}}">
-						- {{ region.name }}
-					</a>
-					<br>
-				{% endfor %}
-			</ul>
+		{% for region in regions %}
+			<a href="/Travel/cities/{{region.id}}">
+				- {{ region.name }}<br>
+			</a>
 		{% endfor %}
 	</ul>
 {% endblock %}

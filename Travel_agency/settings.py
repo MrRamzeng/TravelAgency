@@ -27,11 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ostrovoktour.herokuapp.com']
 
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
 INSTALLED_APPS = [
     'Travel.apps.TravelConfig',
+    'ckeditor',
     'django_admin_bootstrapped',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -77,8 +83,12 @@ WSGI_APPLICATION = 'Travel_agency.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd1f1j7p1mnv0k4',
+        'USER': 'xzigecyxzcrexp',
+        'PASSWORD': '5e3e67c028d1036116937b0a21608f565e8806a3b77aab19436f4e7b6830db97',
+        'PORT': '5432',
+        'HOST': 'ec2-54-228-181-43.eu-west-1.compute.amazonaws.com',
     }
 }
 
@@ -121,6 +131,45 @@ USE_L10N = True
 USE_TZ = False
 
 DATE_INPUT_FORMATS = ('%d %m %Y',)
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar':[
+            ['Format',
+                'Styles',
+                'FontSize',
+                '-',
+                'Find',
+                '-',
+                'TextColor',
+                '-',
+                'Bold', 
+                'Italic',
+                'Underline',
+                'CodeSnippet',
+                '-',
+                'NumberedList', 
+                'BulletedList',
+                '-',
+                "Indent",
+                "Outdent",
+                '=',
+                'JustifyLeft', 
+                'JustifyCenter', 
+                'JustifyRight', 
+                'JustifyBlock', 
+                '-',
+                'Image', 
+                'Table',
+                'SpecialChar',
+                '-', 
+                'Preview']],
+        'removePlugins': 'stylesheetparser',
+        'extraPlugins': 'codesnippet',
+        'width': 'auto'
+    },
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

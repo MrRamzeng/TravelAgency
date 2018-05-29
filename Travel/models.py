@@ -4,41 +4,33 @@ from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 
 # Создание моделей.
-class Country(models.Model):
-    name = models.CharField('Страна', max_length=50)
-    def __str__(self):
-        return str(self.name)
-    class Meta:
-        verbose_name_plural="Страны"
-        verbose_name="страна"
-
 class Region(models.Model):
-    country = models.ForeignKey(Country, verbose_name="Страна", null=True)
     name = models.CharField('Регион', max_length=50)
     def __str__(self):
-        return str(self.country) + ", " + str(self.name)
+        return str(self.name)
     class Meta:
         verbose_name_plural="Регионы"
         verbose_name="регион"
 
 class City(models.Model):
     region = models.ForeignKey(Region, verbose_name="Регион", null=True, blank=True)
-    name = models.CharField('Город', max_length=50)
+    name = models.CharField('Населенный пункт', max_length=50)
     def __str__(self):
         return str(self.region) + ", " + str(self.name)
     class Meta:
-        verbose_name_plural="Города"
-        verbose_name="город"
+        verbose_name_plural="населенные пункты"
+        verbose_name="населенный пункт"
 
 class Hotel(models.Model):
     name = models.CharField('Название', max_length=50)
     phone_regex = RegexValidator(regex=r'^\+7\s[(]{1}[0-9]{3}[)]{1}\s[0-9]{3}-{1}[0-9]{2}-{1}[0-9]{2}$')
-    phone = models.CharField(validators=[phone_regex], max_length=20, blank=True)
+    phone = models.CharField('Телефон', validators=[phone_regex], max_length=20, blank=True)
     comfort = models.PositiveIntegerField('Комфорт', default=1, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    city = models.ForeignKey(City, verbose_name="Город", null=True)
+    city = models.ForeignKey(City, verbose_name="Населенный пункт", null=True)
     address = models.CharField('Адрес', max_length=200)
     def __str__(self):
         return (str(self.name)
@@ -63,8 +55,8 @@ class TourType(models.Model):
 class Tour(models.Model):
     name = models.CharField('Название тура', max_length=50)
     type = models.ForeignKey(TourType, null=True, verbose_name='Тип тура')
-    description = models.TextField('Описание тура')
-    city = models.ForeignKey(City, null=True, verbose_name='Город')
+    description = RichTextUploadingField('Описание тура')
+    city = models.ForeignKey(City, null=True, verbose_name='Населенный пункт')
     date = models.DateField('Дата тура')
     days = models.PositiveIntegerField('Дней', default=1, validators=[MinValueValidator(1)])
     hotel = models.ForeignKey(Hotel, null=True, blank=True, verbose_name='Гостиница')
@@ -77,8 +69,6 @@ class Tour(models.Model):
                 price=self.tour_price*(100-self.discount)/100
                 return (
                     str(self.name)
-                    + ', г. '
-                    + str(self.city.name)
                     + ', '
                     + str(self.date.strftime('%d.%m.%Y'))
                     + ', дней: '
@@ -92,8 +82,6 @@ class Tour(models.Model):
                 price=(self.tour_price+self.hotel_price*self.days)*(100-self.discount)/100
                 return (
                     str(self.name)
-                    + ', г. '
-                    + str(self.city.name)
                     + ', '
                     + str(self.date.strftime('%d.%m.%Y'))
                     + ', дней: '
@@ -109,8 +97,6 @@ class Tour(models.Model):
             if self.hotel is None:
                 return (
                     str(self.name)
-                    + ', г. '
-                    + str(self.city.name)
                     + ', '
                     + str(self.date.strftime('%d.%m.%Y'))
                     + ', дней: '
@@ -122,8 +108,6 @@ class Tour(models.Model):
                 price=self.tour_price+self.hotel_price*self.days
                 return (
                     str(self.name)
-                    + ', г. '
-                    + str(self.city.name)
                     + ', '
                     + str(self.date.strftime('%d.%m.%Y'))
                     + ', дней: '
@@ -143,7 +127,7 @@ class Manager(models.Model):
     birthday = models.DateField('Дата рождения')
     address = models.CharField('Адрес', max_length=200)
     phone_regex = RegexValidator(regex=r'^\+7\s[(]{1}[0-9]{3}[)]{1}\s[0-9]{3}-{1}[0-9]{2}-{1}[0-9]{2}$')
-    phone = models.CharField(validators=[phone_regex], max_length=20, blank=True)
+    phone = models.CharField('Телефон', validators=[phone_regex], max_length=20, blank=True)
     def __str__(self):
         return (str(self.username) 
             + " "
@@ -161,7 +145,7 @@ class Tourist(models.Model):
     patronymic = models.CharField('Отчество', blank=True, max_length=50)
 #    birthday = models.DateField('Дата рождения', blank=True, null=True)
     phone_regex = RegexValidator(regex=r'^\+7\s[(]{1}[0-9]{3}[)]{1}\s[0-9]{3}-{1}[0-9]{2}-{1}[0-9]{2}$')
-    phone = models.CharField(validators=[phone_regex], max_length=20, blank=True)
+    phone = models.CharField('Телефон', validators=[phone_regex], max_length=20, blank=True)
     def __str__(self):
         return (
             str(self.username) 
@@ -181,7 +165,7 @@ class TourBooking(models.Model):
     first_name = models.CharField('Имя', max_length=50)
     patronymic = models.CharField('Отчество', blank=True, max_length=50)
     phone_regex = RegexValidator(regex=r'^\+7\s[(]{1}[0-9]{3}[)]{1}\s[0-9]{3}-{1}[0-9]{2}-{1}[0-9]{2}$')
-    phone = models.CharField(validators=[phone_regex], max_length=20, blank=True)
+    phone = models.CharField('Телефон', validators=[phone_regex], max_length=20, blank=True)
     tour = models.ForeignKey(Tour, null=True, verbose_name='Выбранный тур')
     manager = models.ForeignKey(Manager, null=True, verbose_name='менеджер')
     approved = models.BooleanField(default=False, verbose_name='Подтверждение')

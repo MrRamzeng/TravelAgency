@@ -3,17 +3,22 @@
   	{{tour.name}}
 {% endblock %} 
 {% block content %}
+	<style>
+		.btn-lg {
+			font-size: inherit;
+			line-height: 0;
+			padding: 5px;
+		}
+	</style>
     <h2>{{ tour.name }}</h2>
-    <div class="content">
-        <p>{{tour.description}}</p>
-    </div>
-    <table border="2" class="content" style="border-collapse: collapse;">
+    <p>{{tour.description|safe}}</p>
+    <table class="table table-striped table-bordered">
         <tr>
             {% if tour.hotel %}
             	<td style="width: 40%">
                     {{tour.city.name}},
                     {{tour.hotel.name}}, 
-                    {{tour.hotel.comfort}}&#10030,
+                    {{tour.hotel.comfort}}<i class="fa fa-star" style="color: orange;"></i>,
                     {{tour.hotel.address}}
             	</td>
             {% endif %}
@@ -26,40 +31,43 @@
             <td>
 				{% if tour.discount > 0 %} 
 					{% if not tour.hotel %}
-						<strike>{{tour.tour_price}}руб.</strike>
+						<strike>{{tour.tour_price}}</strike>
 						<font color="red">
-							<b>{{discount_tour_price}}руб.</b>
+							<b>{{discount_tour_price}}</b>
 						</font>
 					{% else %}
-						<strike>{{price}}руб.</strike>
+						<strike>{{price}}</strike>
 						<font color="red">
-							<b>{{discount_price}}руб.</b>
+							<b>{{discount_price}}</b>
 						</font>
 					{% endif %}
 				{% else %}
 					{% if not tour.hotel %}
-						{{tour.tour_price}}руб.
+						{{tour.tour_price}}
 					{% else %}
-						{{price}}руб.
+						{{price}}
 					{% endif %}
 				{% endif %}
+				<i class="glyphicon glyphicon-ruble"></i>
             </td>
             <td>
 				{% if not user.is_authenticated %}
 					<form action="{% url 'login' %}">
 						Войдите, чтобы забронировать тур.<br>
-						<input type="submit" value="Войти">
+						<input type="submit" class="btn-lg" value="Войти">
 					</form>
 				{% else %}
 					{% if not booking %}
 						<form action="/Travel/add_booking/{{tour.id}}"  align='center'>
-							<input type="submit" value="Забронировать">
+							<button type="submit" class="btn-lg">
+								<i class="glyphicon glyphicon-shopping-cart"></i>
+							</button>
 						</form>
 					{% else %}
 						{% if not booking.approved and not booking.cancel %}
 							Ожидается подтверждение заявки менеджером.<br>
 							<form action="/Travel/delete_booking/{{tour.id}}">
-								<input type="submit" value="Отменить бронирование">
+								<input type="submit" class="btn-lg" value="Отменить бронирование">
 							</form>
 						{% elif booking.approved %}
 							<div>
@@ -67,7 +75,7 @@
                             </div>
                             <br>
 							<form action="/Travel/delete_booking/{{tour.id}}">
-								<input type="submit" value="Отменить заказ">
+								<input type="submit" class="btn-lg" value="Отменить заказ">
 							</form>
 						{% else %}
 							{{booking.message}}

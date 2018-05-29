@@ -2,7 +2,7 @@ html {
     overflow: scroll;
   }
 header, main, footer {
-    max-width: 500px;
+    max-width: 40%;
     margin: 0 auto;
     border-left: 1px solid green;
     border-right: 1px solid green;
@@ -15,9 +15,15 @@ header, main, footer {
         url(ostrovok.jpg);
 	height: 180px;
 }
-
 .navbar-default {
     box-shadow: 5px 3px 5px 0px rgba(0,0,0,0.31);
+}
+
+img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .content {
@@ -91,7 +97,7 @@ input, input::-webkit-input-placeholder {
 .main-form {
     margin-top: 30px;
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 45%;
     padding: 10px 40px;
     background:#f5f5f5;
     color: #555;
@@ -189,10 +195,19 @@ i {
             url(ostrovok-mobile.jpg);
     }
 
+    .navbar-brand{
+        background: url(logo-mobile.jpg) no-repeat;
+        padding: 0;
+    }
+
     #clock, .info {
         font-size: 14px;
         padding-left: 3px;
         padding-right: 3px;
+    }
+
+    table{
+        font-size: 10px;
     }
 } 
 
@@ -208,7 +223,7 @@ i {
 
 @media (min-width: 320px) and (max-width: 1166px) {
     .content, .info-table {
-        width: 100%;
+        width: auto;
     }
 
     .main-form {

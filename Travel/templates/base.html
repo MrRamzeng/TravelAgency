@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+  <link rel = "shortcut icon" type = "image/x-icon" href = "{% static 'css/favicon.jpg' %}">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   <title>
     {% block title %} {% endblock %}
@@ -29,13 +30,13 @@
     <div class="content">
       <div class="navbar-header">
         <a href="/Travel" class="navbar-brand logo"></a>
-        <button class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
-          <span class="icon-bar"></span>
+            <button class = "navbar-toggle" data-toggle = "collapse" data-target = "#navbar-main">
 
-          <span class="icon-bar"></span>
+                <span class = "icon-bar"></span>
+                <span class = "icon-bar"></span>
+                <span class = "icon-bar"></span>
 
-          <span class="icon-bar"></span>
-        </button>
+            </button>
       </div>
       <div class="navbar-collapse collapse" id="navbar-main">
         <ul class="nav navbar-nav">
@@ -43,63 +44,43 @@
             <a href="/Travel">Главная</a>
           </li>
 
-          <li class="{% if countries %} active {% endif %}">
+          <li class="{% if regions %} active {% endif %}">
             <a href="{% url 'regions' %}">Направления</a>
           </li>
 
           <li class="{% if discount_tours %} active {% endif %}">
             <a href="{% url 'discount_tours' %}">Туры со скидкой</a>
           </li>
-
-          <li>
-            <a href="#">Туры по Вятке</a>
-          </li>
         </ul>
         {% if user.is_authenticated %}
-          {% if user.is_staff %}
-            <ul class="nav navbar-nav">
-              <li>
-                <a href="/Travel/admin/">Администрация</a>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li>
-                <a href="{% url 'logout' %}">
-                  <span class="glyphicon glyphicon-log-out"></span>
-                  Выйти
-                </a>
-              </li>
-            </ul>
-          {% else %}
-            <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown {% if profile or bookings %} active {% endif %}">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  <span class="glyphicon glyphicon-briefcase"></span>
-                  Личный кабинет
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="{% if profile %} active {% endif %}">
-                    <a href="{% url 'profile' %}">
-                      <span class="glyphicon glyphicon-user"></span>
-                      Мой аккаунт
-                    </a>
-                  </li>
-                  <li class="{% if bookings %} active {% endif %}">
-                    <a href="{% url 'bookings' %}">
-                      <span class="glyphicon glyphicon-shopping-cart"></span>
-                      Мои заказы
-                    </a>
-                  </li>
-                  <li>
-                    <a href="{% url 'logout' %}">
-                      <span class="glyphicon glyphicon-log-out"></span>
-                      Выйти
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          {% endif %}
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown {% if profile or bookings %} active {% endif %}">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-briefcase"></span>
+                Личный кабинет
+              </a>
+              <ul class="dropdown-menu">
+                <li class="{% if profile %} active {% endif %}">
+                  <a href="{% url 'profile' %}">
+                    <span class="glyphicon glyphicon-user"></span>
+                    Мой аккаунт
+                  </a>
+                </li>
+                <li class="{% if bookings %} active {% endif %}">
+                  <a href="{% url 'bookings' %}">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    Мои заказы
+                  </a>
+                </li>
+                <li>
+                  <a href="{% url 'logout' %}">
+                    <span class="glyphicon glyphicon-log-out"></span>
+                    Выйти
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
         {% else %}
           <ul class="nav navbar-right navbar-nav">
             <li>
@@ -114,6 +95,9 @@
     </div>
   </nav>
   <div class="content">
+    {% block breadcrumbs %}
+      
+    {% endblock breadcrumbs %}
     {% block content %} {% endblock %}
   </div>
 </html> 

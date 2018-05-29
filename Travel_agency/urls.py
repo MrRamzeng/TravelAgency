@@ -18,6 +18,8 @@ from Travel import views as Travel_views
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
 from django.contrib import admin
+from django.conf.urls.static import static
+from Travel_agency import settings
 
 urlpatterns = [
     url(r"^Travel/", include("Travel.urls")),
@@ -27,4 +29,6 @@ urlpatterns = [
     url(r"^Travel/logout/$", auth_views.logout, name="logout"),
     url(r"^Travel/admin/", admin.site.urls),
     url(r"^$", RedirectView.as_view(url = "/Travel/")),
-]    
+    url(r'^Travel/ckeditor/', include('ckeditor_uploader.urls')),
+    url(r"^$", RedirectView.as_view(url = "/Travel/")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
