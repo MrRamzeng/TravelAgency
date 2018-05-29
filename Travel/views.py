@@ -5,7 +5,7 @@ from Travel.models import *
 
 def index(request):
     if request.user.is_staff:
-        return redirect('admin')
+        return redirect('/Travel/admin')
     else:
         return render(
             request, 
@@ -14,6 +14,7 @@ def index(request):
                 "Travel": True
             }
         )
+        
 def regions(request):
     regions = Region.objects.all()
     return render(

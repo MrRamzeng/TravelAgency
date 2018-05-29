@@ -209,6 +209,10 @@ i {
     table{
         font-size: 10px;
     }
+
+    .main-form {
+        width: 100%;
+    }
 } 
 
 @media (min-width: 425px) {
@@ -246,6 +250,9 @@ i {
 @media (min-width: 768px) and (max-width: 1024px) {
     .content, .info-table {
         width: 100%;
+    }
+    .main-form {
+        width: 70%;
     }
 }
 
