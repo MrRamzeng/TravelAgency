@@ -4,13 +4,16 @@ from Travel.forms import SignupForm, EditForm
 from Travel.models import *
 
 def index(request):
-    return render(
-        request, 
-        "Travel/index.html", 
-        {
-            "Travel": True
-        }
-    )
+    if request.user.is_staff:
+        return redirect('admin')
+    else:
+        return render(
+            request, 
+            "Travel/index.html", 
+            {
+                "Travel": True
+            }
+        )
 def regions(request):
     regions = Region.objects.all()
     return render(
@@ -94,16 +97,6 @@ def signup(request):
         }
     )
 
-def profile(request):
-    tourist = request.user.tourist
-    return render(
-        request, 
-        "Travel/profile.html", 
-        {
-            "profile": True
-        }
-    )
-
 def edit_profile(request):
     if request.method == "POST":
         edit_user = EditForm(
@@ -132,41 +125,6 @@ def edit_profile(request):
             "edit_profile": edit_profile
         }
     )
-
-def bookings(request):
-    tourist_id = request.user.tourist.id
-    booking = TourBooking.objects.all().filter(tourist__id = tourist_id)
-    return render(
-        request, 
-        "Travel/bookings.html", 
-        {
-            "booking": booking, 
-            "bookings": True
-        }
-    )
-
-def add_booking(request, tour_id):
-    tour = Tour.objects.get(id = tour_id)
-    tourist = request.user.tourist
-    last_name = request.user.last_name
-    first_name = request.user.first_name
-    patronymic = request.user.tourist.patronymic
-    phone = request.user.tourist.phone
-    TourBooking.objects.create(
-        tour = tour, 
-        tourist = tourist, 
-        last_name = last_name, 
-        first_name = first_name, 
-        patronymic = patronymic, 
-        phone = phone
-    )
-    return redirect("bookings")
-
-def delete_booking(request, tour_id):
-    tour = Tour.objects.get(id = tour_id)
-    tourist = request.user.tourist
-    TourBooking.objects.get(tour = tour, tourist = tourist).delete()
-    return redirect("bookings")
 
     cities=region.city_set.all()
     return render(request, "Travel/cities.html", {"cities": cities})
