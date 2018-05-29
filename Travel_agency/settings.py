@@ -25,13 +25,13 @@ SECRET_KEY = 'xq7^bq$b$f#pb60&zxxxfgv$gk_z@8vlf70g5%7b7h^3(h7k(r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ostrovoktour.herokuapp.com']
 
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = True
 
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
 
-CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = True
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
