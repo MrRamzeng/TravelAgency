@@ -104,6 +104,10 @@ iframe {
     margin: 0;
 }
 
+.result_list {
+    overflow-y: auto;
+}
+
 .col-md-9 {
     padding: 5px;
 }
