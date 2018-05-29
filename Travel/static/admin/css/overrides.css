@@ -11,8 +11,8 @@ body {
 
 .container {
 	background: linear-gradient(
-		rgba(255,255,255,0.5),
-		rgba(255,255,255,0.5));
+		rgba(255,255,255,0.9),
+		rgba(255,255,255,0.9));
     height: 100%;
 }
 
@@ -44,22 +44,6 @@ span.input-group-addon {
 i {
     height: 17px;
     width: 17px;
-}
-			   
-.login-button {
-    margin-top: 5px;
-    color: #444;
-}
-
-.btn-primary {
-    background-color: #e1e1e1;
-    border-color: #444;
-}
-
-.btn-primary:hover {
-    border-color: #e1e1e1;
-    color: #e1e1e1;
-
 }
 
 .navbar-brand {
