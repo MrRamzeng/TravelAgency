@@ -255,6 +255,12 @@ i {
         width: 70%;
     }
 }
+@media(min-width: 1200px){
+	. container{
+		width: auto
+	}
+}
+	
 
 @media (min-width: 2560px) {
     .navbar-default .navbar-nav > li > a {
