@@ -29,7 +29,7 @@ class LoginForm(forms.ModelForm):
 class EditForm(forms.ModelForm):
     last_name = forms.CharField(required=True, max_length=30)
     first_name = forms.CharField(required=True, max_length=30)
-    patronymic = forms.CharField(required=True, max_length=30)
+    patronymic = forms.CharField(max_length=30)
     phone_regex = RegexValidator(regex=r'^\+7\s[(]{1}[0-9]{3}[)]{1}\s[0-9]{3}-{1}[0-9]{2}-{1}[0-9]{2}$')
     phone = forms.CharField(validators=[phone_regex], max_length=20)
     #birthday = forms.DateField(widget=AdminDateWidget)

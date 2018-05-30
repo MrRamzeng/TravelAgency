@@ -39,6 +39,9 @@
                             {% if not field.is_readonly and field.errors %}<span class="text-danger">{{ field.errors|striptags }}</span>{% endif %}
                             {% if field.field.help_text %}
                                 <span class="help-block">{{ field.field.help_text|safe }}</span>
+                                <script>
+                                    $("#id_phone").mask("+7 (999) 999-99-99");
+                                </script>
                             {% endif %}
                         </div>
                         {% endif %}
@@ -47,4 +50,14 @@
             </div></div>
         {% endfor %}
     </div>
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'jquery/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'jquery/jquery.maskedinput.min.js' %}"></script>
+    <script>
+        jQuery(function($) {
+            $("#id_phone").mask("+7 (999) 999-99-99");
+        })
+    </script>
+    
 </fieldset>

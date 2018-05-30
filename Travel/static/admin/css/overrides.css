@@ -116,6 +116,22 @@ iframe {
     overflow-y: auto;
 }
 
+.err {
+    color: red;
+}
+				  
+.medium-pass {
+    color: orange;
+}
+				  
+.hard-pass {
+    color: yellowgreen;
+}
+				  
+.strong-pass {
+    color: green;
+}
+
 @media (min-width: 320px) and (max-width: 425px) {
     #results{
         font-size: 10px;

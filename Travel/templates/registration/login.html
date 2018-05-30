@@ -70,4 +70,19 @@
 			</div>
 		</div>
 	</form>
+	<script>
+		var elements = document.querySelectorAll('#id_username, #id_password');
+
+		for (i=0; i<elements.length; i++) {
+			(function(element) {
+				var id = element.getAttribute('id');
+				element.value = sessionStorage.getItem(id);
+				element.oninput = function() {
+					sessionStorage.setItem(id, element.value);
+				};
+			})
+			(elements[i]);
+		};
+		window.sessionStorage.clear();
+	</script>
 {% endblock %}
